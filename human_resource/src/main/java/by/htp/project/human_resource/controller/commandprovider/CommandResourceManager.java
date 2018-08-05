@@ -1,6 +1,7 @@
 package by.htp.project.human_resource.controller.commandprovider;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,12 +10,19 @@ import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import by.htp.project.human_resource.controller.commandprovider.command.LoginUser;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandResourceManager {
+
 	private final static CommandResourceManager instance = new CommandResourceManager();
+	private final Logger logger = LogManager.getLogger(LoginUser.class);
 	private final XMLInputFactory xif = XMLInputFactory.newInstance();
 	private Map<String, ICommand> allcommand = new HashMap<>();
 	private List<String> command = new ArrayList<>();
@@ -29,7 +37,9 @@ public class CommandResourceManager {
 
 	public Map<String, ICommand> getAllCommand() {
 		ClassLoader classLoader = getClass().getClassLoader();
-		try (InputStream input = new FileInputStream(classLoader.getResource("command/commands.xml").getFile())){			
+		InputStream input;
+		try {
+			input = new FileInputStream(classLoader.getResource("command/commands.xml").getFile());
 			XMLStreamReader reader = xif.createXMLStreamReader(input);
 
 			while (reader.hasNext()) {
@@ -50,9 +60,15 @@ public class CommandResourceManager {
 					break;
 				}
 			}
-		} catch (Exception e) {
-			System.out.println("File not found!!!!!");
+		} catch (FileNotFoundException e) {
+			System.out.println("Error");
+			logger.info("CommandResourceManager: getAllCommand: File not found " + e);
+			e.printStackTrace();
+		} catch (XMLStreamException e) {
+			logger.info("CommandResourceManager: getAllCommand: File not found " + e);
 		}
+			
+		
 		allcommand = setCommandForMap();
 		return allcommand;
 	}

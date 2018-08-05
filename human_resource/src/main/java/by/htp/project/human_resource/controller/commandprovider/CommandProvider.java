@@ -7,18 +7,16 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandProvider {
 	
-	private CommandResourceManager commandResourceManager;
-	private Map<String, ICommand> allcommand = null;
-	
+	private final CommandResourceManager commandResourceManager  = CommandResourceManager.getInstance();
+	private Map<String, ICommand> allcommand = null;	
 
-	public CommandProvider() {
-		commandResourceManager = CommandResourceManager.getInstance();
+	public CommandProvider() {		
 		if (allcommand == null) {
 			allcommand = commandResourceManager.getAllCommand();
 		}		
 	}
 
-	public ICommand getCommand(String commandRequest) {
+	public ICommand getCommand(final String commandRequest) {
 		ICommand icommand = null;
 		Set<Map.Entry<String, ICommand>> entrySet = allcommand.entrySet();
 		for (Map.Entry<String, ICommand> pair : entrySet) {

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandFactory {
+	
 	private final static CommandFactory instance = new CommandFactory();
 	private final CommandProvider commandProvider = new CommandProvider();
 	
@@ -15,7 +16,7 @@ public class CommandFactory {
 		return instance;
 	}
 
-	public ICommand getCommand(HttpServletRequest request, String newCommand) {
+	public ICommand getCommand(final HttpServletRequest request, final String newCommand) {
 		ICommand command = null;
 		command = commandProvider.getCommand(request.getParameter(newCommand));
 		return command;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.by.htp.humanresources/command"
+	xmlns:tns="http://www.by.htp.humanresources/command">
+
+	<element name="commands">
+		<complexType>
+			<sequence>
+				<element name="command" type="tns:Command" minOccurs="1"
+					maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="Command">
+		<sequence>
+			<element name="key" type="string" />
+			<element name="value" type="string" />
+		</sequence>
+	</complexType>
+</schema>

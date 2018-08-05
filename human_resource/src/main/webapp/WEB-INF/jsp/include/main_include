@@ -1,0 +1,58 @@
+<fmt:message bundle="${loc}" key="local.main.locbutton.ru"
+	var="ru_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.en"
+	var="en_button" />
+
+<fmt:message bundle="${loc}" key="local.main.locbutton.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.aboutHR"
+	var="aboutHR" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.service"
+	var="service" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.team" var="team" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.contact"
+	var="contact" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.login"
+	var="login" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.registration"
+	var="registration" />
+<fmt:message bundle="${loc}" key="local.main.message1"
+	var="message1" />
+<fmt:message bundle="${loc}" key="local.main.message2"
+	var="message2" />
+<fmt:message bundle="${loc}" key="local.main.message3"
+	var="message3" />
+<fmt:message bundle="${loc}" key="local.main.message4"
+	var="message4" />
+<fmt:message bundle="${loc}" key="local.main.message5"
+	var="message5" />
+<fmt:message bundle="${loc}" key="local.main.message6"
+	var="message6" />
+<fmt:message bundle="${loc}" key="local.main.about" var="about" />
+<fmt:message bundle="${loc}" key="local.main.found" var="found" />
+<fmt:message bundle="${loc}" key="local.main.employee" var="employee" />
+<fmt:message bundle="${loc}" key="local.main.hrproject" var="hrproject" />
+<fmt:message bundle="${loc}" key="local.main.leader" var="leader" />
+<fmt:message bundle="${loc}" key="local.main.ourservice"
+	var="ourservice" />
+<fmt:message bundle="${loc}" key="local.main.search" var="search" />
+<fmt:message bundle="${loc}" key="local.main.headhunting"
+	var="headhunting" />
+<fmt:message bundle="${loc}" key="local.main.executivesearch"
+	var="executivesearch" />
+<fmt:message bundle="${loc}" key="local.main.leaders" var="leaders" />
+<fmt:message bundle="${loc}" key="local.main.specialist"
+	var="specialist" />
+<fmt:message bundle="${loc}" key="local.main.staff" var="staff" />
+<fmt:message bundle="${loc}" key="local.main.ourteam" var="ourteam" />
+<fmt:message bundle="${loc}" key="local.main.ourcontact"
+	var="ourcontact" />
+<fmt:message bundle="${loc}" key="local.main.phone" var="phone" />
+<fmt:message bundle="${loc}" key="local.main.weakday" var="weakday" />
+<fmt:message bundle="${loc}" key="local.main.location" var="location" />
+<fmt:message bundle="${loc}" key="local.main.adresshr" var="adresshr" />
+<fmt:message bundle="${loc}" key="local.main.info" var="info" />
+<fmt:message bundle="${loc}" key="local.main.name" var="name" />
+<fmt:message bundle="${loc}" key="local.main.email" var="email" />
+<fmt:message bundle="${loc}" key="local.main.message" var="message" />
+<fmt:message bundle="${loc}" key="local.main.sendmessage"
+	var="sendmessage" />

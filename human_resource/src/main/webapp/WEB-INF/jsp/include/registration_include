@@ -1,0 +1,31 @@
+<fmt:message bundle="${loc}" key="local.main.locbutton.ru"
+	var="ru_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.en"
+	var="en_button" />
+
+<fmt:message bundle="${loc}" key="local.main.locbutton.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.registration"
+	var="registration" />
+<fmt:message bundle="${loc}" key="local.main.phone" var="phone" />
+<fmt:message bundle="${loc}" key="local.main.weakday" var="weakday" />
+<fmt:message bundle="${loc}" key="local.main.info" var="info" />
+<fmt:message bundle="${loc}" key="local.main.email" var="email" />
+<fmt:message bundle="${loc}" key="local.login.nickname" var="nickname" />
+<fmt:message bundle="${loc}" key="local.login.yournickname" var="yournickname" />
+<fmt:message bundle="${loc}" key="local.login.password" var="password" />
+<fmt:message bundle="${loc}" key="local.login.yourpassword" var="yourpassword" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.login" var="login" />
+<fmt:message bundle="${loc}" key="local.registration.registrationmessage" var="registrationmessage" />
+<fmt:message bundle="${loc}" key="local.registration.name" var="name" />
+<fmt:message bundle="${loc}" key="local.registration.yourspecialitymessage" var="yourspecialitymessage" />
+<fmt:message bundle="${loc}" key="local.registration.roleadmin" var="roleadmin" />
+<fmt:message bundle="${loc}" key="local.registration.roleboss" var="roleboss" />
+<fmt:message bundle="${loc}" key="local.registration.rolehr" var="rolehr" />
+<fmt:message bundle="${loc}" key="local.registration.roleemployee" var="roleemployee" />
+<fmt:message bundle="${loc}" key="local.registration.messageforname" var="messageforname" />
+<fmt:message bundle="${loc}" key="local.registration.messageforemail" var="messageforemail" />
+<fmt:message bundle="${loc}" key="local.registration.surname" var="surname" />
+<fmt:message bundle="${loc}" key="local.registration.messageforsurname" var="messageforsurname" />
+<fmt:message bundle="${loc}" key="local.registration.messageexistuser" var="existuser" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.registration" var="registration" />
+

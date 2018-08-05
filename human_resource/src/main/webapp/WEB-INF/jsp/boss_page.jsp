@@ -11,27 +11,15 @@
 <meta content="" name="keywords">
 <meta content="" name="description">
 
-<link href="img/favicon.png" rel="icon">
-<link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-<!-- Bootstrap CSS File -->
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Libraries CSS Files -->
 <link href="lib/nivo-slider/css/nivo-slider.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.carousel.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.transitions.css" rel="stylesheet">
 <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link href="lib/animate/animate.min.css" rel="stylesheet">
 <link href="lib/venobox/venobox.css" rel="stylesheet">
-
-<!-- Nivo Slider Theme -->
 <link href="css/nivo-slider-theme.css" rel="stylesheet">
-
-<!-- Main Stylesheet File -->
 <link href="css/style.css" rel="stylesheet">
-
-<!-- Responsive Stylesheet File -->
 <link href="css/responsive.css" rel="stylesheet">
 
 <fmt:setLocale value="${sessionScope.local}" />
@@ -40,16 +28,12 @@
 
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
-
 	<div id="preloader"></div>
-
-	<header> <!-- header-area start -->
+	<header>
 	<div id="sticker" class="header-area">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
-
-					<!-- Navigation -->
 					<nav class="navbar navbar-default">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed"
@@ -59,14 +43,12 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<!-- Brand -->
 						<a class="navbar-brand page-scroll sticky-logo" href="index.jsp">
 							<h1>
 								<span>H</span>uman <span>R</span>esources
 							</h1>
 						</a>
 					</div>
-					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
@@ -102,25 +84,18 @@
 							</a></li>
 						</ul>
 					</div>
-					<!-- navbar-collapse --> </nav>
-					<!-- END: Navigation -->
+					</nav>
+
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- header-area end --> </header>
-	<!-- header end -->
-
-	<!-- Start Slider Area -->
-
+	</header>
 	<div id="login_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
 				<img src="img/slider/slider8.jpg" alt="" title="#slider-direction-1" />
-
 			</div>
-
-			<!-- direction 1 -->
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container-fluid">
 					<div class="row">
@@ -145,22 +120,18 @@
 														<input type="submit"
 															class="ready-btn right-btn page-scroll" value="${login}">
 													</div>
-
-
 												</div>
 											</form>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12 col-sm-12 col-xs-12">
-
 											<div class="layer-1-1 hidden-xs wow slideInDown"
 												data-wow-duration="1s" data-wow-delay=".2s">
 												<h3 align="center" style="color: orange;">
 													<b><i> <c:if
 																test="${requestScope.incorrect_params_message != null}">
 																<c:out value="${incorrectmessage}"></c:out>
-
 															</c:if>
 													</i> </b>
 												</h3>
@@ -175,15 +146,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-	<!-- End Slider Area -->
-
-
-	<!-- Start Footer bottom Area -->
 	<%@ include file="include/footer_include"%>
-
 </body>
-
 </html>

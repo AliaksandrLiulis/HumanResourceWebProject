@@ -11,27 +11,15 @@
 <meta content="" name="keywords">
 <meta content="" name="description">
 
-<link href="img/favicon.png" rel="icon">
-<link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-<!-- Bootstrap CSS File -->
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Libraries CSS Files -->
 <link href="lib/nivo-slider/css/nivo-slider.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.carousel.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.transitions.css" rel="stylesheet">
 <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link href="lib/animate/animate.min.css" rel="stylesheet">
 <link href="lib/venobox/venobox.css" rel="stylesheet">
-
-<!-- Nivo Slider Theme -->
 <link href="css/nivo-slider-theme.css" rel="stylesheet">
-
-<!-- Main Stylesheet File -->
 <link href="css/style.css" rel="stylesheet">
-
-<!-- Responsive Stylesheet File -->
 <link href="css/responsive.css" rel="stylesheet">
 
 <fmt:setLocale value="${sessionScope.local}" />
@@ -43,14 +31,13 @@
 
 	<div id="preloader"></div>
 
-	<header> <!-- header-area start -->
+	<header>
 	<div id="sticker" class="header-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 
-					<!-- Navigation -->
-					<nav class="navbar navbar-default"> <!-- Brand and toggle get grouped for better mobile display -->
+					<nav class="navbar navbar-default">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed"
 							data-toggle="collapse"
@@ -66,7 +53,6 @@
 							</h1>
 						</a>
 					</div>
-					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
@@ -101,64 +87,41 @@
 							</a></li>
 						</ul>
 					</div>
-					<!-- navbar-collapse --> </nav>
-					<!-- END: Navigation -->
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- header-area end --> </header>
-	<!-- header end -->
-
-	<!-- Start Registration Area -->
+	</header>
 
 	<div id="registration_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
 				<img src="img/slider/slider5.jpg" alt="" title="#slider-direction-1" />
-
 			</div>
-
-			<!-- direction 1 -->
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container">
 					<div class="row">
-
-
-
-
 						<h3 align="center" style="color: red">
 							<i> <c:if
 									test="${requestScope.incorrect_params_message != null}">
 									<c:out value="${incorrectmessage}"></c:out>
-
 								</c:if>
 							</i>
 						</h3>
-
-
-
 						<div>
 							</br> </br> </br> </br> </br>
-
 							<h3 align="center" style="color: orange;">
-								<b><i> <c:if
-											test="${requestScope.existuser != null}">
+								<b><i> <c:if test="${requestScope.existuser != null}">
 											<c:out value="${existuser}"></c:out>
-
-										</c:if> 
-										<c:if test="${requestScope.existuser == null}">
+										</c:if> <c:if test="${requestScope.existuser == null}">
 											<c:out value="${registrationmessage}"></c:out>
-
 										</c:if>
 								</i> </b>
 							</h3>
 						</div>
 						<div class="container">
 							<div class="row">
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<!-- layer 1 -->
-								</div>
+								<div class="col-md-3 col-sm-3 col-xs-3"></div>
 								<div class="col-md-6 col-sm-6 col-xs-6">
 									<div class="layer-1-1 hidden-xs wow slideInDown"
 										data-wow-duration="1s" data-wow-delay=".2s">
@@ -191,35 +154,20 @@
 												<div class="layer-1-3 hidden-xs wow slideInUp"
 													data-wow-duration="4s" data-wow-delay=".2s">
 													<input type="submit"
-														class="ready-btn right-btn page-scroll" value="${registration}">
-
+														class="ready-btn right-btn page-scroll"
+														value="${registration}">
 												</div>
 											</div>
 										</form>
-
-
-
 									</div>
-
 								</div>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
 	</div>
-
-
-
-
-	<!-- End Registration Area -->
-
-
-	<!-- Start Footer bottom Area -->
 	<%@ include file="include/footer_include"%>
 </body>
-
 </html>

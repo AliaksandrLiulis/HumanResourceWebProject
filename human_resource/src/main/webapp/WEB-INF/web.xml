@@ -7,17 +7,7 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
 
-	<servlet>
-		<servlet-name>Main_page</servlet-name>
-		<jsp-file>/WEB-INF/jsp/main_page.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Main_page</servlet-name>
-		<url-pattern>/main_page</url-pattern>
-	</servlet-mapping>
-	
 	<servlet>
 		<servlet-name>ControllerServlet</servlet-name>
 		<servlet-class>by.htp.project.human_resource.controller.Controller</servlet-class>
@@ -52,6 +42,5 @@
 		<filter-name>LocalizationFilter</filter-name>
 		<servlet-name>ControllerServlet</servlet-name>
 	</filter-mapping>
-
 
 </web-app>

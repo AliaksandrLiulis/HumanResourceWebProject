@@ -11,27 +11,15 @@
 <meta content="" name="keywords">
 <meta content="" name="description">
 
-<link href="img/favicon.png" rel="icon">
-<link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-<!-- Bootstrap CSS File -->
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Libraries CSS Files -->
 <link href="lib/nivo-slider/css/nivo-slider.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.carousel.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.transitions.css" rel="stylesheet">
 <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <link href="lib/animate/animate.min.css" rel="stylesheet">
 <link href="lib/venobox/venobox.css" rel="stylesheet">
-
-<!-- Nivo Slider Theme -->
 <link href="css/nivo-slider-theme.css" rel="stylesheet">
-
-<!-- Main Stylesheet File -->
 <link href="css/style.css" rel="stylesheet">
-
-<!-- Responsive Stylesheet File -->
 <link href="css/responsive.css" rel="stylesheet">
 
 <fmt:setLocale value="${sessionScope.local}" />
@@ -40,17 +28,12 @@
 
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
-
-
 	<div id="preloader"></div>
-
-	<header> <!-- header-area start -->
+	<header>
 	<div id="sticker" class="header-area">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
-
-					<!-- Navigation -->
 					<nav class="navbar navbar-default">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed"
@@ -60,14 +43,12 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<!-- Brand -->
 						<a class="navbar-brand page-scroll sticky-logo" href="index.jsp">
 							<h1>
 								<span>H</span>uman <span>R</span>esources
 							</h1>
 						</a>
 					</div>
-					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
@@ -91,16 +72,14 @@
 							</a></li>
 						</ul>
 					</div>
-					<!-- navbar-collapse --> </nav>
-					<!-- END: Navigation -->
+					</nav>
+
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- header-area end --> </header>
-	<!-- header end -->
+	</header>
 
-	<!-- Start Slider Area -->
 	<div id="home" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
@@ -108,8 +87,6 @@
 				<img src="img/slider/slider2.jpg" alt="" title="#slider-direction-2" />
 				<img src="img/slider/slider3.jpg" alt="" title="#slider-direction-3" />
 			</div>
-
-			<!-- direction 1 -->
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container">
 					<div class="row">
@@ -134,7 +111,8 @@
 											<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
 										</form>
 										<form action="controllerServlet" method="get">
-											<input type="hidden" name="command" value="cb.registration_page">
+											<input type="hidden" name="command"
+												value="cb.registration_page">
 											<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
 										</form>
 									</div>
@@ -146,7 +124,6 @@
 			</div>
 		</div>
 
-		<!-- direction 2 -->
 		<div id="slider-direction-2" class="slider-direction slider-two">
 			<div class="container">
 				<div class="row">
@@ -171,7 +148,8 @@
 										<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
 									</form>
 									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command" value="cb.registration_page">
+										<input type="hidden" name="command"
+											value="cb.registration_page">
 										<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
 									</form>
 								</div>
@@ -182,7 +160,6 @@
 			</div>
 		</div>
 
-		<!-- direction 3 -->
 		<div id="slider-direction-3" class="slider-direction slider-two">
 			<div class="container">
 				<div class="row">
@@ -207,7 +184,8 @@
 										<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
 									</form>
 									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command" value="cb.registration_page">
+										<input type="hidden" name="command"
+											value="cb.registration_page">
 										<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
 									</form>
 								</div>
@@ -218,10 +196,7 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- End Slider Area -->
 
-	<!-- Start About area -->
 	<div id="about" class="about-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -257,13 +232,9 @@
 						</div>
 					</div>
 				</div>
-				<!-- End col-->
 			</div>
 		</div>
 	</div>
-	<!-- End About area -->
-
-	<!-- Start Service area -->
 	<div id="services" class="services-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -275,7 +246,6 @@
 			</div>
 			<div class="row text-center">
 				<div class="services-contents">
-					<!-- Start Left services -->
 					<div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="about-move">
 							<div class="services-details">
@@ -287,7 +257,6 @@
 									<p>${search}</p>
 								</div>
 							</div>
-							<!-- end about-details -->
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-4">
@@ -300,11 +269,9 @@
 									<p>${headhunting}</p>
 								</div>
 							</div>
-							<!-- end about-details -->
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-4">
-						<!-- end col-md-4 -->
 						<div class=" about-move">
 							<div class="services-details">
 								<div class="single-services">
@@ -314,7 +281,6 @@
 									<p>${executivesearch}</p>
 								</div>
 							</div>
-							<!-- end about-details -->
 						</div>
 					</div>
 
@@ -322,9 +288,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- End Service area -->
-
-	<!-- our-skill-area start -->
 	<div class="our-skill-area fix hidden-sm">
 		<div class="test-overly"></div>
 		<div class="skill-bg area-padding-2">
@@ -333,7 +296,6 @@
 
 				<div class="row">
 					<div class="skill-text">
-						<!-- single-skill start -->
 						<div class="col-xs-12 col-sm-4 col-md-4 text-center">
 							<div class="single-skill">
 								<div class="progress-circular">
@@ -345,8 +307,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- single-skill end -->
-						<!-- single-skill start -->
 						<div class="col-xs-12 col-sm-4 col-md-4 text-center">
 							<div class="single-skill">
 								<div class="progress-circular">
@@ -358,8 +318,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- single-skill end -->
-						<!-- single-skill start -->
 						<div class="col-xs-12 col-sm-4 col-md-4 text-center">
 							<div class="single-skill">
 								<div class="progress-circular">
@@ -376,11 +334,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- our-skill-area end -->
-
-
-
-	<!-- Start team Area -->
 	<div id="team" class="our-team-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -415,8 +368,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- End column -->
-
 					<div class="col-md-3 col-sm-3 col-xs-12">
 						<div class="single-team-member">
 							<div class="team-img">
@@ -439,18 +390,11 @@
 							</div>
 						</div>
 					</div>
-					<!-- End column -->
-
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- End Team Area -->
 
-
-
-
-	<!-- Start contact Area -->
 	<div id="contact" class="contact-area">
 		<div class="contact-inner area-padding">
 			<div class="contact-overly"></div>
@@ -532,16 +476,10 @@
 							</form>
 						</div>
 					</div>
-					<!-- End Left contact -->
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- End Contact Area -->
-
-	<!-- Start Footer bottom Area -->
 	<%@ include file="include/footer_include"%>
-
-	</body>
-
+</body>
 </html>

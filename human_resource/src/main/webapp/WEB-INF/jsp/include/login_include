@@ -1,11 +1,7 @@
-<fmt:message bundle="${loc}" key="local.main.locbutton.ru"
-	var="ru_button" />
-<fmt:message bundle="${loc}" key="local.main.locbutton.en"
-	var="en_button" />
-
+<fmt:message bundle="${loc}" key="local.main.locbutton.ru" var="ru_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.en" var="en_button" />
 <fmt:message bundle="${loc}" key="local.main.locbutton.home" var="home" />
-<fmt:message bundle="${loc}" key="local.main.pagebutton.registration"
-	var="registration" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.registration" var="registration" />
 <fmt:message bundle="${loc}" key="local.main.phone" var="phone" />
 <fmt:message bundle="${loc}" key="local.main.weakday" var="weakday" />
 <fmt:message bundle="${loc}" key="local.main.info" var="info" />

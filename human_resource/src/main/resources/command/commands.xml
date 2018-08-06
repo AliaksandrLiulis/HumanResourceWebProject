@@ -5,50 +5,50 @@
 	xmlns:schemaLocation="http://www.by.htp.humanresources/command commandSchema.xsd">
 	<command>
 		<key>cb.login_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.LogInPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.LogInPage</value>
 	</command>
 	<command>
 		<key>cb.registration_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.RegistrationPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.RegistrationPage</value>
 	</command>
 	<command>
 		<key>cb.main_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.MainPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.MainPage</value>
 	</command>
 	<command>
 		<key>cb.admin_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.AdminPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.AdminPage</value>
 	</command>
 	<command>
 		<key>cb.hr_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.HrPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.HrPage</value>
 	</command>
 	<command>
 		<key>cb.boss_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.BossPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.BossPage</value>
 	</command>
 	<command>
 		<key>cb.employee_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.EmployeePage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.EmployeePage</value>
 	</command>
 	<command>
 		<key>cb.localization</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.Localization</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.Localization</value>
 	</command>
 	<command>
 		<key>cb.login_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.LoginUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.LoginUser</value>
 	</command>
 	<command>
 		<key>cb.register_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.RegisterUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.RegisterUser</value>
 	</command>
 	<command>
 		<key>cb.expect_page</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.ExpectPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ExpectPage</value>
 	</command>
 	<command>
 		<key>cb.logout_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.LogOut</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.LogOut</value>
 	</command>
 </commands>

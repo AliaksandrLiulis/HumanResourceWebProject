@@ -17,7 +17,7 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(String name, String surname, String nickName, String email, int avaliable, String role) {
+	public User(final String name, final String surname, final String nickName, final String email, final int avaliable, final String role) {
 		super();
 		this.name = name;
 		this.surname = surname;

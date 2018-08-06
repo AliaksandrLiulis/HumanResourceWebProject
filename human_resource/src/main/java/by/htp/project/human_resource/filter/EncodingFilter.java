@@ -14,7 +14,7 @@ public class EncodingFilter implements Filter {
 	private String encodingRequestParams;
 	private String encodingResponseParams;
 
-	public void init(FilterConfig filterConfig) throws ServletException {
+	public void init(final FilterConfig filterConfig) throws ServletException {
 		this.encodingRequestParams = filterConfig.getInitParameter("request_encoding");
 		this.encodingResponseParams = filterConfig.getInitParameter("response_encoding");
 		if (encodingRequestParams == null) {
@@ -25,7 +25,7 @@ public class EncodingFilter implements Filter {
 		}
 	}
 
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain filterChain)
 			throws IOException, ServletException {
 		servletRequest.setCharacterEncoding(encodingRequestParams);
 		servletResponse.setContentType(encodingResponseParams);

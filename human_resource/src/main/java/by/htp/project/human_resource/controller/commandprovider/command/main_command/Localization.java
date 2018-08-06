@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.controller.commandprovider.command;
+package by.htp.project.human_resource.controller.commandprovider.command.main_command;
 
 import java.io.IOException;
 
@@ -14,14 +14,13 @@ public class Localization implements ICommand {
 	private final String PREVIOUS_PATH = "previousServletPath";
 	
 	
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		String goToPage = null;
 		String local = request.getParameter(LOCALE);
-		goToPage = (String) request.getSession(true).getAttribute(PREVIOUS_PATH);	
+		goToPage = (String) request.getSession().getAttribute(PREVIOUS_PATH);	
 		if (goToPage == null) {
 			goToPage = request.getContextPath();
 		}
-		System.out.println(goToPage);
 		request.getSession(true).setAttribute("local", local);
 		response.sendRedirect(goToPage);
 	}

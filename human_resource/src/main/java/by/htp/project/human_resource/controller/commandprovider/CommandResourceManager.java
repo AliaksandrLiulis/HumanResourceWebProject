@@ -1,7 +1,6 @@
 package by.htp.project.human_resource.controller.commandprovider;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,16 +15,17 @@ import javax.xml.stream.XMLStreamReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import by.htp.project.human_resource.controller.commandprovider.command.LoginUser;
+import by.htp.project.human_resource.controller.commandprovider.command.main_command.LoginUser;
+import by.htp.project.human_resource.controller.commandprovider.exception.ControllerException;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandResourceManager {
 
 	private final static CommandResourceManager instance = new CommandResourceManager();
-	
-	private final String COMMANDS_XML_FILE = "comman/commands.xml";
+
+	private final String COMMANDS_XML_FILE = "command/commands.xml";
 	private final String BEGIN_OF_THE_COMMAND_NAME = "cb";
-	
+
 	private final Logger logger = LogManager.getLogger(LoginUser.class);
 	private final XMLInputFactory xif = XMLInputFactory.newInstance();
 	private Map<String, ICommand> allcommand = new HashMap<>();
@@ -39,11 +39,10 @@ public class CommandResourceManager {
 		return instance;
 	}
 
-	public Map<String, ICommand> getAllCommand() {
+	public Map<String, ICommand> getAllCommand() throws ControllerException {
 		ClassLoader classLoader = getClass().getClassLoader();
-		InputStream input;
-		try {
-			input = new FileInputStream(classLoader.getResource(COMMANDS_XML_FILE).getFile());
+
+		try (InputStream input = new FileInputStream(classLoader.getResource(COMMANDS_XML_FILE).getFile())) {
 			XMLStreamReader reader = xif.createXMLStreamReader(input);
 
 			while (reader.hasNext()) {
@@ -60,30 +59,26 @@ public class CommandResourceManager {
 						value.add(text);
 					}
 					break;
-				default:
-					break;
 				}
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Error");
-			logger.error("CommandResourceManager: getAllCommand: File not found " + e);
-			e.printStackTrace();
+			allcommand = setCommandForMap();
 		} catch (XMLStreamException e) {
-			logger.error("CommandResourceManager: getAllCommand: File not found " + e);
+			logger.error("CommandResourceManager: getAllCommand: XMLStreamReader error " + e);
+			throw new ControllerException();
 		} catch (Exception e) {
-			logger.error("CommandResourceManager: getAllCommand: File not found: " + e);	
+			logger.error("CommandResourceManager: getAllCommand: ClassLoader error: " + e);
+			throw new ControllerException();
 		}
-		allcommand = setCommandForMap();
 		return allcommand;
 	}
 
-	private Map<String, ICommand> setCommandForMap() {
+	private Map<String, ICommand> setCommandForMap() throws ControllerException {
 		for (int i = 0; i < command.size(); i++) {
 			try {
 				allcommand.put(command.get(i), (ICommand) Class.forName(value.get(i)).newInstance());
 			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("CommandResourceManager: setCommandForMap: Command creating error " + e);
+				throw new ControllerException();
 			}
 		}
 		return allcommand;

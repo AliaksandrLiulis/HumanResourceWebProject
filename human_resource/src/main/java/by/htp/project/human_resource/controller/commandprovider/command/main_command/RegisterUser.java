@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.controller.commandprovider.command;
+package by.htp.project.human_resource.controller.commandprovider.command.main_command;
 
 import java.io.IOException;
 
@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
+import by.htp.project.human_resource.controller.commandprovider.command.main_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.service.exception.ServiceException;
@@ -26,7 +28,7 @@ public class RegisterUser implements ICommand {
 	private final String ROLEPARAM = "role";
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		String name = null;
 		String surname = null;
 		String nickName = null;
@@ -59,7 +61,7 @@ public class RegisterUser implements ICommand {
 			} else {
 				checkCommand = CheckCommand.getInstance();
 				if (user.getAvaliable() != 1) {
-					goToPage = request.getRequestURI() + JSPPagePath.EXPECT_COMMAND;
+					goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;
 					response.sendRedirect(goToPage);
 				}				
 			}

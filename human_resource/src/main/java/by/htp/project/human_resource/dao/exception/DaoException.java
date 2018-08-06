@@ -8,15 +8,15 @@ public class DaoException extends Exception{
 		super();
 	}
 
-	public DaoException(String message) {
+	public DaoException(final String message) {
 		super(message);
 	}
 
-	public DaoException(Exception e) {
+	public DaoException(final Exception e) {
 		super(e);
 	}
 
-	public DaoException(String message, Exception e) {
+	public DaoException(final String message, final Exception e) {
 		super(message, e);
 	}
 }

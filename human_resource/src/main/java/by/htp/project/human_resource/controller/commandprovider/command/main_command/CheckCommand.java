@@ -1,8 +1,10 @@
-package by.htp.project.human_resource.controller.commandprovider.command;
+package by.htp.project.human_resource.controller.commandprovider.command.main_command;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import by.htp.project.human_resource.controller.commandprovider.command.main_command.constForCommand.CommandConst;
 
 public class CheckCommand {
 	
@@ -21,8 +23,7 @@ public class CheckCommand {
 		}
 	}
 
-
-	public String check(String role) {
+	public String check(final String role) {
 
 		Set<Map.Entry<String, String>> entrySet = allRolles.entrySet();
 		String chooseRole = null;
@@ -40,10 +41,10 @@ public class CheckCommand {
 	
 	private Map<String, String> setRoles() {
 		allRolles = new HashMap<String, String>();
-		allRolles.put(ADMIN_ROLE, JSPPagePath.ADMIN_COMMAND);
-		allRolles.put(BOSS_ROLE, JSPPagePath.BOSS_COMMAND);
-		allRolles.put(HR_ROLE, JSPPagePath.HR_COMMAND);
-		allRolles.put(EMPLOYEE_ROLE, JSPPagePath.EMPLOYEE_COMMAND);
+		allRolles.put(ADMIN_ROLE, CommandConst.ADMIN_COMMAND);
+		allRolles.put(BOSS_ROLE, CommandConst.BOSS_COMMAND);
+		allRolles.put(HR_ROLE, CommandConst.HR_COMMAND);
+		allRolles.put(EMPLOYEE_ROLE, CommandConst.EMPLOYEE_COMMAND);
 		return allRolles;
 	}
 }

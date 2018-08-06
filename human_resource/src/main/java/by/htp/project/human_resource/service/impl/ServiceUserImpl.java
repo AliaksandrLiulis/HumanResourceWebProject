@@ -9,7 +9,7 @@ import by.htp.project.human_resource.service.interf.IServiceUser;
 
 public class ServiceUserImpl implements IServiceUser {
 
-	public User logInUser(String nickName, String password) throws ServiceException {
+	public User logInUser(final String nickName, final String password) throws ServiceException {
 
 		CheckLoginParam checkParam = CheckLoginParam.getCheckParam();
 		if (checkParam.check(nickName, password)) {
@@ -25,7 +25,7 @@ public class ServiceUserImpl implements IServiceUser {
 	}
 
 	@Override
-	public User registerUser(String name, String surname, String nickName, String password, String email, String role)
+	public User registerUser(final String name, final String surname, final String nickName, final String password, final String email, final String role)
 			throws ServiceException {
 		DaoFactory daoFactory = DaoFactory.getDaoFactory();
 		IDaoUser daoUser = daoFactory.getDaoUser();

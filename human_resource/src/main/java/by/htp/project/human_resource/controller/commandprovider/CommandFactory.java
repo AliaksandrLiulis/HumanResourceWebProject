@@ -9,7 +9,6 @@ public class CommandFactory {
 	private final CommandProvider commandProvider = new CommandProvider();
 	
 	public CommandFactory() {
-		super();
 	}
 
 	public static CommandFactory getCommandFactory() {

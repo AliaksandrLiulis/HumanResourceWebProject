@@ -12,7 +12,7 @@ public class CheckLoginParam {
 		return instance;
 	}
 
-	public boolean check(String... params) {
+	public boolean check(final String... params) {
 		for (String param : params) {
 			param.trim();
 			if (param.equals(null) || param.length() <= 0 || param.length() > 15) {

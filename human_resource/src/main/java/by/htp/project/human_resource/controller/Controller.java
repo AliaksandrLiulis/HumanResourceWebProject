@@ -17,11 +17,11 @@ public final class Controller extends HttpServlet {
 	private ICommand commands = null;
 
 	public Controller() {
-		super();
 	}
 
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)	throws ServletException, IOException {
 		commands = factory.getCommand(request, COMMAND);
+		System.out.println(commands);
 		commands.execute(request, response);		
 	}
 

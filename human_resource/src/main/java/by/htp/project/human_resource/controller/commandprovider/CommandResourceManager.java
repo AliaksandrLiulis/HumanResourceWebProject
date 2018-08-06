@@ -22,6 +22,10 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 public class CommandResourceManager {
 
 	private final static CommandResourceManager instance = new CommandResourceManager();
+	
+	private final String COMMANDS_XML_FILE = "comman/commands.xml";
+	private final String BEGIN_OF_THE_COMMAND_NAME = "cb";
+	
 	private final Logger logger = LogManager.getLogger(LoginUser.class);
 	private final XMLInputFactory xif = XMLInputFactory.newInstance();
 	private Map<String, ICommand> allcommand = new HashMap<>();
@@ -39,7 +43,7 @@ public class CommandResourceManager {
 		ClassLoader classLoader = getClass().getClassLoader();
 		InputStream input;
 		try {
-			input = new FileInputStream(classLoader.getResource("command/commands.xml").getFile());
+			input = new FileInputStream(classLoader.getResource(COMMANDS_XML_FILE).getFile());
 			XMLStreamReader reader = xif.createXMLStreamReader(input);
 
 			while (reader.hasNext()) {
@@ -50,7 +54,7 @@ public class CommandResourceManager {
 					if (text.isEmpty()) {
 						break;
 					}
-					if (text.contains("cb")) {
+					if (text.contains(BEGIN_OF_THE_COMMAND_NAME)) {
 						command.add(text);
 					} else {
 						value.add(text);
@@ -62,13 +66,13 @@ public class CommandResourceManager {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Error");
-			logger.info("CommandResourceManager: getAllCommand: File not found " + e);
+			logger.error("CommandResourceManager: getAllCommand: File not found " + e);
 			e.printStackTrace();
 		} catch (XMLStreamException e) {
-			logger.info("CommandResourceManager: getAllCommand: File not found " + e);
+			logger.error("CommandResourceManager: getAllCommand: File not found " + e);
+		} catch (Exception e) {
+			logger.error("CommandResourceManager: getAllCommand: File not found: " + e);	
 		}
-			
-		
 		allcommand = setCommandForMap();
 		return allcommand;
 	}

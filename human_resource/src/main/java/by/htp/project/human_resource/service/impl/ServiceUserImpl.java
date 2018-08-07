@@ -16,7 +16,7 @@ public class ServiceUserImpl implements IServiceUser {
 			DaoFactory daoFactory = DaoFactory.getDaoFactory();
 			IDaoUser daoUser = daoFactory.getDaoUser();
 			try {
-				return daoUser.logInUser(nickName, password);
+				return daoUser.searchUser(nickName, password);
 			} catch (DaoException e) {
 				throw new ServiceException("Service:method:logInUser" + e);
 			}
@@ -34,8 +34,8 @@ public class ServiceUserImpl implements IServiceUser {
 		if (checkRegisterParam.check(name, surname, nickName, password, email, role)) {
 
 			try {
-				if (daoUser.chekUsernickName(nickName)) {
-					return daoUser.registerUser(name, surname, nickName, password, email, role);
+				if (daoUser.searchUserNickName(nickName)) {
+					return daoUser.addUser(name, surname, nickName, password, email, role);
 				}
 			} catch (DaoException e) {
 				throw new ServiceException("Service:method:registerUser" + e);

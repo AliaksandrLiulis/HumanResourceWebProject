@@ -13,4 +13,5 @@ public class JSPPagePath {
 	public final static String PATH_ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
 	public final static String PATH_EXPECT_PAGE = "/WEB-INF/jsp/expect_page.jsp";
 	public final static String PATH_MAIN_PAGE_COMMAND = "?command=cb.main_page";
+	public final static String COMMANDS_XML_FILE_PATH = "command/commands.xml";
 }

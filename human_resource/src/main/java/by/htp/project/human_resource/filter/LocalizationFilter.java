@@ -13,7 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import by.htp.project.human_resource.controller.commandprovider.command.main_command.constForCommand.CommandConst;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.ParamConst;
 
 public class LocalizationFilter implements Filter {
 
@@ -25,7 +26,7 @@ public class LocalizationFilter implements Filter {
 
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
-		if (!httpServletRequest.getParameter(CommandConst.COMMAND).equals(CommandConst.COMMAND_FOR_LOCALIZATION)) {
+		if (!httpServletRequest.getParameter(ParamConst.COMMAND).equals(CommandConst.COMMAND_FOR_LOCALIZATION)) {
 
 			String tempPath = "?";
 			String previousServletPath = httpServletRequest.getRequestURI();
@@ -42,7 +43,7 @@ public class LocalizationFilter implements Filter {
 			tempPath = tempPath.substring(0, tempPath.length() - 1);
 			previousServletPath = previousServletPath + tempPath;									
 			httpServletRequest.getSession().setAttribute(CommandConst.PREVIOUS_PATH_FOR_LOCALIZATION, previousServletPath);
-			httpServletRequest.getSession().setAttribute(CommandConst.COMMAND, httpServletRequest.getParameter(CommandConst.COMMAND));
+			httpServletRequest.getSession().setAttribute(ParamConst.COMMAND, httpServletRequest.getParameter(ParamConst.COMMAND));
 			}
 		chain.doFilter(httpServletRequest, response);
 	}

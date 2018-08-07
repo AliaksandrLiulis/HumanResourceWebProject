@@ -70,6 +70,14 @@
 										</button>
 									</form>
 							</a></li>
+							<c:if test="${user != null}">
+								<li><br>
+									<form action="controllerServlet" method="post">
+										<input type="hidden" name="command" value="cb.logout_user">
+										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
+										<button class="btn  btn-xs btn-success" type="submit">LogOut</button>
+									</form></li>
+							</c:if>
 							<li><a>
 									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.localization">

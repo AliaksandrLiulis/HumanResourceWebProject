@@ -33,15 +33,15 @@
 	</command>
 	<command>
 		<key>cb.localization</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.Localization</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.Localization</value>
 	</command>
 	<command>
 		<key>cb.login_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.LoginUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LoginUser</value>
 	</command>
 	<command>
 		<key>cb.register_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.RegisterUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.RegisterUser</value>
 	</command>
 	<command>
 		<key>cb.expect_page</key>
@@ -49,6 +49,6 @@
 	</command>
 	<command>
 		<key>cb.logout_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.main_command.LogOut</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LogOut</value>
 	</command>
 </commands>

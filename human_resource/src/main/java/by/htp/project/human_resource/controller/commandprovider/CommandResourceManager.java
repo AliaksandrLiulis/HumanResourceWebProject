@@ -15,18 +15,16 @@ import javax.xml.stream.XMLStreamReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import by.htp.project.human_resource.controller.commandprovider.command.main_command.LoginUser;
+import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.exception.ControllerException;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandResourceManager {
 
 	private final static CommandResourceManager instance = new CommandResourceManager();
-
-	private final String COMMANDS_XML_FILE = "command/commands.xml";
-	private final String BEGIN_OF_THE_COMMAND_NAME = "cb";
-
-	private final Logger logger = LogManager.getLogger(LoginUser.class);
+	
+	private final Logger logger = LogManager.getLogger(CommandResourceManager.class);
 	private final XMLInputFactory xif = XMLInputFactory.newInstance();
 	private Map<String, ICommand> allcommand = new HashMap<>();
 	private List<String> command = new ArrayList<>();
@@ -42,7 +40,7 @@ public class CommandResourceManager {
 	public Map<String, ICommand> getAllCommand() throws ControllerException {
 		ClassLoader classLoader = getClass().getClassLoader();
 
-		try (InputStream input = new FileInputStream(classLoader.getResource(COMMANDS_XML_FILE).getFile())) {
+		try (InputStream input = new FileInputStream(classLoader.getResource(JSPPagePath.COMMANDS_XML_FILE_PATH).getFile())) {
 			XMLStreamReader reader = xif.createXMLStreamReader(input);
 
 			while (reader.hasNext()) {
@@ -53,7 +51,7 @@ public class CommandResourceManager {
 					if (text.isEmpty()) {
 						break;
 					}
-					if (text.contains(BEGIN_OF_THE_COMMAND_NAME)) {
+					if (text.contains(CommandConst.BEGIN_OF_THE_COMMAND_NAME)) {
 						command.add(text);
 					} else {
 						value.add(text);

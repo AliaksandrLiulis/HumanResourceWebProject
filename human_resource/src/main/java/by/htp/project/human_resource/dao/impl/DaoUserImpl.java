@@ -15,6 +15,7 @@ import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.interf.IDaoUser;
 import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.entity.UserBuilder;
 
 public class DaoUserImpl implements IDaoUser {
 
@@ -130,7 +131,7 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setInt(7, checkRole(allParams.get(5)));
 			preparedStatement.executeUpdate();
 
-			user = new User(allParams.get(0), allParams.get(1), allParams.get(2), allParams.get(3), 0,
+			user = createUser(allParams.get(0), allParams.get(1), allParams.get(2), allParams.get(3), 0,
 					allParams.get(5));
 
 		} catch (SQLException | InterruptedException e) {
@@ -174,7 +175,7 @@ public class DaoUserImpl implements IDaoUser {
 	}
 	
 	private User createUser(final String name, final String surname, final String nickName, final String email, final int avaliable, final String role) {
-		User user = new User(name, surname, nickName, email, avaliable, role);
+		User user = new UserBuilder().name(name).surName(surname).nickName(nickName).email(email).avaliable(avaliable).role(role).build();
 		return user;
 	}
 }

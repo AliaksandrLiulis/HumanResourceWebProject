@@ -7,25 +7,14 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 5242719719164225740L;
 
 	private String name;
-	private String surname;
+	private String surName;
 	private String nickName;
 	private String email;
 	private String role;
 	private int avaliable;
 
-	public User() {
-		super();
-	}
-
-	public User(final String name, final String surname, final String nickName, final String email, final int avaliable, final String role) {
-		super();
-		this.name = name;
-		this.surname = surname;
-		this.nickName = nickName;
-		this.email = email;
-		this.role = role;
-		this.avaliable = avaliable;
-	}
+    User() {
+	}	
 
 	public String getName() {
 		return name;
@@ -36,11 +25,11 @@ public class User implements Serializable {
 	}
 
 	public String getSurname() {
-		return surname;
+		return surName;
 	}
 
 	public void setSurname(String surname) {
-		this.surname = surname;
+		this.surName = surname;
 	}
 
 	public String getNickName() {
@@ -75,10 +64,6 @@ public class User implements Serializable {
 		this.avaliable = avaliable;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,7 +73,7 @@ public class User implements Serializable {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nickName == null) ? 0 : nickName.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
+		result = prime * result + ((surName == null) ? 0 : surName.hashCode());
 		return result;
 	}
 
@@ -123,14 +108,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
-		if (surname == null) {
-			if (other.surname != null)
+		if (surName == null) {
+			if (other.surName != null)
 				return false;
-		} else if (!surname.equals(other.surname))
+		} else if (!surName.equals(other.surName))
 			return false;
 		return true;
 	}
-	
-	
-
 }

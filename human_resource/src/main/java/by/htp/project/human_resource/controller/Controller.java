@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.project.human_resource.controller.commandprovider.CommandFactory;
+import by.htp.project.human_resource.controller.commandprovider.command.main_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public final class Controller extends HttpServlet {
 	
 	private static final long serialVersionUID = -8705374380213176470L;
-	private final String COMMAND = "command";
 	private final CommandFactory factory = CommandFactory.getCommandFactory();
 	private ICommand commands = null;
 
@@ -20,13 +20,12 @@ public final class Controller extends HttpServlet {
 	}
 
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)	throws ServletException, IOException {
-		commands = factory.getCommand(request, COMMAND);
-		System.out.println(commands);
+		commands = factory.getCommand(request, CommandConst.COMMAND);
 		commands.execute(request, response);		
 	}
 
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)	throws ServletException, IOException {
-		commands = factory.getCommand(request, COMMAND);
+		commands = factory.getCommand(request, CommandConst.COMMAND);
 		commands.execute(request, response);		
 	}	
 }

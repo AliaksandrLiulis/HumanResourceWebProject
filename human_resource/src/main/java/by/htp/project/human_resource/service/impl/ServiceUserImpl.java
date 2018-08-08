@@ -1,5 +1,7 @@
 package by.htp.project.human_resource.service.impl;
 
+import java.util.List;
+
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.factory.DaoFactory;
 import by.htp.project.human_resource.dao.interf.IDaoUser;
@@ -42,5 +44,18 @@ public class ServiceUserImpl implements IServiceUser {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<User> getAllUser() throws ServiceException {
+		List<User> allUserBase = null;
+		DaoFactory daoFactory = DaoFactory.getDaoFactory();
+		IDaoUser daoUser = daoFactory.getDaoUser();
+		allUserBase = daoUser.getAllUserBase();
+		if (allUserBase.size() == 0) {
+			throw new ServiceException("Base is Empty");
+		}else {
+			return allUserBase;
+		}		
 	}
 }

@@ -25,10 +25,11 @@ public class DaoUserImpl implements IDaoUser {
 	private final Logger logger = LogManager.getLogger(DaoUserImpl.class);
 	private ConnectionPool connectionPool = null;
 	private Map<String, Integer> allRolles = null;
-	
+
 	private final String SEARCH_USER = "SELECT name, surname, nickName, email, avaliable, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
 	private final String SEARCH_USER_NICKNAME = "SELECT nickname from users  where nickname = ?";
 	private final String ADD_USER = "INSERT into users (nickName ,name,  surname, password , avaliable, email, userroles_iduserrole ) VALUES (?,?,?,?,?,?,?)";
+	private final String GET_ALL_USER_BASE = "SELECT * FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole";
 
 	public DaoUserImpl() {
 		if (null == connectionPool) {
@@ -79,11 +80,11 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement = connection.prepareStatement(SEARCH_USER_NICKNAME);
 			preparedStatement.setString(1, nickName);
 			result = preparedStatement.executeQuery();
-			
-			if (result.next()) {
+
+			while (result.next()) {
 				nick = result.getString(1);
 			}
-		}  catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchUserNickName: Connection interrupted: " + e);
 			new DaoException("error");
 		} catch (SQLException e) {
@@ -109,7 +110,7 @@ public class DaoUserImpl implements IDaoUser {
 		User user = null;
 		try {
 			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(ADD_USER);					
+			preparedStatement = connection.prepareStatement(ADD_USER);
 			preparedStatement.setString(1, allParams.get(2));
 			preparedStatement.setString(2, allParams.get(0));
 			preparedStatement.setString(3, allParams.get(1));
@@ -118,10 +119,10 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setString(6, allParams.get(4));
 			preparedStatement.setInt(7, getNumRoleForSQL(allParams.get(5)));
 			preparedStatement.executeUpdate();
-			
-			
-			user = new UserBuilder().name(allParams.get(0)).surName(allParams.get(1)).nickName(allParams.get(2)).email(allParams.get(3)).avaliable(0).role(allParams.get(5)).build();
-			
+
+			user = new UserBuilder().name(allParams.get(0)).surName(allParams.get(1)).nickName(allParams.get(2))
+					.email(allParams.get(3)).avaliable(0).role(allParams.get(5)).build();
+
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: addUser: Connection interrupted: " + e);
 			new DaoException("error");
@@ -132,6 +133,38 @@ public class DaoUserImpl implements IDaoUser {
 			closeResources(preparedStatement, null, connection, "addUser");
 		}
 		return user;
+	}
+
+	@Override
+	public List<User> getAllUserBase() {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		List<User> allUser = new ArrayList<>();
+		User user = null;
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(GET_ALL_USER_BASE);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				user = new UserBuilder().nickName(result.getString(2)).name(result.getString(3))
+						.surName(result.getString(4)).email(result.getString(7)).avaliable(result.getInt(6))
+						.role(result.getString(10)).build();
+				allUser.add(user);
+			}
+
+		} catch (InterruptedException e) {
+			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
+			new DaoException("error");
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: searchUser: SQL error: " + e);
+			new DaoException("error");
+		} finally {
+			closeResources(preparedStatement, result, connection, "searUser");
+		}
+
+		return allUser;
 	}
 
 	private Map<String, Integer> setRoles() {
@@ -153,7 +186,7 @@ public class DaoUserImpl implements IDaoUser {
 		}
 		return numForSql;
 	}
-	
+
 	private void closeResources(PreparedStatement preparedStatement, ResultSet resultSet, Connection connection,
 			String methodName) {
 		if (preparedStatement != null) {
@@ -178,4 +211,5 @@ public class DaoUserImpl implements IDaoUser {
 			}
 		}
 	}
+
 }

@@ -22,6 +22,7 @@
 <link href="css/style.css" rel="stylesheet">
 <link href="css/responsive.css" rel="stylesheet">
 
+
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="localization.local" var="loc" />
 <%@ include file="include/login_include"%>
@@ -61,7 +62,7 @@
 										</button>
 									</form>
 							</a></li>
-							
+
 							<c:if test="${user != null}">
 								<li><br>
 									<form action="controllerServlet" method="post">
@@ -92,49 +93,67 @@
 	</header>
 	<div id="login_area" class="slider-area">
 		<div>
-			<div id="ensign-nivoslider" class="slides">
+			<div id="ensign-nivoslider">
 				<img src="img/slider/slider6.jpg" alt="" title="#slider-direction-1" />
 			</div>
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="col-md-5 col-sm-6 col-xs-6">
 							<div class="slider-content">
-								<!-- layer 1 -->
-								<div class="layer-1-1 hidden-xs wow slideInDown"
-									data-wow-duration="1s" data-wow-delay=".2s">
+
+								<div class="layer-1-1 hidden-xs wow slideInUp"
+									data-wow-duration="1s" data-wow-delay=".2s"
+									data-wow-iteration=1s>
 									<div class="row">
 										<div class="col-md-5 col-sm-6 col-xs-6">
-											<form action="controllerServlet" method="post">
-												<div class="form-group">
-													<input type="hidden" name="command" value="cb.login_user">
-													<label for="nickName">${nickname}</label> <input
-														type="text" class="form-control hidden-xs" name="nickName"
-														placeholder="${yournickname}"> <br> <label
-														for="password">${password}</label> <input type="password"
-														class="form-control hidden-xs" name="password"
-														placeholder="${yourpassword}">
-													<div class="layer-1-3 hidden-xs wow slideInUp"
-														data-wow-duration="4s" data-wow-delay=".2s">
+											<div class="form-group" style="margin: auto;">
+												<c:if test="${requestScope.allUserBase != null}">
+													<script>
+														$('#myModal').modal();
+														<!-- data-toggle="modal" data-target="#modal-1" -->
+													</script>
+												</c:if>
+												<form action="controllerServlet" method="get">
+													<input type="hidden" name="command"
+														value="cb.get_all_users_base">
+													<div class="wow " data-wow-duration="4s"
+														data-wow-delay=".2s">
 														<input type="submit"
-															class="ready-btn right-btn page-scroll" value="${login}">
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<div class="layer-1-1 hidden-xs wow slideInDown"
-												data-wow-duration="1s" data-wow-delay=".2s">
-												<h3 align="center" style="color: orange;">
-													<b><i> <c:if
-																test="${requestScope.incorrect_params_message != null}">
-																<c:out value="${incorrectmessage}"></c:out>
+															class="ready-btn right-btn page-scroll"
+															value="     All User    ">
 
-															</c:if>
-													</i> </b>
-												</h3>
+
+													</div>
+												</form>
+
+												<form action="controllerServlet" method="get">
+													<input type="hidden" name="command" value="read_user">
+													<div class="hidden-xs wow" data-wow-duration="4s"
+														data-wow-delay=".2s">
+														<input type="submit"
+															class="ready-btn right-btn page-scroll"
+															value="   Read_User  ">
+													</div>
+												</form>
+												<form action="controllerServlet" method="get">
+													<input type="hidden" name="command" value="update_user">
+													<div class="hidden-xs wow" data-wow-duration="4s"
+														data-wow-delay=".2s">
+														<input type="submit"
+															class="ready-btn right-btn page-scroll"
+															value=" Update_User">
+													</div>
+												</form>
+												<form action="controllerServlet" method="get">
+													<input type="hidden" name="command" value="delite_user">
+													<div class="hidden-xs wow" data-wow-duration="4s"
+														data-wow-delay=".2s">
+														<input type="submit"
+															class="ready-btn right-btn page-scroll"
+															value="  Delete_user ">
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -146,6 +165,57 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="myModal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content ">
+				<div class="modal-header">
+					<h4 class="modal-title" style="color:orange;">All Users from Base</h4>
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>SurName</th>
+								<th>NickName</th>
+								<th>e-mail</th>
+								<th>Role</th>
+								<th>Registered</th>
+							</tr>
+							<c:forEach items="${allUserBase}" var="choosen">
+								<tr>
+									<td>${choosen.getName()}</td>
+									<td>${choosen.getSurname()}</td>
+									<td>${choosen.getNickName()}</td>
+									<td>${choosen.getEmail()}</td>
+									<td>${choosen.getRole()}</td>
+									<td>${choosen.getAvaliable()}</td>
+								</tr>
+							</c:forEach>
+						</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
 	<%@ include file="include/footer_include"%>
 </body>
 </html>

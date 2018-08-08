@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.htp.project.human_resource.controller.commandprovider.CommandFactory;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.ParamConst;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 

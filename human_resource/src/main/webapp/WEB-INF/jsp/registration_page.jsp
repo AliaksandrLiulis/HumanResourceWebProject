@@ -26,6 +26,22 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <%@ include file="include/registration_include"%>
 
+<script type="text/javascript">
+function InvalidMsg(textbox) {
+    
+    if (textbox.value == '') {
+        textbox.setCustomValidity('Lütfen işaretli yerleri doldurunuz');
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity('please enter a valid email address');
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+</script>
+
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 
@@ -33,7 +49,7 @@
 
 	<header>
 	<div id="sticker" class="header-area">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 
@@ -78,7 +94,7 @@
 									<form action="controllerServlet" method="post">
 										<input type="hidden" name="command" value="cb.logout_user">
 										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
-										<button class="btn  btn-xs btn-success" type="submit">LogOut</button>
+										<button class="btn  btn-xs btn-success" type="submit">${logout}</button>
 									</form></li>
 							</c:if>
 							<li><a>
@@ -135,10 +151,11 @@
 										data-wow-duration="1s" data-wow-delay=".2s">
 										<form action="controllerServlet" method="post">
 											<div class="form-group">
+											 
 												<input type="hidden" name="command" value="cb.register_user">
-												<label for="nickName">${nickname}</label> <input type="text"
+												<label for="nickName">${nickname}</label> <input type="text" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);"
 													class="form-control hidden-xs" name="nickname"
-													placeholder="${yournickname}" required> <br> <label
+													placeholder="${yournickname}"  required="required" > <br> <label
 													for="name">${name}</label> <input type="text"
 													class="form-control hidden-xs" name="name"
 													placeholder="${messageforname}" required> <br>

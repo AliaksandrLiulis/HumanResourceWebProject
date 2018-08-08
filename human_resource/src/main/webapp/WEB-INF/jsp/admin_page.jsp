@@ -61,21 +61,13 @@
 										</button>
 									</form>
 							</a></li>
-							<li><a>
-									<form "controllerServlet" method="get">
-										<input type="hidden" name="command"
-											value="cb.registration_page">
-										<button class="btn btn-link btn-lg" type="submit">
-											<h6>${registration}</h6>
-										</button>
-									</form>
-							</a></li>
+							
 							<c:if test="${user != null}">
 								<li><br>
 									<form action="controllerServlet" method="post">
 										<input type="hidden" name="command" value="cb.logout_user">
 										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
-										<button class="btn  btn-xs btn-success" type="submit">LogOut</button>
+										<button class="btn  btn-xs btn-success" type="submit">${logout}</button>
 									</form></li>
 							</c:if>
 							<li><a>

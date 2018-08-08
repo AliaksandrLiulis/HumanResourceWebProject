@@ -52,7 +52,7 @@ public class LoginUser implements ICommand {
 					checkCommand = CheckCommand.getInstance();
 					session = request.getSession();
 					session.setAttribute(ParamConst.USER_ATTRIBUTE, user);
-					goToPage = request.getRequestURI() + checkCommand.check(user.getRole());
+					goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
 					response.sendRedirect(goToPage);
 				} else {
 					goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;

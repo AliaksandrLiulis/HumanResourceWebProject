@@ -24,3 +24,5 @@
 <fmt:message bundle="${loc}" key="local.registration.messageforsurname" var="messageforsurname" />
 <fmt:message bundle="${loc}" key="local.registration.messageexistuser" var="existuser" />
 <fmt:message bundle="${loc}" key="local.main.pagebutton.registration" var="registration" />
+<fmt:message bundle="${loc}" key="local.main.Logout" var="logout" />
+<fmt:message bundle="${loc}" key="local.main.mypage" var="mypage" />

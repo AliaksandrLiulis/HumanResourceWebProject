@@ -51,4 +51,8 @@
 		<key>cb.logout_user</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LogOut</value>
 	</command>
+	<command>
+		<key>cb.back_user</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.BackOnUserPage</value>
+	</command>
 </commands>

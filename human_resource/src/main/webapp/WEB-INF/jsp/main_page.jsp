@@ -31,7 +31,7 @@
 	<div id="preloader"></div>
 	<header>
 	<div id="sticker" class="header-area">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<nav class="navbar navbar-default">
@@ -58,14 +58,28 @@
 							<li><a class="page-scroll" href="#services">${service}</a></li>
 							<li><a class="page-scroll" href="#team">${team}</a></li>
 							<li><a class="page-scroll" href="#contact">${contact}</a></li>
-							<c:if test="${user != null}">
+							<c:choose>
+								<c:when test="${user != null}">
 								<li><br>
-									<form action="controllerServlet" method="post">
-										<input type="hidden" name="command" value="cb.logout_user">
-										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
-										<button class="btn  btn-xs btn-success" type="submit">LogOut</button>
-									</form></li>
-							</c:if>
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command" value="cb.back_user">
+											<button class="btn  btn-xs" type="submit">${mypage}</button>
+										</form></li>
+									<li><br>
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command" value="cb.logout_user">
+											<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
+											<button class="btn  btn-xs btn-success" type="submit">${Logout}</button>
+										</form></li>
+								</c:when>
+								<c:otherwise>
+									<li><br>
+										<form action="controllerServlet" method="post">
+											<input type="hidden" name="command" value="cb.login_page">
+											<button class="btn  btn-xs btn-success" type="submit">${login}</button>
+										</form></li>
+								</c:otherwise>
+							</c:choose>
 							<li><a>
 									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.localization">
@@ -100,7 +114,7 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="slider-content">
-								<!-- layer 1 -->
+
 								<div class="layer-1-1 hidden-xs wow slideInDown"
 									data-wow-duration="2s" data-wow-delay=".2s">
 									<h2 class="title1">${message1}</h2>
@@ -110,21 +124,26 @@
 									data-wow-delay=".1s">
 									<h1 class="title2">${message2}</h1>
 								</div>
-								<!-- layer 3 -->
-								<div class="form-group">
-									<div class="layer-1-3 hidden-xs wow slideInUp"
-										data-wow-duration="2s" data-wow-delay=".2s">
-										<form action="controllerServlet" method="get">
-											<input type="hidden" name="command" value="cb.login_page">
-											<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
-										</form>
-										<form action="controllerServlet" method="get">
-											<input type="hidden" name="command"
-												value="cb.registration_page">
-											<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
-										</form>
+
+								<c:if test="${user == null}">
+									<div class="form-group">
+										<div class="layer-1-3 hidden-xs wow slideInUp"
+											data-wow-duration="2s" data-wow-delay=".2s">
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command" value="cb.login_page">
+												<button class="ready-btn right-btn page-scroll"
+													type="submit">${login}</button>
+											</form>
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command"
+													value="cb.registration_page">
+												<button class="ready-btn right-btn page-scroll"
+													type="submit">${registration}</button>
+											</form>
+										</div>
 									</div>
-								</div>
+								</c:if>
+
 							</div>
 						</div>
 					</div>
@@ -147,21 +166,22 @@
 								data-wow-delay=".1s">
 								<h1 class="title2">${message4}</h1>
 							</div>
-							<!-- layer 3 -->
-							<div class="form-group">
-								<div class="layer-1-3 hidden-xs wow slideInUp"
-									data-wow-duration="2s" data-wow-delay=".2s">
-									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command" value="cb.login_page">
-										<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
-									</form>
-									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command"
-											value="cb.registration_page">
-										<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
-									</form>
+							<c:if test="${user == null}">
+								<div class="form-group">
+									<div class="layer-1-3 hidden-xs wow slideInUp"
+										data-wow-duration="2s" data-wow-delay=".2s">
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command" value="cb.login_page">
+											<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
+										</form>
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command"
+												value="cb.registration_page">
+											<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
+										</form>
+									</div>
 								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -183,21 +203,22 @@
 								data-wow-delay=".1s">
 								<h1 class="title2">${message6}</h1>
 							</div>
-							<!-- layer 3 -->
-							<div class="form-group">
-								<div class="layer-1-3 hidden-xs wow slideInUp"
-									data-wow-duration="2s" data-wow-delay=".2s">
-									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command" value="cb.login_page">
-										<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
-									</form>
-									<form action="controllerServlet" method="get">
-										<input type="hidden" name="command"
-											value="cb.registration_page">
-										<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
-									</form>
+							<c:if test="${user == null}">
+								<div class="form-group">
+									<div class="layer-1-3 hidden-xs wow slideInUp"
+										data-wow-duration="2s" data-wow-delay=".2s">
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command" value="cb.login_page">
+											<button class="ready-btn right-btn page-scroll" type="submit">${login}</button>
+										</form>
+										<form action="controllerServlet" method="get">
+											<input type="hidden" name="command"
+												value="cb.registration_page">
+											<button class="ready-btn right-btn page-scroll" type="submit">${registration}</button>
+										</form>
+									</div>
 								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 				</div>

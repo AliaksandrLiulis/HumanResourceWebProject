@@ -31,7 +31,7 @@
 	<div id="preloader"></div>
 	<header>
 	<div id="sticker" class="header-area">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<nav class="navbar navbar-default">
@@ -75,7 +75,7 @@
 									<form action="controllerServlet" method="post">
 										<input type="hidden" name="command" value="cb.logout_user">
 										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
-										<button class="btn  btn-xs btn-success" type="submit">LogOut</button>
+										<button class="btn  btn-xs btn-success" type="submit">${logout}</button>
 									</form></li>
 							</c:if>
 							<li><a>

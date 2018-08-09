@@ -46,6 +46,7 @@ public class RegisterUser implements ICommand {
 
 		try {
 			user = serviceUser.registerUser(name, surname, nickName, password, email, role);
+			
 			if (user == null) {
 				goToPage = JSPPagePath.PATH_REGISTRATION_PAGE;
 				request.setAttribute("existuser", "exist user");

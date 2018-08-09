@@ -28,12 +28,12 @@
 
 <script type="text/javascript">
 function InvalidMsg(textbox) {
-    
-    if (textbox.value == '') {
-        textbox.setCustomValidity('Lütfen işaretli yerleri doldurunuz');
+	
+    if (textbox.value == '' || textbox.value.length > 15) {
+        textbox.setCustomValidity("${messagefildvalidaty}");
     }
     else if(textbox.validity.typeMismatch){
-        textbox.setCustomValidity('please enter a valid email address');
+        textbox.setCustomValidity("${messageemailvalidaty}");
     }
     else {
         textbox.setCustomValidity('');
@@ -41,6 +41,7 @@ function InvalidMsg(textbox) {
     return true;
 }
 </script>
+
 
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
@@ -153,20 +154,20 @@ function InvalidMsg(textbox) {
 											<div class="form-group">
 											 
 												<input type="hidden" name="command" value="cb.register_user">
-												<label for="nickName">${nickname}</label> <input type="text" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);"
-													class="form-control hidden-xs" name="nickname"
-													placeholder="${yournickname}"  required="required" > <br> <label
-													for="name">${name}</label> <input type="text"
-													class="form-control hidden-xs" name="name"
-													placeholder="${messageforname}" required> <br>
-												<label for="surname">${surname}</label> <input type="text"
+												<label for="nickName">${nickname}</label> <input type="text" oninvalid="InvalidMsg(this);"	oninput="InvalidMsg(this);" class="form-control hidden-xs"	name="nickName" placeholder="${yournickname}"
+													required="required"> <br> 
+													<label for="name">${name}</label> <input type="text" oninvalid="InvalidMsg(this);"	oninput="InvalidMsg(this);" 	class="form-control hidden-xs" name="name"	placeholder="${messageforname}" required> <br>
+												<label for="surname">${surname}</label> <input type="text" oninvalid="InvalidMsg(this);"
+													oninput="InvalidMsg(this);"
 													class="form-control hidden-xs" name="surname"
 													placeholder="${messageforsurname}" required> <br>
-												<label for="email">email</label> <input type="email"
+												<label for="email">email</label> <input type="email" oninvalid="InvalidMsg(this);"
+													oninput="InvalidMsg(this);"
 													class="form-control hidden-xs" name="email"
 													placeholder="${messageforemail}" required> <br>
 												<input type="hidden" name="command" value="login"> <label
-													for="password">${password}</label> <input type="password"
+													for="password">${password}</label> <input type="password" oninvalid="InvalidMsg(this);"
+													oninput="InvalidMsg(this);"
 													class="form-control hidden-xs" name="password"
 													placeholder="${yourpassword}" required> </br> <label
 													for="role">${yourspecialitymessage}</label> <select

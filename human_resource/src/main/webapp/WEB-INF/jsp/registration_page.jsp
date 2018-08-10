@@ -29,7 +29,7 @@
 <script type="text/javascript">
 function InvalidMsg(textbox) {
 	
-    if (textbox.value == '' || textbox.value.length > 15) {
+    if (textbox.value == '' || textbox.value.length > 30) {
         textbox.setCustomValidity("${messagefildvalidaty}");
     }
     else if(textbox.validity.typeMismatch){

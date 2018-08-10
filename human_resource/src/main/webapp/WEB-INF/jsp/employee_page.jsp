@@ -61,15 +61,48 @@
 										</button>
 									</form>
 							</a></li>
+							<li><br>
+								<ul class="nav navbar-nav">
+									<button class="btn btn-link btn-lg" class="dropdown-toggle"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<h6 style="color: white">My Profile</h6>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<form "controllerServlet" method="get">
+											<button class="btn btn-link btn-lg" type="submit">
+												<h6 style="color: black">Add profile</h6>
+										</form>
+									</ul>
+								</ul></li>
+
+							<li><br>
+								<ul class="nav navbar-nav">
+									<button class="btn btn-link btn-lg" class="dropdown-toggle"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<h6 style="color: white">My Resume</h6>
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<form "controllerServlet" method="get">
+											<button class="btn btn-link btn-lg" type="submit">
+												<h6 style="color: black">Add resume</h6>
+										</form>
+									</ul>
+									
+								</ul></li>
+
 							<li><a>
 									<form "controllerServlet" method="get">
-										<input type="hidden" name="command"
-											value="cb.registration_page">
+										<input type="hidden" name="command" value="cb.main_page">
 										<button class="btn btn-link btn-lg" type="submit">
-											<h6>${registration}</h6>
+											<h6>Vacantions</h6>
 										</button>
 									</form>
 							</a></li>
+
 							<c:if test="${user != null}">
 								<li><br>
 									<form action="controllerServlet" method="post">
@@ -104,48 +137,25 @@
 				<img src="img/slider/slider7.jpg" alt="" title="#slider-direction-1" />
 			</div>
 			<div id="slider-direction-1" class="slider-direction slider-one">
-				<div class="container-fluid">
+				<div class="container">
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="slider-content">
-								<!-- layer 1 -->
 								<div class="layer-1-1 hidden-xs wow slideInDown"
-									data-wow-duration="1s" data-wow-delay=".2s">
-									<div class="row">
-										<div class="col-md-5 col-sm-6 col-xs-6">
-											<form action="controllerServlet" method="post">
-												<div class="form-group">
-													<input type="hidden" name="command" value="cb.login_user">
-													<label for="nickName">${nickname}</label> <input
-														type="text" class="form-control hidden-xs" name="nickName"
-														placeholder="${yournickname}"> <br> <label
-														for="password">${password}</label> <input type="password"
-														class="form-control hidden-xs" name="password"
-														placeholder="${yourpassword}">
-													<div class="layer-1-3 hidden-xs wow slideInUp"
-														data-wow-duration="4s" data-wow-delay=".2s">
-														<input type="submit"
-															class="ready-btn right-btn page-scroll" value="${login}">
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-12 col-sm-12 col-xs-12">
-											<div class="layer-1-1 hidden-xs wow slideInDown"
-												data-wow-duration="1s" data-wow-delay=".2s">
-												<h3 align="center" style="color: orange;">
-													<b><i> <c:if
-																test="${requestScope.incorrect_params_message != null}">
-																<c:out value="${incorrectmessage}"></c:out>
-
-															</c:if>
-													</i> </b>
-												</h3>
-											</div>
-										</div>
-									</div>
+									data-wow-duration="2s" data-wow-delay=".2s">
+									<h2>
+										<h1 style="color: white">
+											ДОБРО ПОЖАЛОВАТЬ В
+											<h2 style="color: aqua">Human Resources</h2>
+										</h1>
+									</h2>
+								</div>
+								<div class="layer-1-2 wow slideInUp" data-wow-duration="2s"
+									data-wow-delay=".1s">
+									<h3 style="color: white">Наши пользователи – это наше
+										преимущество. Именно поэтому мы активно сотрудничаем с
+										будущими работодателями и оказываем особую поддержку тем, кто
+										нуждается в работе.</h3>
 								</div>
 							</div>
 						</div>

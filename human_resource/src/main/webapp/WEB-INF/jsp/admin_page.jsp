@@ -148,15 +148,13 @@
 												</div>
 											</form>
 										</div>
-
-
-										<div class="col-md-6 col-sm-6 col-xs-6">
+											<div class="col-md-6 col-sm-6 col-xs-6">
 											<c:if test="${requestScope.allUserBase != null}">
 												<table 
 													class="datatable table table-condensed table-bordered table-hover "
 													id="myUserData">
 													<thead>
-														<tr class="success">
+														<tr>
 															<th>Name</th>
 															<th>SurName</th>
 															<th>NickName</th>
@@ -178,9 +176,7 @@
 															</tr>
 														</c:forEach>
 													</tbody>
-
 												</table>
-
 											</c:if>
 										</div>
 									</div>
@@ -196,8 +192,13 @@
 	<%@ include file="include/footer_include"%>
 
 
+
+
+
+
 	<script type="text/javascript">
 	$('#myUserData').DataTable({
+		
 	    "language": {
 	    	  "processing": "Подождите...",
 	    	  "search": "Поиск:",

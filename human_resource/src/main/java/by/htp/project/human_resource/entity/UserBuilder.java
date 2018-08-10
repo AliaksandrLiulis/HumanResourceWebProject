@@ -1,47 +1,51 @@
 package by.htp.project.human_resource.entity;
 
-import java.io.Serializable;
-
-public class UserBuilder implements Serializable{
+public class UserBuilder {
 	
-	private static final long serialVersionUID = -3983759731784176245L;
+	
 	private String name;
 	private String surName;
 	private String nickName;
 	private String email;
 	private String role;
 	private int avaliable;
+	private int profiles;
 	
 	public UserBuilder() {
 	}
 
-	public UserBuilder name(String name) {
+	public UserBuilder name(final String name) {
 		this.name = name;
 		return this;
 	}
 	
-	public UserBuilder surName(String surName) {
+	public UserBuilder surName(final String surName) {
 		this.surName = surName;
 		return this;
 	}
 	
-	public UserBuilder nickName(String nickName) {
+	public UserBuilder nickName(final String nickName) {
 		this.nickName = nickName;
 		return this;
 	}
 	
-	public UserBuilder email(String email) {
+	public UserBuilder email(final String email) {
 		this.email = email;
 		return this;
 	}
 	
-	public UserBuilder role(String role) {
+	public UserBuilder role(final String role) {
 		this.role = role;
 		return this;
 	}
 	
-	public UserBuilder avaliable(int avaliable) {
+	public UserBuilder avaliable(final int avaliable) {
 		this.avaliable = avaliable;
+		return this;
+	}
+	
+	public UserBuilder profiles(final int profiles) {
+		this.profiles = profiles;
 		return this;
 	}
 			
@@ -53,6 +57,7 @@ public class UserBuilder implements Serializable{
 		user.setEmail(email);
 		user.setRole(role);
 		user.setAvaliable(avaliable);	
+		user.setProfiles(profiles);
 		return user;
 	}
 }

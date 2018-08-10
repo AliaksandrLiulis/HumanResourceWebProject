@@ -26,7 +26,7 @@ public class DaoUserImpl implements IDaoUser {
 	private ConnectionPool connectionPool = null;
 	private Map<String, Integer> allRolles = null;
 
-	private final String SEARCH_USER = "SELECT name, surname, nickName, email, avaliable, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
+	private final String SEARCH_USER = "SELECT name, surname, nickName, email, avaliable, profiles, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
 	private final String SEARCH_USER_NICKNAME = "SELECT nickname from users  where nickname = ?";
 	private final String ADD_USER = "INSERT into users (nickName ,name,  surname, password , avaliable, email, userroles_iduserrole ) VALUES (?,?,?,?,?,?,?)";
 	private final String GET_ALL_USER_BASE = "SELECT * FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole";
@@ -51,11 +51,12 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setString(2, password);
 			result = preparedStatement.executeQuery();
 
-			if (result.next()) {
-				user = new UserBuilder().nickName(result.getString(1)).name(result.getString(2))
-						.surName(result.getString(3)).email(result.getString(4)).avaliable(result.getInt(5))
-						.role(result.getString(6)).build();
+			if (result.next()) {		
+				
+				user = new UserBuilder().name(result.getString(1)).surName(result.getString(2)).nickName(result.getString(3)).email(result.getString(4)).avaliable(result.getInt(5)).profiles(Integer.parseInt(result.getString(6)))
+						.role(result.getString(7)).build();
 			}
+						
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
 			new DaoException("error");

@@ -12,6 +12,7 @@ public class User implements Serializable {
 	private String email;
 	private String role;
 	private int avaliable;
+	private int profiles;
 
     User() {
 	}	
@@ -20,7 +21,7 @@ public class User implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -28,7 +29,7 @@ public class User implements Serializable {
 		return surName;
 	}
 
-	public void setSurname(String surname) {
+	public void setSurname(final String surname) {
 		this.surName = surname;
 	}
 
@@ -36,7 +37,7 @@ public class User implements Serializable {
 		return nickName;
 	}
 
-	public void setNickName(String nickName) {
+	public void setNickName(final String nickName) {
 		this.nickName = nickName;
 	}
 
@@ -44,7 +45,7 @@ public class User implements Serializable {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -52,7 +53,7 @@ public class User implements Serializable {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(final String role) {
 		this.role = role;
 	}
 
@@ -60,8 +61,25 @@ public class User implements Serializable {
 		return avaliable;
 	}
 
-	public void setAvaliable(int avaliable) {
+	public void setAvaliable(final int avaliable) {
 		this.avaliable = avaliable;
+	}	
+	
+
+	public String getSurName() {
+		return surName;
+	}
+
+	public void setSurName(String surName) {
+		this.surName = surName;
+	}
+
+	public int getProfiles() {
+		return profiles;
+	}
+
+	public void setProfiles(int profiles) {
+		this.profiles = profiles;
 	}
 
 	@Override
@@ -72,6 +90,7 @@ public class User implements Serializable {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nickName == null) ? 0 : nickName.hashCode());
+		result = prime * result + profiles;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((surName == null) ? 0 : surName.hashCode());
 		return result;
@@ -103,6 +122,8 @@ public class User implements Serializable {
 				return false;
 		} else if (!nickName.equals(other.nickName))
 			return false;
+		if (profiles != other.profiles)
+			return false;
 		if (role == null) {
 			if (other.role != null)
 				return false;
@@ -115,4 +136,5 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+
 }

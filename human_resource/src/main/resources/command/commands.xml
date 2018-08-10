@@ -59,4 +59,13 @@
 		<key>cb.get_all_users_base</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetAllUserBase</value>
 	</command>
+	<command>
+		<key>cb.add_resume</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddResume</value>
+	</command>
+	<command>
+		<key>cb.add_profile</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddProfile</value>
+	</command>
+	
 </commands>

@@ -65,6 +65,7 @@
 	<!-- JavaScript Libraries -->
 	<script src="lib/jquery/jquery.min.js"></script>
 	<script src="lib/data-tables/js/dataTables.bootstrap.min.js"></script>
+	<script src="lib/winmarkltd-BootstrapFormHelpers-d4201db/js/bootstrap-formhelpers-phone.js"></script>
 	<script src="lib/data-tables/js/jquery.dataTables.min.js"></script>
 	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 	<script src="lib/owlcarousel/owl.carousel.min.js"></script>

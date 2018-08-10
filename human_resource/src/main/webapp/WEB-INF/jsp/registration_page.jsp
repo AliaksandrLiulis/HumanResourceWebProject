@@ -42,7 +42,6 @@ function InvalidMsg(textbox) {
 }
 </script>
 
-
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 

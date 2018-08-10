@@ -16,10 +16,13 @@
 <link href="lib/owlcarousel/owl.carousel.css" rel="stylesheet">
 <link href="lib/owlcarousel/owl.transitions.css" rel="stylesheet">
 <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="lib/data-tables/css/dataTables.bootstrap.min.css"
+	rel="stylesheet">
 <link href="lib/animate/animate.min.css" rel="stylesheet">
 <link href="lib/venobox/venobox.css" rel="stylesheet">
 <link href="css/nivo-slider-theme.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+<link href="css/responsive.css" rel="stylesheet">
 <link href="css/responsive.css" rel="stylesheet">
 
 
@@ -99,62 +102,86 @@
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-5 col-sm-6 col-xs-6">
-							<div class="slider-content">
-
-								<div class="layer-1-1 hidden-xs wow slideInUp"
+						<div class="col-md-12 col-sm-6 col-xs-6">
+							<div>
+								<br> <br> <br> <br> <br>
+								<div class="layer-1-1 hidden-xs  slideInUp"
 									data-wow-duration="1s" data-wow-delay=".2s"
-									data-wow-iteration=1s>
+									data-wow-iteration=100s>
 									<div class="row">
-										<div class="col-md-5 col-sm-6 col-xs-6">
-											<div class="form-group" style="margin: auto;">
-												<c:if test="${requestScope.allUserBase != null}">
-													<script>
-														$('#myModal').modal();
-														<!-- data-toggle="modal" data-target="#modal-1" -->
-													</script>
-												</c:if>
-												<form action="controllerServlet" method="get">
-													<input type="hidden" name="command"
-														value="cb.get_all_users_base">
-													<div class="wow " data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="submit"
-															class="ready-btn right-btn page-scroll"
-															value="     All User    ">
+										<div class="col-md-4 col-sm-6 col-xs-6">
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command"
+													value="cb.get_all_users_base">
+												<div class="wow " data-wow-duration="4s"
+													data-wow-delay=".2s">
+													<input type="submit"
+														class="ready-btn right-btn page-scroll"
+														value="     All User    ">
+												</div>
+											</form>
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command" value="read_user">
+												<div class="hidden-xs wow" data-wow-duration="4s"
+													data-wow-delay=".2s">
+													<input type="submit"
+														class="ready-btn right-btn page-scroll"
+														value="   Read_User  ">
+												</div>
+											</form>
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command" value="update_user">
+												<div class="hidden-xs wow" data-wow-duration="4s"
+													data-wow-delay=".2s">
+													<input type="submit"
+														class="ready-btn right-btn page-scroll"
+														value=" Update_User">
+												</div>
+											</form>
+											<form action="controllerServlet" method="get">
+												<input type="hidden" name="command" value="delite_user">
+												<div class="hidden-xs wow" data-wow-duration="4s"
+													data-wow-delay=".2s">
+													<input type="submit"
+														class="ready-btn right-btn page-scroll"
+														value="  Delete_user ">
+												</div>
+											</form>
+										</div>
 
 
-													</div>
-												</form>
+										<div class="col-md-6 col-sm-6 col-xs-6">
+											<c:if test="${requestScope.allUserBase != null}">
+												<table 
+													class="datatable table table-condensed table-bordered table-hover "
+													id="myUserData">
+													<thead>
+														<tr class="success">
+															<th>Name</th>
+															<th>SurName</th>
+															<th>NickName</th>
+															<th>e-mail</th>
+															<th>Role</th>
+															<th>Registered</th>
+														</tr>
+													</thead>
+													
+													<tbody align="center">
+														<c:forEach items="${allUserBase}" var="choosen">
+															<tr>
+																<td>${choosen.getName()}</td>
+																<td>${choosen.getSurname()}</td>
+																<td>${choosen.getNickName()}</td>
+																<td>${choosen.getEmail()}</td>
+																<td>${choosen.getRole()}</td>
+																<td>${choosen.getAvaliable()}</td>
+															</tr>
+														</c:forEach>
+													</tbody>
 
-												<form action="controllerServlet" method="get">
-													<input type="hidden" name="command" value="read_user">
-													<div class="hidden-xs wow" data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="submit"
-															class="ready-btn right-btn page-scroll"
-															value="   Read_User  ">
-													</div>
-												</form>
-												<form action="controllerServlet" method="get">
-													<input type="hidden" name="command" value="update_user">
-													<div class="hidden-xs wow" data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="submit"
-															class="ready-btn right-btn page-scroll"
-															value=" Update_User">
-													</div>
-												</form>
-												<form action="controllerServlet" method="get">
-													<input type="hidden" name="command" value="delite_user">
-													<div class="hidden-xs wow" data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="submit"
-															class="ready-btn right-btn page-scroll"
-															value="  Delete_user ">
-													</div>
-												</form>
-											</div>
+												</table>
+
+											</c:if>
 										</div>
 									</div>
 								</div>
@@ -166,56 +193,34 @@
 		</div>
 	</div>
 
-	<div id="myModal" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content ">
-				<div class="modal-header">
-					<h4 class="modal-title" style="color:orange;">All Users from Base</h4>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>SurName</th>
-								<th>NickName</th>
-								<th>e-mail</th>
-								<th>Role</th>
-								<th>Registered</th>
-							</tr>
-							<c:forEach items="${allUserBase}" var="choosen">
-								<tr>
-									<td>${choosen.getName()}</td>
-									<td>${choosen.getSurname()}</td>
-									<td>${choosen.getNickName()}</td>
-									<td>${choosen.getEmail()}</td>
-									<td>${choosen.getRole()}</td>
-									<td>${choosen.getAvaliable()}</td>
-								</tr>
-							</c:forEach>
-						</thead>
-					</table>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-
-
-
-
-
-
-
-
 	<%@ include file="include/footer_include"%>
+
+
+	<script type="text/javascript">
+	$('#myUserData').DataTable({
+	    "language": {
+	    	  "processing": "Подождите...",
+	    	  "search": "Поиск:",
+	    	  "lengthMenu": "Показать _MENU_ записей",
+	    	  "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+	    	  "infoEmpty": "Записи с 0 до 0 из 0 записей",
+	    	  "infoFiltered": "(отфильтровано из _MAX_ записей)",
+	    	  "infoPostFix": "",
+	    	  "loadingRecords": "Загрузка записей...",
+	    	  "zeroRecords": "Записи отсутствуют.",
+	    	  "emptyTable": "В таблице отсутствуют данные",
+	    	  "paginate": {
+	    	    "first": "Первая",
+	    	    "previous": "Предыдущая",
+	    	    "next": "Следующая",
+	    	    "last": "Последняя"
+	    	  },
+	    	  "aria": {
+	    	    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+	    	    "sortDescending": ": активировать для сортировки столбца по убыванию"
+	    	  }
+	    	}
+	});
+</script>
 </body>
 </html>

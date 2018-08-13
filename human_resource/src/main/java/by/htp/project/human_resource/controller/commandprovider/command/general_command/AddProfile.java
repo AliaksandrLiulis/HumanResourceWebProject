@@ -73,7 +73,6 @@ public class AddProfile implements  ICommand{
 				
 				session = request.getSession();
 				session.removeAttribute("user");
-				session.setAttribute(ParamConst.USER_ATTRIBUTE, user);
 				goToPage = JSPPagePath.PATH_EMPLOYEE_PAGE;
 				session.setAttribute("user", user);
 				session.setAttribute("profile", profile);

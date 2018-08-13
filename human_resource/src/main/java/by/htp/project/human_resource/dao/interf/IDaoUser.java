@@ -16,6 +16,6 @@ public interface IDaoUser {
 	List<User> getAllUserBase();
 	List<Object> addNewProfile(final String... profileParams);
 	Profile getProfile(final int idUser);
-	void removeProfile(final int userId);
+	User removeProfile(final int userId);
 
 }

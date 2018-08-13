@@ -189,7 +189,7 @@
 				<div class="modal-content ">
 					<div class="modal-header">
 						<h4 class="modal-title" style="color: orange;">Profile Form</h4>
-						<h4 style="color: green;">${user.name}${user.surname}</h4>
+						<h4 style="color: green;">${user.name}  ${user.surname}</h4>
 						<button class="close" type="button" data-dismiss="modal">
 							<i class="fa fa-close"></i>
 						</button>
@@ -210,8 +210,8 @@
 												</div>
 												<br> <a><label for="phone">Phone:</label> <br>
 													<input id="phone" type="text"
-													class="input-medium bfh-phone"
-													data-format="+375 (17)dd-dd-dd" name="phone"></a> <br>
+													class="bfh-phone"
+													data-format="+375 (17)dd-dd-dd" placeholder = ${profile.phone} name="phone"></a> <br>
 												<a><label for="dateOfBirthDay">Date Of BirthDay:</label>
 													<input type="date" class="form-control"
 													name="dateOfBirthDay"></a> <a><label
@@ -364,7 +364,7 @@
 								<c:when test="${not empty sessionScope.profile}">
 									<div class="form-group">
 										<button class="btn btn-warning" type="submit" name="command" value="cb.delete_profile">Delete</button>
-										<button class="btn btn-success" type="submit" name="command" value="cb.upload_profile">Upload</button>
+										<button class="btn btn-success" type="submit" name="command" value="cb.upload_profile">Update</button>
 										<button class="btn btn-danger" type="button"
 											data-dismiss="modal">Close</button>
 									</div>

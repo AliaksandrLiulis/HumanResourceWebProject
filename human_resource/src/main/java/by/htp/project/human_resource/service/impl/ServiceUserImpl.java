@@ -89,8 +89,8 @@ public class ServiceUserImpl implements IServiceUser {
 	}
 
 	@Override
-	public void deleteProfile(int userId) throws ServiceException {
-		daoUser.removeProfile(userId);
+	public User deleteProfile(int userId) throws ServiceException {
+		return daoUser.removeProfile(userId);
 		
 	}
 

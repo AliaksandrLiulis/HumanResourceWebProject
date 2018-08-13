@@ -169,7 +169,7 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setString(2, profileParams[4]);
 			preparedStatement.setString(3, profileParams[3]);
 			preparedStatement.setString(4, profileParams[5]);
-			preparedStatement.setString(5, profileParams[5]);
+			preparedStatement.setString(5, profileParams[6]);
 			preparedStatement.setString(6, profileParams[7]);
 			preparedStatement.setString(7, profileParams[8]);
 			preparedStatement.setString(8, profileParams[2]);
@@ -341,26 +341,53 @@ public class DaoUserImpl implements IDaoUser {
 	}
 
 	@Override
-	public void removeProfile(int userId) {
+	public User removeProfile(int userId) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		User user = null;
+		ResultSet result = null;
 
 		try {
 			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(DELETE_PROFILE);
-			preparedStatement.setInt(1, userId);			
+			preparedStatement.setInt(1, userId);	
+			preparedStatement.executeUpdate();
 			updateFieldUser(userId);
+			preparedStatement = connection.prepareStatement(GET_USER);
+			preparedStatement.setInt(1, userId);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
+						.avaliable(result.getInt(6)).profile(Integer.parseInt(result.getString(7)))
+						.role(result.getString(8)).build();
+
+			}
+			connection.commit();
 
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: removeProfile: Connection interrupted: " + e);
-			new DaoException("error");
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} catch (SQLException e) {
 			logger.error("DaoUserImpl: removeProfile: SQL error: " + e);
-			new DaoException("error");
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} finally {
-			closeResources(preparedStatement, null, connection, "removeProfile");
+			closeResources(preparedStatement, result, connection, "removeProfile");
 
 		}
+		return user;
 	}
 
 	private void updateFieldUser(final int idUser) {
@@ -372,6 +399,7 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement = connection.prepareStatement(UPDATE_FIELD_FROM_USER);
 			preparedStatement.setInt(1, 0);
 			preparedStatement.setInt(2, idUser);
+			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
 			logger.error("DaoUserImpl: updateFieldUser: SQL error: " + e);

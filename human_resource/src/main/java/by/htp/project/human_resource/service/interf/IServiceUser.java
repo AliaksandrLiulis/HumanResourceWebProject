@@ -12,7 +12,7 @@ public interface IServiceUser {
 	User registerUser(final String name, final String surname, final String nickName, final String password, final String email, final String role) throws ServiceException;
 	List<User> getAllUser() throws ServiceException;
 	List<Object> addProfile(final String... params) throws ServiceException;
-	void deleteProfile(final int userId) throws ServiceException;
+	User deleteProfile(final int userId) throws ServiceException;
 	
 
 }

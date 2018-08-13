@@ -4,14 +4,13 @@ import java.sql.Date;
 
 public class ProfileBuilder {
 	
-
 	private int id;
 	private Date registrationDate;
 	private Date birthDayDate;
 	private String phone;
 	private String residence;
 	private String workSpeciality;
-	private int workExpirience;
+	private String workExpirience;
 	private String education;
 	private String photoPath;
 	private String abouteUser;
@@ -65,7 +64,7 @@ public class ProfileBuilder {
 		return this;
 	}
 	
-	public ProfileBuilder workExpirience(final int workExpirience) {
+	public ProfileBuilder workExpirience(final String workExpirience) {
 		this.workExpirience = workExpirience;
 		return this;
 	}

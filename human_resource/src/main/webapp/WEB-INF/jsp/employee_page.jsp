@@ -26,7 +26,6 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <%@ include file="include/login_include"%>
 
-
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
@@ -67,17 +66,32 @@
 									<button class="btn btn-link btn-lg" class="dropdown-toggle"
 										data-toggle="dropdown" aria-haspopup="true"
 										aria-expanded="false">
-
-										<h6 style="color: green">My Profile</h6>
-
+										<c:choose>
+											<c:when test="${user.profile!='0'}">
+												<h6 style="color: green">My Profile</h6>
+											</c:when>
+											<c:otherwise>
+												<h6 style="color: red">My Profile</h6>
+											</c:otherwise>
+										</c:choose>
 										<span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu">
+									<c:choose>
+										<c:when test="${user.profile!='0'}">
+											<ul class="dropdown-menu">
+												<li><a style="color: green" href="#profileModal"
+													class="btn btn-link" data-toggle="modal">Edit profile</a></li>
+											</ul>
+										</c:when>
+										<c:otherwise>
+											<ul class="dropdown-menu">
+												<li><a style="color: red" href="#profileModal"
+													class="btn btn-link" data-toggle="modal">Add profile</a></li>
 
-										<li><a style="color: black" href="#profileModal"
-											class="btn btn-link" data-toggle="modal">Add profile</a></li>
+											</ul>
+										</c:otherwise>
+									</c:choose>
 
-									</ul>
 								</ul></li>
 
 							<li><br>
@@ -175,7 +189,7 @@
 				<div class="modal-content ">
 					<div class="modal-header">
 						<h4 class="modal-title" style="color: orange;">Profile Form</h4>
-						<h4 style="color: green;">${user.name}  ${user.surname}</h4>
+						<h4 style="color: green;">${user.name}${user.surname}</h4>
 						<button class="close" type="button" data-dismiss="modal">
 							<i class="fa fa-close"></i>
 						</button>
@@ -184,132 +198,227 @@
 						<div class="container">
 							<div class="row">
 								<div class="col-md-8 col-sm-3 col-xs-3">
+									<c:choose>
+										<c:when test="${user.profile!='0'}">
 
-									<div class="form-group">
-
-
-										<img src="img/slider/nobody.jpg" alt="img" class="img-circle">
-										<br> <br>
-										<div class="form-group">
-											<input type="file" class="form-control-file" id="foto"
-												name="foto">
-										</div>
-										<br> <a><label for="phone">Phone: </label> <br>
-											<input id="phone" type="text" class="input-medium bfh-phone"
-											data-format="+375 (17)dd-dd-dd" name="phone"></a> <br>
-										<a><label for="dateOfBirthDay">Date Of BirthDay:</label> <input
-											type="date" class="form-control" name="dateOfBirthDay"></a>
-										<a><label for="residence">Residence: </label> <select
-											class="form-control hidden-xs" id="residence"
-											name="residence">
-												<option selected>Минск</option>
-												<option>Минская область</option>
-												<option>Брест</option>
-												<option>Брестская область</option>
-												<option>Витебск</option>
-												<option>Витебская область</option>
-												<option>Гомель</option>
-												<option>Гомельская область</option>
-												<option>Гродно</option>
-												<option>Гродненская область</option>
-												<option>Могилёв</option>
-												<option>Могилёвская область</option>
-												<option>Другое</option>
-										</select> </a> <a><label for="workSpeciality">Work speciality:
-										</label> <select class="form-control hidden-xs" id="workSpeciality"
-											name="workSpeciality">
-												<option selected>шахтер</option>
-												<option>автомеханик</option>
-												<option>автослесарь</option>
-												<option>автоэлектрик</option>
-												<option>водитель</option>
-												<option>маляр-штукатур</option>
-												<option>машинист крана</option>
-												<option>оператор ЭВМ</option>
-												<option>слесарь</option>
-												<option>стропальщик</option>
-												<option>штукатур</option>
-										</select> </a> <a><label for="workExpirience">Work expirience:
-										</label> <select class="form-control hidden-xs" id="workExpirience"
-											name="workExpirience">
-												<option selected>Без опыта работы</option>
-												<option>до 1 года</option>
-												<option>до 2 лет</option>
-												<option>до 3 лет</option>
-												<option>до 4 лет</option>
-												<option>до 5 лет</option>
-												<option>до 6 лет</option>
-												<option>до 7 лет</option>
-												<option>до 8 лет</option>
-												<option>до 9 лет</option>
-												<option>до 10 лет</option>
-												<option>более 10 лет</option>
-										</select> </a> <a><label for="education">Education: </label> <select
-											class="form-control hidden-xs" id="education"
-											name="education">
-												<option selected>общее среднее</option>
-												<option>специальное</option>
-												<option>профессионально-техническое</option>
-												<option>высшее</option>
-										</select> </a> <a><label for="message">About you: </label>
 											<div class="form-group">
-												<textarea class="form-control" name="message" rows="5"
-													data-rule="required"
-													placeholder="Please write something about yourSelf:"></textarea>
-											</div> </a>
-									</div>
+												<img src="img/slider/profile_photo/${profile.photoPath}"
+													alt="img" class="img-circle"> <br> <br>
+												<div class="form-group">
+													<input type="file" class="form-control-file" id="photo"
+														name="photo">
+												</div>
+												<br> <a><label for="phone">Phone:</label> <br>
+													<input id="phone" type="text"
+													class="input-medium bfh-phone"
+													data-format="+375 (17)dd-dd-dd" name="phone"></a> <br>
+												<a><label for="dateOfBirthDay">Date Of BirthDay:</label>
+													<input type="date" class="form-control"
+													name="dateOfBirthDay"></a> <a><label
+													for="residence">Residence: </label> <select
+													class="form-control hidden-xs" id="residence"
+													name="residence">
+														<option selected>${profile.residence}</option>
+														<option>Минск</option>
+														<option>Минская область</option>
+														<option>Брест</option>
+														<option>Брестская область</option>
+														<option>Витебск</option>
+														<option>Витебская область</option>
+														<option>Гомель</option>
+														<option>Гомельская область</option>
+														<option>Гродно</option>
+														<option>Гродненская область</option>
+														<option>Могилёв</option>
+														<option>Могилёвская область</option>
+														<option>Другое</option>
+												</select> </a> <a><label for="workSpeciality">Work
+														speciality: </label> <select class="form-control hidden-xs"
+													id="workSpeciality" name="workSpeciality">
+														<option selected>${profile.workSpeciality}</option>
+														<option>шахтер</option>
+														<option>автомеханик</option>
+														<option>автослесарь</option>
+														<option>автоэлектрик</option>
+														<option>водитель</option>
+														<option>маляр-штукатур</option>
+														<option>машинист крана</option>
+														<option>оператор ЭВМ</option>
+														<option>слесарь</option>
+														<option>стропальщик</option>
+														<option>штукатур</option>
+												</select> </a> <a><label for="workExpirience">Work
+														expirience: </label> <select class="form-control hidden-xs"
+													id="workExpirience" name="workExpirience">
+														<option selected>${profile.workExpirience}</option>
+														<option>Без опыта работы</option>
+														<option>до 1 года</option>
+														<option>до 2 лет</option>
+														<option>до 3 лет</option>
+														<option>до 4 лет</option>
+														<option>до 5 лет</option>
+														<option>до 6 лет</option>
+														<option>до 7 лет</option>
+														<option>до 8 лет</option>
+														<option>до 9 лет</option>
+														<option>до 10 лет</option>
+														<option>более 10 лет</option>
+												</select> </a> <a><label for="education">Education: </label> <select
+													class="form-control hidden-xs" id="education"
+													name="education" required>
+														<option selected>${profile.education}</option>
+														<option>общее среднее</option>
+														<option>специальное</option>
+														<option>профессионально-техническое</option>
+														<option>высшее</option>
+												</select> </a> <a><label for="message">About you: </label> <textarea
+														class="form-control" name="message" rows="5"
+														data-rule="required" placeholder="${profile.abouteUser}"></textarea>
+												</a> <input type="hidden" name="user_id" value="${user.id}">
+											</div>
+
+
+
+										</c:when>
+										<c:otherwise>
+											<div class="form-group">
+												<img src="img/slider/profile_photo/nobody.jpg" alt="img"
+													class="img-circle"> <br> <br>
+												<div class="form-group">
+													<input type="file" class="form-control-file" id="photo"
+														name="photo">
+												</div>
+												<br> <a><label for="phone">Phone:</label> <br>
+													<input id="phone" type="text"
+													class="input-medium bfh-phone"
+													data-format="+375 (17)dd-dd-dd" name="phone" required></a>
+												<br> <a><label for="dateOfBirthDay">Date Of
+														BirthDay:</label> <input type="date" class="form-control"
+													name="dateOfBirthDay" required></a> <a><label
+													for="residence">Residence: </label> <select
+													class="form-control hidden-xs" id="residence"
+													name="residence" required>
+														<option selected>Минск</option>
+														<option>Минская область</option>
+														<option>Брест</option>
+														<option>Брестская область</option>
+														<option>Витебск</option>
+														<option>Витебская область</option>
+														<option>Гомель</option>
+														<option>Гомельская область</option>
+														<option>Гродно</option>
+														<option>Гродненская область</option>
+														<option>Могилёв</option>
+														<option>Могилёвская область</option>
+														<option>Другое</option>
+												</select> </a> <a><label for="workSpeciality">Work
+														speciality: </label> <select class="form-control hidden-xs"
+													id="workSpeciality" name="workSpeciality" required>
+														<option selected>шахтер</option>
+														<option>автомеханик</option>
+														<option>автослесарь</option>
+														<option>автоэлектрик</option>
+														<option>водитель</option>
+														<option>маляр-штукатур</option>
+														<option>машинист крана</option>
+														<option>оператор ЭВМ</option>
+														<option>слесарь</option>
+														<option>стропальщик</option>
+														<option>штукатур</option>
+												</select> </a> <a><label for="workExpirience">Work
+														expirience: </label> <select class="form-control hidden-xs"
+													id="workExpirience" name="workExpirience" required>
+														<option selected>Без опыта работы</option>
+														<option>до 1 года</option>
+														<option>до 2 лет</option>
+														<option>до 3 лет</option>
+														<option>до 4 лет</option>
+														<option>до 5 лет</option>
+														<option>до 6 лет</option>
+														<option>до 7 лет</option>
+														<option>до 8 лет</option>
+														<option>до 9 лет</option>
+														<option>до 10 лет</option>
+														<option>более 10 лет</option>
+												</select> </a> <a><label for="education">Education: </label> <select
+													class="form-control hidden-xs" id="education"
+													name="education" required>
+														<option selected>общее среднее</option>
+														<option>специальное</option>
+														<option>профессионально-техническое</option>
+														<option>высшее</option>
+												</select> </a> <a><label for="message">About you: </label> <textarea
+														class="form-control" name="message" rows="5"
+														data-rule="required" required
+														placeholder="Please write something about yourSelf:"></textarea>
+												</a> <input type="hidden" name="user_id" value="${user.id}">
+											</div>
+										</c:otherwise>
+									</c:choose>
 								</div>
+
 							</div>
 						</div>
-
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.add_profile">
-							<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
-							<button class="btn btn-success" type="submit">Apply</button>
-						</div>
-					</div>
-				</div>
-			</div>
-	</form>
+							<c:choose>
+								<c:when test="${not empty sessionScope.profile}">
+									<div class="form-group">
+										<button class="btn btn-warning" type="submit" name="command" value="cb.delete_profile">Delete</button>
+										<button class="btn btn-success" type="submit" name="command" value="cb.upload_profile">Upload</button>
+										<button class="btn btn-danger" type="button"
+											data-dismiss="modal">Close</button>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<input type="hidden" name="command" value="cb.add_profile">
+									<button class="btn btn-danger" type="button"
+										data-dismiss="modal">Close</button>
+									<button class="btn btn-success" type="submit">Apply</button>
+								</c:otherwise>
+							</c:choose>
 
-	<form action="controllerServlet" method="get">
-		<div id="resumeModal" class="modal fade" tabindex="-1">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content ">
-					<div class="modal-header">
-						<h4 class="modal-title" style="color: orange;">Resume Form</h4>
-						<button class="close" type="button" data-dismiss="modal">
-							<i class="fa fa-close"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>SurName</th>
-									<th>NickName</th>
-									<th>e-mail</th>
-									<th>Role</th>
-									<th>Registered</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<input type="hidden" name="command" value="cb.add_resume">
-						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
-						<button class="btn btn-success" type="submit">Apply</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</form>
 
+	<!-- 	<form action="controllerServlet" method="get"> -->
+	<!-- 		<div id="resumeModal" class="modal fade" tabindex="-1"> -->
+	<!-- 			<div class="modal-dialog modal-lg"> -->
+	<!-- 				<div class="modal-content "> -->
+	<!-- 					<div class="modal-header"> -->
+	<!-- 						<h4 class="modal-title" style="color: orange;">Resume Form</h4> -->
+	<!-- 						<button class="close" type="button" data-dismiss="modal"> -->
+	<!-- 							<i class="fa fa-close"></i> -->
+	<!-- 						</button> -->
+	<!-- 					</div> -->
+	<!-- 					<div class="modal-body"> -->
+	<!-- 						<table class="table"> -->
+	<!-- 							<thead> -->
+	<!-- 								<tr> -->
+	<!-- 									<th>Name</th> -->
+	<!-- 									<th>SurName</th> -->
+	<!-- 									<th>NickName</th> -->
+	<!-- 									<th>e-mail</th> -->
+	<!-- 									<th>Role</th> -->
+	<!-- 									<th>Registered</th> -->
+	<!-- 								</tr> -->
+	<!-- 							</thead> -->
+	<!-- 						</table> -->
+	<!-- 					</div> -->
+	<!-- 					<div class="modal-footer"> -->
+	<!-- 						<input type="hidden" name="command" value="cb.add_resume"> -->
+	<!-- 						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button> -->
+	<!-- 						<button class="btn btn-success" type="submit">Apply</button> -->
+	<!-- 					</div> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</form> -->
 
 	<%@ include file="include/footer_include"%>
-
 
 </body>
 </html>

@@ -18,6 +18,7 @@ public class LogOut implements ICommand{
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		HttpSession httpSession = request.getSession();
 		httpSession.removeAttribute(ParamConst.USER_ATTRIBUTE);
+		httpSession.removeAttribute("profile");
 		goToPage = request.getRequestURI() + JSPPagePath.PATH_MAIN_PAGE_COMMAND;
 		response.sendRedirect(goToPage);
 	}

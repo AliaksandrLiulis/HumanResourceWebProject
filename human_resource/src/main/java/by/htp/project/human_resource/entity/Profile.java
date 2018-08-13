@@ -13,7 +13,7 @@ public class Profile implements Serializable{
 	private String phone;
 	private String residence;
 	private String workSpeciality;
-	private int workExpirience;
+	private String workExpirience;
 	private String education;
 	private String photoPath;
 	private String abouteUser;
@@ -70,11 +70,11 @@ public class Profile implements Serializable{
 		this.workSpeciality = workSpeciality;
 	}
 
-	public int getWorkExpirience() {
+	public String getWorkExpirience() {
 		return workExpirience;
 	}
 
-	public void setWorkExpirience(final int workExpirience) {
+	public void setWorkExpirience(final String workExpirience) {
 		this.workExpirience = workExpirience;
 	}
 
@@ -114,7 +114,7 @@ public class Profile implements Serializable{
 		result = prime * result + ((photoPath == null) ? 0 : photoPath.hashCode());
 		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
 		result = prime * result + ((residence == null) ? 0 : residence.hashCode());
-		result = prime * result + workExpirience;
+		result = prime * result + ((workExpirience == null) ? 0 : workExpirience.hashCode());
 		result = prime * result + ((workSpeciality == null) ? 0 : workSpeciality.hashCode());
 		return result;
 	}
@@ -165,7 +165,10 @@ public class Profile implements Serializable{
 				return false;
 		} else if (!residence.equals(other.residence))
 			return false;
-		if (workExpirience != other.workExpirience)
+		if (workExpirience == null) {
+			if (other.workExpirience != null)
+				return false;
+		} else if (!workExpirience.equals(other.workExpirience))
 			return false;
 		if (workSpeciality == null) {
 			if (other.workSpeciality != null)
@@ -174,10 +177,5 @@ public class Profile implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
 
 }

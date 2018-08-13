@@ -2,18 +2,24 @@ package by.htp.project.human_resource.entity;
 
 public class UserBuilder {
 	
-	
+	private int id;
 	private String name;
 	private String surName;
 	private String nickName;
 	private String email;
 	private String role;
 	private int avaliable;
-	private int profiles;
+	private int profile;
 	
 	public UserBuilder() {
 	}
-
+	
+	
+	public UserBuilder id(final int id) {
+		this.id = id;
+		return this;
+	}
+	
 	public UserBuilder name(final String name) {
 		this.name = name;
 		return this;
@@ -44,20 +50,21 @@ public class UserBuilder {
 		return this;
 	}
 	
-	public UserBuilder profiles(final int profiles) {
-		this.profiles = profiles;
+	public UserBuilder profile(final int profile) {
+		this.profile = profile;
 		return this;
 	}
 			
 	public User build() {
 		User user = new User();
+		user.setId(id);
 		user.setName(name);
 		user.setSurname(surName);
 		user.setNickName(nickName);
 		user.setEmail(email);
 		user.setRole(role);
 		user.setAvaliable(avaliable);	
-		user.setProfiles(profiles);
+		user.setProfiles(profile);
 		return user;
 	}
 }

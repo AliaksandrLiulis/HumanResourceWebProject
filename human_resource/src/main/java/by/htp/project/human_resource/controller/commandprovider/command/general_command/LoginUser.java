@@ -65,8 +65,6 @@ public class LoginUser implements ICommand {
 			if (list.size() == 2) {
 					user = (User) list.get(0);
 					profile = (Profile) list.get(1);
-					System.out.println(user);
-					System.out.println(profile);
 					if (user.getAvaliable() != 0) {
 						checkCommand = CheckCommand.getInstance();
 						session = request.getSession();

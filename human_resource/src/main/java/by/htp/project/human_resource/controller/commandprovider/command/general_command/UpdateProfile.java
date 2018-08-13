@@ -10,59 +10,52 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
-import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.service.factory.ServiceFactory;
 import by.htp.project.human_resource.service.interf.IServiceUser;
 
+public class UpdateProfile implements ICommand {
+	private HttpSession session = null;
 
-public class AddResume implements  ICommand{
-	
-	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String idUser = null;
-		String registrationDate = null;
-		String name = null;
-		String surName = null;
+		String id = null;
+		String photo = null;
+		String phone = null;
 		String dateOfBirthDay = null;
 		String residence = null;
-		String phone = null;
-		String email = null;
-		String education = null;
 		String workSpeciality = null;
 		String workExpirience = null;
-		String aboutUser = null;		
-		String photoPath = null;		
-		RequestDispatcher dispatcher = null;
-		User user = null;
+		String education = null;
+		String message = null;
+		String idUser = null;
+		Profile profile = null;
 		String goToPage = null;
-		
-		idUser = request.getParameter("userId");
-		registrationDate = request.getParameter("registrationDate");
-		name = request.getParameter("name");
-		surName = request.getParameter("surname");
-		dateOfBirthDay = request.getParameter("dateOfBirthDay");
-		residence = request.getParameter("residence");
-		phone = request.getParameter("phone");
-		email = request.getParameter("email");
-		education = request.getParameter("education");
-		workSpeciality = request.getParameter("workSpeciality");
-		workExpirience = request.getParameter("workExpirience");
-		aboutUser = request.getParameter("aboutUser");
-		photoPath = request.getParameter("photoPath");
-		
+		RequestDispatcher dispatcher = null;
+
 		ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 		IServiceUser serviceUser = serviceFactory.getServiceUser();
-		
-				
-		user = serviceUser.addResume(idUser, registrationDate, name, surName, dateOfBirthDay, residence, phone, email,
-				education, workSpeciality,workExpirience,aboutUser, photoPath);
-		session.removeAttribute("user");
-		session.setAttribute("user", user);
+
+		id = request.getParameter("user_id");
+		photo = request.getParameter("photo");
+		phone = request.getParameter("phone");
+		dateOfBirthDay = request.getParameter("dateOfBirthDay");
+		residence = request.getParameter("residence");
+		workSpeciality = request.getParameter("workSpeciality");
+		workExpirience = request.getParameter("workExpirience");
+		education = request.getParameter("education");
+		message = request.getParameter("message");
+
+		profile = serviceUser.updateProfile(id, photo, phone, dateOfBirthDay, residence, workSpeciality, workExpirience,
+				education, message);
+		session = request.getSession();
+		session.removeAttribute("profile");
 		goToPage = JSPPagePath.PATH_EMPLOYEE_PAGE;
+		session.setAttribute("profile", profile);
+
 		dispatcher = request.getRequestDispatcher(goToPage);
 		dispatcher.forward(request, response);
-				
+
 	}
+
 }

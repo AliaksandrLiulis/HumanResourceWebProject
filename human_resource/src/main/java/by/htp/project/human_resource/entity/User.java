@@ -13,12 +13,12 @@ public class User implements Serializable {
 	private String email;
 	private String role;
 	private int avaliable;
-	private int profile;
+	private int profileId;
+	private int resumeId;
 
-    User() {
-	}	
-    
-    
+	User() {
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -27,13 +27,9 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-
-
 	public void setProfile(int profile) {
-		this.profile = profile;
+		this.profileId = profile;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -81,8 +77,7 @@ public class User implements Serializable {
 
 	public void setAvaliable(final int avaliable) {
 		this.avaliable = avaliable;
-	}	
-	
+	}
 
 	public String getSurName() {
 		return surName;
@@ -92,14 +87,21 @@ public class User implements Serializable {
 		this.surName = surName;
 	}
 
-	public int getProfile() {
-		return profile;
+	public int getProfileId() {
+		return profileId;
 	}
 
-	public void setProfiles(int profile) {
-		this.profile = profile;
+	public void setProfileId(int profileId) {
+		this.profileId = profileId;
 	}
 
+	public int getResumeId() {
+		return resumeId;
+	}
+
+	public void setResumeId(int resumeId) {
+		this.resumeId = resumeId;
+	}
 
 	@Override
 	public int hashCode() {
@@ -110,12 +112,12 @@ public class User implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nickName == null) ? 0 : nickName.hashCode());
-		result = prime * result + profile;
+		result = prime * result + profileId;
+		result = prime * result + resumeId;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((surName == null) ? 0 : surName.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -145,7 +147,9 @@ public class User implements Serializable {
 				return false;
 		} else if (!nickName.equals(other.nickName))
 			return false;
-		if (profile != other.profile)
+		if (profileId != other.profileId)
+			return false;
+		if (resumeId != other.resumeId)
 			return false;
 		if (role == null) {
 			if (other.role != null)
@@ -160,5 +164,5 @@ public class User implements Serializable {
 		return true;
 	}
 
-	
+
 }

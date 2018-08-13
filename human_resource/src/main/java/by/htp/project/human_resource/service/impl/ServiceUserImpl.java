@@ -28,7 +28,7 @@ public class ServiceUserImpl implements IServiceUser {
 			try {
 				user = daoUser.searchUser(nickName, password);			
 				list.add(user);
-				if (user.getProfile() != 0) {
+				if (user.getProfileId() != 0) {
 					profile = daoUser.getProfile(user.getId());
 					list.add(profile);
 				}				
@@ -80,8 +80,8 @@ public class ServiceUserImpl implements IServiceUser {
 		String workSpeciality = params[5];
 		String workExpirience = params[6];
 		String education = params[7];
-		User user = null;
 		String message = params[8];
+		User user = null;		
 		List<Object> list = null;
 				
 		list = daoUser.addNewProfile(UserId, registration_date, photo, phone, birthDay, residence, workSpeciality, workExpirience, education, message);
@@ -93,6 +93,32 @@ public class ServiceUserImpl implements IServiceUser {
 		return daoUser.removeProfile(userId);
 		
 	}
+
+	@Override
+	public Profile updateProfile(final String... profileParams) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+		String UserId = profileParams[0];
+		String registration_date = dateFormat.format(new Date());		
+		String photo = profileParams[1];
+		String phone = profileParams[2];
+		String birthDay = profileParams[3];
+		String residence = profileParams[4];
+		String workSpeciality = profileParams[5];
+		String workExpirience = profileParams[6];
+		String education = profileParams[7];
+		String message = profileParams[8];
+		Profile profile = null;
+		profile = daoUser.updateOldProfile(UserId, registration_date, photo, phone, birthDay, residence, workSpeciality, workExpirience, education, message);
+		return profile;
+	}
+
+	@Override
+	public User addResume(String... resumeParams) {
+		User user = daoUser.addNewResume(resumeParams);
+		return user;
+		
+	}
+
 
 	
 }

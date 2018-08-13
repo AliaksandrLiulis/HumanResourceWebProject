@@ -9,7 +9,8 @@ public class UserBuilder {
 	private String email;
 	private String role;
 	private int avaliable;
-	private int profile;
+	private int profileId;
+	private int resumeId;
 	
 	public UserBuilder() {
 	}
@@ -50,8 +51,13 @@ public class UserBuilder {
 		return this;
 	}
 	
-	public UserBuilder profile(final int profile) {
-		this.profile = profile;
+	public UserBuilder profileId(final int profileId) {
+		this.profileId = profileId;
+		return this;
+	}
+	
+	public UserBuilder resumeId(final int resumeId) {
+		this.resumeId = resumeId;
 		return this;
 	}
 			
@@ -64,7 +70,8 @@ public class UserBuilder {
 		user.setEmail(email);
 		user.setRole(role);
 		user.setAvaliable(avaliable);	
-		user.setProfiles(profile);
+		user.setProfileId(profileId);
+		user.setResumeId(resumeId);
 		return user;
 	}
 }

@@ -67,7 +67,7 @@
 										data-toggle="dropdown" aria-haspopup="true"
 										aria-expanded="false">
 										<c:choose>
-											<c:when test="${user.profile!='0'}">
+											<c:when test="${user.profileId!='0'}">
 												<h6 style="color: green">My Profile</h6>
 											</c:when>
 											<c:otherwise>
@@ -77,7 +77,7 @@
 										<span class="caret"></span>
 									</button>
 									<c:choose>
-										<c:when test="${user.profile!='0'}">
+										<c:when test="${user.profileId!='0'}">
 											<ul class="dropdown-menu">
 												<li><a style="color: green" href="#profileModal"
 													class="btn btn-link" data-toggle="modal">Edit profile</a></li>
@@ -87,29 +87,42 @@
 											<ul class="dropdown-menu">
 												<li><a style="color: red" href="#profileModal"
 													class="btn btn-link" data-toggle="modal">Add profile</a></li>
-
 											</ul>
 										</c:otherwise>
 									</c:choose>
-
 								</ul></li>
-
 							<li><br>
 								<ul class="nav navbar-nav">
 									<button class="btn btn-link btn-lg" class="dropdown-toggle"
 										data-toggle="dropdown" aria-haspopup="true"
 										aria-expanded="false">
-										<h6 style="color: white">My Resume</h6>
+										<c:choose>
+											<c:when test="${user.resumeId!='0'}">
+												<h6 style="color: green">My Resume</h6>
+											</c:when>
+											<c:otherwise>
+												<h6 style="color: red">My Resume</h6>
+											</c:otherwise>
+										</c:choose>
 										<span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu">
-										<li><a style="color: black" href="#resumeModal"
-											class="btn btn-link" data-toggle="modal">Add resume</a></li>
-										</form>
-									</ul>
 
+									<c:choose>
+										<c:when test="${user.resumeId!='0'}">
+											<ul class="dropdown-menu">
+												<li><a style="color: green" href="#resumeModal"
+													class="btn btn-link" data-toggle="modal">Show resume</a></li>
+											</ul>
+										</c:when>
+										<c:otherwise>
+											<ul class="dropdown-menu">
+												<li><a style="color: red" href="#resumeModal"
+													class="btn btn-link" data-toggle="modal">Generate
+														resume</a></li>
+											</ul>
+										</c:otherwise>
+									</c:choose>
 								</ul></li>
-
 							<li><a>
 									<form "controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.main_page">
@@ -189,7 +202,7 @@
 				<div class="modal-content ">
 					<div class="modal-header">
 						<h4 class="modal-title" style="color: orange;">Profile Form</h4>
-						<h4 style="color: green;">${user.name}  ${user.surname}</h4>
+						<h4 style="color: green;">${user.name}${user.surname}</h4>
 						<button class="close" type="button" data-dismiss="modal">
 							<i class="fa fa-close"></i>
 						</button>
@@ -199,22 +212,30 @@
 							<div class="row">
 								<div class="col-md-8 col-sm-3 col-xs-3">
 									<c:choose>
-										<c:when test="${user.profile!='0'}">
+										<c:when test="${user.profileId!='0'}">
 
 											<div class="form-group">
-												<img src="img/slider/profile_photo/${profile.photoPath}"
-													alt="img" class="img-circle"> <br> <br>
+												<c:choose>
+													<c:when test="${not empty profile.photoPath}">
+														<img src="img/slider/profile_photo/${profile.photoPath}"
+															id="imagePath" alt="img" class="img-circle">
+													</c:when>
+													<c:otherwise>
+														<img src="img/slider/profile_photo/nobody.jpg" alt="img"
+															class="img-circle">
+													</c:otherwise>
+												</c:choose>
+												<br> <br>
 												<div class="form-group">
 													<input type="file" class="form-control-file" id="photo"
 														name="photo">
 												</div>
 												<br> <a><label for="phone">Phone:</label> <br>
-													<input id="phone" type="text"
-													class="bfh-phone"
-													data-format="+375 (17)dd-dd-dd" placeholder = ${profile.phone} name="phone"></a> <br>
+													<input id="phone" type="text" class="bfh-phone"
+													data-format="+375 (17)dd-dd-dd" name="phone"></a> <br>
 												<a><label for="dateOfBirthDay">Date Of BirthDay:</label>
-													<input type="date" class="form-control"
-													name="dateOfBirthDay"></a> <a><label
+													<input id="dateOfBirthDay" type="date" class="form-control"
+													name="dateOfBirthDay"></a> <br> <a><label
 													for="residence">Residence: </label> <select
 													class="form-control hidden-xs" id="residence"
 													name="residence">
@@ -272,13 +293,10 @@
 														<option>профессионально-техническое</option>
 														<option>высшее</option>
 												</select> </a> <a><label for="message">About you: </label> <textarea
-														class="form-control" name="message" rows="5"
-														data-rule="required" placeholder="${profile.abouteUser}"></textarea>
-												</a> <input type="hidden" name="user_id" value="${user.id}">
+														id="message" class="form-control" name="message" rows="5"
+														data-rule="required""></textarea> </a> <input type="hidden"
+													name="user_id" value="${user.id}">
 											</div>
-
-
-
 										</c:when>
 										<c:otherwise>
 											<div class="form-group">
@@ -363,8 +381,10 @@
 							<c:choose>
 								<c:when test="${not empty sessionScope.profile}">
 									<div class="form-group">
-										<button class="btn btn-warning" type="submit" name="command" value="cb.delete_profile">Delete</button>
-										<button class="btn btn-success" type="submit" name="command" value="cb.upload_profile">Update</button>
+										<button class="btn btn-warning" type="submit" name="command"
+											value="cb.delete_profile">Delete</button>
+										<button class="btn btn-success" type="submit" name="command"
+											value="cb.update_profile">Update</button>
 										<button class="btn btn-danger" type="button"
 											data-dismiss="modal">Close</button>
 									</div>
@@ -384,41 +404,101 @@
 		</div>
 	</form>
 
-	<!-- 	<form action="controllerServlet" method="get"> -->
-	<!-- 		<div id="resumeModal" class="modal fade" tabindex="-1"> -->
-	<!-- 			<div class="modal-dialog modal-lg"> -->
-	<!-- 				<div class="modal-content "> -->
-	<!-- 					<div class="modal-header"> -->
-	<!-- 						<h4 class="modal-title" style="color: orange;">Resume Form</h4> -->
-	<!-- 						<button class="close" type="button" data-dismiss="modal"> -->
-	<!-- 							<i class="fa fa-close"></i> -->
-	<!-- 						</button> -->
-	<!-- 					</div> -->
-	<!-- 					<div class="modal-body"> -->
-	<!-- 						<table class="table"> -->
-	<!-- 							<thead> -->
-	<!-- 								<tr> -->
-	<!-- 									<th>Name</th> -->
-	<!-- 									<th>SurName</th> -->
-	<!-- 									<th>NickName</th> -->
-	<!-- 									<th>e-mail</th> -->
-	<!-- 									<th>Role</th> -->
-	<!-- 									<th>Registered</th> -->
-	<!-- 								</tr> -->
-	<!-- 							</thead> -->
-	<!-- 						</table> -->
-	<!-- 					</div> -->
-	<!-- 					<div class="modal-footer"> -->
-	<!-- 						<input type="hidden" name="command" value="cb.add_resume"> -->
-	<!-- 						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button> -->
-	<!-- 						<button class="btn btn-success" type="submit">Apply</button> -->
-	<!-- 					</div> -->
-	<!-- 				</div> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 	</form> -->
+
+	<form action="controllerServlet" method="get">
+		<div id="resumeModal" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 align="center" class="modal-title" style="color: orange;">Resume</h4>
+						<br>
+						<h6 align="right" class="modal-title" style="color: black;">Created:
+							${profile.registrationDate}</h6>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div align="center">
+							<img src="img/slider/profile_photo/${profile.photoPath}"
+								id="imagePath" alt="img" class="img-circle">
+						</div>
+						<div class="form-group">
+							<a><label for="name">Name</label> <input type="text"
+								class="form-control" id="name" name="name"></a> <a><label
+								for="surname">SurName</label> <input type="text"
+								class="form-control" id="surname" name="surname"></a> <a><label
+								for="birthDayDate">BirthDay</label> <input type="text"
+								class="form-control" id="birthDayDate" name=dateOfBirthDay></a>
+							<a><label for="residenc">Residence</label> <input type="text"
+								class="form-control" id="residenc" name="residence"></a> <a><label
+								for="tel">Phone</label> <input type="text" class="form-control"
+								id="tel" name="phone"></a> <a><label for="email">E-mail</label>
+								<input type="email" class="form-control" id="email" name="email"></a>
+							<a><label for="educat">Education</label> <input type="text"
+								class="form-control" id="educat" name="education"></a> <a><label
+								for="speciality">Work Speciality</label> <input type="text"
+								class="form-control" id="speciality" name="workSpeciality"></a>
+							<a><label for="expirience">Work Expirience</label> <input
+								type="text" class="form-control" id="expirience"
+								name="workExpirience"></a> <a><label for="about">About:</label>
+								<input type="text" class="form-control" id="about"
+								name="aboutUser"></a> <input type="hidden" name="userId"
+								value="${user.id}"> <input type="hidden"
+								name="registrationDate" value="${profile.registrationDate}">
+							<input type="hidden" name="photoPath"
+								value="${profile.photoPath}">
+
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<c:choose>
+							<c:when test="${user.resumeId!='0'}">
+								<input type="hidden" name="command" value="cb.delete_resume">
+						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
+						<button class="btn btn-success" type="submit">Delete</button>
+							</c:when>
+							<c:otherwise>
+								<input type="hidden" name="command" value="cb.add_resume">
+								<button class="btn btn-danger" type="button"
+									data-dismiss="modal">Close</button>
+								<button class="btn btn-success" type="submit">Generate</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<c:out value="${profile.residence}"></c:out>
+
+
+
 
 	<%@ include file="include/footer_include"%>
+	<script type="text/javascript">
+		document.getElementById("phone").value = "${profile.phone}";
+		document.getElementById("message").value = "${profile.abouteUser}";
+		document.getElementById("dateOfBirthDay").value = "${profile.birthDayDate}";
+	</script>
+
+
+	<script type="text/javascript">
+		document.getElementById("name").value = "${user.name}";
+		document.getElementById("surname").value = "${user.surname}";
+		document.getElementById("residenc").value = "${profile.residence}";
+		document.getElementById("email").value = "${user.email}";
+		document.getElementById("birthDayDate").value = "${profile.birthDayDate}";
+		document.getElementById("educat").value = "${profile.education}";
+		document.getElementById("speciality").value = "${profile.workSpeciality}";
+		document.getElementById("expirience").value = "${profile.workExpirience}";
+		document.getElementById("tel").value = "${profile.phone}";
+		document.getElementById("about").value = "${profile.abouteUser}";
+	</script>
+
+
 
 </body>
 </html>

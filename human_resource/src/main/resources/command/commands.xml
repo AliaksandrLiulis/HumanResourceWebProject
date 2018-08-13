@@ -71,5 +71,10 @@
 		<key>cb.delete_profile</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteProfile</value>
 	</command>
+	<command>
+		<key>cb.update_profile</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.UpdateProfile</value>
+	</command>
+	
 		
 </commands>

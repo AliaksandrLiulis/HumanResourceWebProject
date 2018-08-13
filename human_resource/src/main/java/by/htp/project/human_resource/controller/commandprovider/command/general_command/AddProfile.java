@@ -77,6 +77,7 @@ public class AddProfile implements  ICommand{
 				session.setAttribute("user", user);
 				session.setAttribute("profile", profile);
 				
+				
 				dispatcher = request.getRequestDispatcher(goToPage);
 				dispatcher.forward(request, response);
 			} 

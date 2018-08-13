@@ -13,6 +13,8 @@ public interface IServiceUser {
 	List<User> getAllUser() throws ServiceException;
 	List<Object> addProfile(final String... params) throws ServiceException;
 	User deleteProfile(final int userId) throws ServiceException;
+	Profile updateProfile(final String... profileParams);
+	User addResume(String... resumeParams);
 	
 
 }

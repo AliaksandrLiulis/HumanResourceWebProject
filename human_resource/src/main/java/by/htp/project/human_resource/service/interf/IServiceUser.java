@@ -15,6 +15,7 @@ public interface IServiceUser {
 	User deleteProfile(final int userId) throws ServiceException;
 	Profile updateProfile(final String... profileParams);
 	User addResume(String... resumeParams);
+	User deleteResume(final int idUserResume);
 	
 
 }

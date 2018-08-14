@@ -119,6 +119,13 @@ public class ServiceUserImpl implements IServiceUser {
 		
 	}
 
+	@Override
+	public User deleteResume(int idUserResume) {
+		User user = null;
+		user = daoUser.deleteResume(idUserResume);
+		return user;
+	}
+
 
 	
 }

@@ -97,7 +97,7 @@
 										data-toggle="dropdown" aria-haspopup="true"
 										aria-expanded="false">
 										<c:choose>
-											<c:when test="${user.resumeId!='0'}">
+											<c:when test="${user.profileId!='0'}">
 												<h6 style="color: green">My Resume</h6>
 											</c:when>
 											<c:otherwise>
@@ -106,7 +106,7 @@
 										</c:choose>
 										<span class="caret"></span>
 									</button>
-
+									<c:if test="${user.profileId!='0'}">
 									<c:choose>
 										<c:when test="${user.resumeId!='0'}">
 											<ul class="dropdown-menu">
@@ -122,6 +122,7 @@
 											</ul>
 										</c:otherwise>
 									</c:choose>
+									</c:if>
 								</ul></li>
 							<li><a>
 									<form "controllerServlet" method="get">
@@ -458,6 +459,8 @@
 							<c:when test="${user.resumeId!='0'}">
 								<input type="hidden" name="command" value="cb.delete_resume">
 						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
+						<input type="hidden" name="command" value="cb.delete_resume">
+						<input type="hidden" name="userResumeId" value="${user.resumeId}">
 						<button class="btn btn-success" type="submit">Delete</button>
 							</c:when>
 							<c:otherwise>
@@ -472,7 +475,7 @@
 			</div>
 		</div>
 	</form>
-	<c:out value="${profile.residence}"></c:out>
+	
 
 
 

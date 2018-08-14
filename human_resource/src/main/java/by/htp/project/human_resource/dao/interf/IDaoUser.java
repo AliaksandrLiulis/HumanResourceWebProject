@@ -19,5 +19,6 @@ public interface IDaoUser {
 	User removeProfile(final int userId);
 	Profile updateOldProfile(final String...profileParams);
 	User addNewResume(String[] resumeParams);
+	User deleteResume(final int idUserResume);
 
 }

@@ -7,7 +7,7 @@ public class Profile implements Serializable{
 	
 	private static final long serialVersionUID = -859500360106064849L;
 	
-	private int id;
+	private int profileId;
 	private Date registrationDate;
 	private Date birthDayDate;
 	private String phone;
@@ -22,19 +22,19 @@ public class Profile implements Serializable{
 		
 	}
 
-	public int getId() {
-		return id;
+	public int getProfileId() {
+		return profileId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setProfileId(int profileId) {
+		this.profileId = profileId;
 	}
 
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(final Date registrationDate) {
+	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
@@ -42,7 +42,7 @@ public class Profile implements Serializable{
 		return birthDayDate;
 	}
 
-	public void setBirthDayDate(final Date birthDayDate) {
+	public void setBirthDayDate(Date birthDayDate) {
 		this.birthDayDate = birthDayDate;
 	}
 
@@ -50,7 +50,7 @@ public class Profile implements Serializable{
 		return phone;
 	}
 
-	public void setPhone(final String phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -58,7 +58,7 @@ public class Profile implements Serializable{
 		return residence;
 	}
 
-	public void setResidence(final String residence) {
+	public void setResidence(String residence) {
 		this.residence = residence;
 	}
 
@@ -66,7 +66,7 @@ public class Profile implements Serializable{
 		return workSpeciality;
 	}
 
-	public void setWorkSpeciality(final String workSpeciality) {
+	public void setWorkSpeciality(String workSpeciality) {
 		this.workSpeciality = workSpeciality;
 	}
 
@@ -74,7 +74,7 @@ public class Profile implements Serializable{
 		return workExpirience;
 	}
 
-	public void setWorkExpirience(final String workExpirience) {
+	public void setWorkExpirience(String workExpirience) {
 		this.workExpirience = workExpirience;
 	}
 
@@ -82,7 +82,7 @@ public class Profile implements Serializable{
 		return education;
 	}
 
-	public void setEducation(final String education) {
+	public void setEducation(String education) {
 		this.education = education;
 	}
 
@@ -90,7 +90,7 @@ public class Profile implements Serializable{
 		return photoPath;
 	}
 
-	public void setPhotoPath(final String photoPath) {
+	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
 	}
 
@@ -98,7 +98,7 @@ public class Profile implements Serializable{
 		return abouteUser;
 	}
 
-	public void setAbouteUser(final String abouteUser) {
+	public void setAbouteUser(String abouteUser) {
 		this.abouteUser = abouteUser;
 	}
 
@@ -109,9 +109,9 @@ public class Profile implements Serializable{
 		result = prime * result + ((abouteUser == null) ? 0 : abouteUser.hashCode());
 		result = prime * result + ((birthDayDate == null) ? 0 : birthDayDate.hashCode());
 		result = prime * result + ((education == null) ? 0 : education.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((photoPath == null) ? 0 : photoPath.hashCode());
+		result = prime * result + profileId;
 		result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
 		result = prime * result + ((residence == null) ? 0 : residence.hashCode());
 		result = prime * result + ((workExpirience == null) ? 0 : workExpirience.hashCode());
@@ -143,8 +143,6 @@ public class Profile implements Serializable{
 				return false;
 		} else if (!education.equals(other.education))
 			return false;
-		if (id != other.id)
-			return false;
 		if (phone == null) {
 			if (other.phone != null)
 				return false;
@@ -154,6 +152,8 @@ public class Profile implements Serializable{
 			if (other.photoPath != null)
 				return false;
 		} else if (!photoPath.equals(other.photoPath))
+			return false;
+		if (profileId != other.profileId)
 			return false;
 		if (registrationDate == null) {
 			if (other.registrationDate != null)
@@ -177,5 +177,4 @@ public class Profile implements Serializable{
 			return false;
 		return true;
 	}
-
 }

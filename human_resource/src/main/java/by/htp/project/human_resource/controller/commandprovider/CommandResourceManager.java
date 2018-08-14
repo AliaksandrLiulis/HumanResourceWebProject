@@ -22,8 +22,7 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public class CommandResourceManager {
 
-	private final static CommandResourceManager instance = new CommandResourceManager();
-	
+	private final static CommandResourceManager instance = new CommandResourceManager();	
 	private final Logger logger = LogManager.getLogger(CommandResourceManager.class);
 	private final XMLInputFactory xif = XMLInputFactory.newInstance();
 	private Map<String, ICommand> allcommand = new HashMap<>();

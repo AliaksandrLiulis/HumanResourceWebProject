@@ -1,131 +1,208 @@
 package by.htp.project.human_resource.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.IOException;
+
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.CheckCommand;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.factory.DaoFactory;
+import by.htp.project.human_resource.dao.interf.IDAOJodSeeker;
 import by.htp.project.human_resource.dao.interf.IDaoUser;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.service.constant.ServiceJspPagePath;
+import by.htp.project.human_resource.service.constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.exception.ServiceException;
 import by.htp.project.human_resource.service.interf.IServiceUser;
 
 public class ServiceUserImpl implements IServiceUser {
+
+	private final Logger logger = LogManager.getLogger(ServiceUserImpl.class);
+	private HttpSession session = null;
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
+	private final IDAOJodSeeker daoJodSeeker = daoFactory.getDaoJodSeeker();
 
-	public List<Object> logInUser(final String nickName, final String password) throws ServiceException {
+	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
+
+		String nickName = null;
+		String password = null;
+		String goToPage = null;
 		User user = null;
 		Profile profile = null;
-		List<Object> list = new ArrayList<>();
+		RequestDispatcher dispatcher = null;
+		CheckCommand checkCommand = null;
+
+		nickName = request.getParameter(ServiceParamConstant.NICKNAME_PARAM);
+		password = request.getParameter(ServiceParamConstant.PASSWORD_PARAM);
 
 		CheckLoginParam checkParam = CheckLoginParam.getCheckParam();
 		if (checkParam.check(nickName, password)) {
-			
 			try {
-				user = daoUser.searchUser(nickName, password);			
-				list.add(user);
-				if (user.getProfileId() != 0) {
-					profile = daoUser.getProfile(user.getId());
-					list.add(profile);
-				}				
-				return list;
+				user = daoUser.searchUser(nickName, password);
+				if (user != null) {
+					checkCommand = CheckCommand.getInstance();
+					session = request.getSession();
+					if (user.getAvaliable() != 0) {
+						session.setAttribute(ServiceParamConstant.USER_ATTRIBUTE, user);
+						if (user.getProfileId() != 0) {
+							profile = daoJodSeeker.getProfile(user.getId());
+							session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
+						}
+						try {
+							goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
+							response.sendRedirect(goToPage);
+						} catch (IOException e) {
+
+						}
+					} else {
+						try {
+							goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;
+							response.sendRedirect(goToPage);
+						} catch (IOException e) {
+
+						}
+					}
+				} else {
+					try {
+						goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+						request.setAttribute("incorrect_params_message", "User does't exist");
+						dispatcher = request.getRequestDispatcher(goToPage);
+						dispatcher.forward(request, response);
+					} catch (ServletException e) {
+
+					} catch (IOException e) {
+
+					}
+				}
 			} catch (DaoException e) {
-				throw new ServiceException("Service:method:logInUser" + e);
+
+			}
+		} else {
+			try {
+				goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+				request.setAttribute("incorrect_params_message", "params aren't correct");
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} catch (ServletException e) {
+
+			} catch (IOException e) {
+
 			}
 		}
-		return null;
 	}
 
 	@Override
-	public User registerUser(final String name, final String surname, final String nickName, final String password, final String email, final String role)
-			throws ServiceException {
-		CheckRegisterParam checkRegisterParam = CheckRegisterParam.getCheckParam();
-		if (checkRegisterParam.check(name, surname, nickName, password, email, role)) {
+	public void registerUser(final HttpServletRequest request, final HttpServletResponse response) {
+		String name = null;
+		String surname = null;
+		String nickName = null;
+		String password = null;
+		String email = null;
+		String role = null;
+		String goToPage = null;
+		User user = null;
+		RequestDispatcher dispatcher = null;
 
+		name = request.getParameter(ServiceParamConstant.NAME_PARAM);
+		surname = request.getParameter(ServiceParamConstant.SURNAME_PARAM);
+		nickName = request.getParameter(ServiceParamConstant.NICKNAME_PARAM);
+		password = request.getParameter(ServiceParamConstant.PASSWORD_PARAM);
+		email = request.getParameter(ServiceParamConstant.EMAIL_PARAM);
+		role = request.getParameter(ServiceParamConstant.ROLE_PARAM);
+
+		CheckRegisterParam checkRegisterParam = CheckRegisterParam.getCheckParam();
+
+		if (checkRegisterParam.check(name, surname, nickName, password, email, role)) {
 			try {
 				if (daoUser.searchUserNickName(nickName)) {
-					return daoUser.addUser(name, surname, nickName, password, email, role);
+					user = daoUser.addUser(name, surname, nickName, password, email, role);
+					if (user != null) {
+						goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;
+						try {
+							response.sendRedirect(goToPage);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+						request.setAttribute("existuser", "user isn't create");
+						dispatcher = request.getRequestDispatcher(goToPage);
+					}
+				} else {
+					goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+					request.setAttribute("existuser", "exist user");
+					dispatcher = request.getRequestDispatcher(goToPage);
+					try {
+						dispatcher.forward(request, response);
+					} catch (ServletException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			} catch (DaoException e) {
-				throw new ServiceException("Service:method:registerUser" + e);
+
 			}
-		}
-		return null;
+		} else
+			try {
+				goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+
+				request.setAttribute("incorrect_params_message", "params aren't correct");
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} catch (ServletException e) {
+
+			} catch (IOException e) {
+
+			}
+
 	}
 
+	@Override
+	public void logOutUser(HttpServletRequest request, HttpServletResponse response) {
+		String goToPage = null;
+		session = request.getSession();
+		session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
+		session.removeAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE);
+		try {
+			goToPage = request.getRequestURI() + JSPPagePath.PATH_MAIN_PAGE_COMMAND;
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+
+		}
+	}	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public List<User> getAllUser() throws ServiceException {
 		List<User> allUserBase = null;
-		allUserBase = daoUser.getAllUserBase();
+		allUserBase = daoJodSeeker.getAllUserBase();
 		if (allUserBase.size() == 0) {
 			throw new ServiceException("Base is Empty");
-		}else {
+		} else {
 			return allUserBase;
-		}		
+		}
 	}
 
-	@Override
-	public List<Object> addProfile(final String... params) throws ServiceException {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-		String UserId = params[0];
-		String registration_date = dateFormat.format(new Date());		
-		String photo = params[1];
-		String phone = params[2];
-		String birthDay = params[3];
-		String residence = params[4];
-		String workSpeciality = params[5];
-		String workExpirience = params[6];
-		String education = params[7];
-		String message = params[8];
-		User user = null;		
-		List<Object> list = null;
-				
-		list = daoUser.addNewProfile(UserId, registration_date, photo, phone, birthDay, residence, workSpeciality, workExpirience, education, message);
-		return list;
-	}
-
-	@Override
-	public User deleteProfile(int userId) throws ServiceException {
-		return daoUser.removeProfile(userId);
-		
-	}
-
-	@Override
-	public Profile updateProfile(final String... profileParams) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-		String UserId = profileParams[0];
-		String registration_date = dateFormat.format(new Date());		
-		String photo = profileParams[1];
-		String phone = profileParams[2];
-		String birthDay = profileParams[3];
-		String residence = profileParams[4];
-		String workSpeciality = profileParams[5];
-		String workExpirience = profileParams[6];
-		String education = profileParams[7];
-		String message = profileParams[8];
-		Profile profile = null;
-		profile = daoUser.updateOldProfile(UserId, registration_date, photo, phone, birthDay, residence, workSpeciality, workExpirience, education, message);
-		return profile;
-	}
-
-	@Override
-	public User addResume(String... resumeParams) {
-		User user = daoUser.addNewResume(resumeParams);
-		return user;
-		
-	}
-
-	@Override
-	public User deleteResume(int idUserResume) {
-		User user = null;
-		user = daoUser.deleteResume(idUserResume);
-		return user;
-	}
-
-
-	
 }

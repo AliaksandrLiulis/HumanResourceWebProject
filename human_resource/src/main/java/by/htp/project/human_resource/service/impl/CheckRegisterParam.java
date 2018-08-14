@@ -14,7 +14,7 @@ public class CheckRegisterParam {
 	public boolean check(final String... params) {
 		for (String param : params) {
 			param.trim();
-			if (param.equals(null) || param.length() <= 0 || param.length() > 15) {
+			if (param.equals(null) || param.length() <= 0 || param.length() > 30) {
 				return false;
 			}
 		}		

@@ -8,13 +8,11 @@ public class ParamConst {
 	public final static String EMPLOYEE_ROLE = "employee";	
 	public final static String LOCALE = "local";	
 	public final static String COMMAND = "command";	
-	public final static String USER_ATTRIBUTE = "user";
-	public final static String NAMEPARAM = "name";
-	public final static String SURNAMEPARAM = "surname";
-	public final static String NICKNAMEPARAM = "nickName";
-	public final static String PASSWORDPARAM = "password";
-	public final static String EMAILPARAM = "email";
-	public final static String ROLEPARAM = "role";
+	
+	
+	
+	
+
 	
 
 }

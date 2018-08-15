@@ -107,21 +107,21 @@
 										<span class="caret"></span>
 									</button>
 									<c:if test="${user.profileId!='0'}">
-									<c:choose>
-										<c:when test="${user.resumeId!='0'}">
-											<ul class="dropdown-menu">
-												<li><a style="color: green" href="#resumeModal"
-													class="btn btn-link" data-toggle="modal">Show resume</a></li>
-											</ul>
-										</c:when>
-										<c:otherwise>
-											<ul class="dropdown-menu">
-												<li><a style="color: red" href="#resumeModal"
-													class="btn btn-link" data-toggle="modal">Generate
-														resume</a></li>
-											</ul>
-										</c:otherwise>
-									</c:choose>
+										<c:choose>
+											<c:when test="${user.resumeId!='0'}">
+												<ul class="dropdown-menu">
+													<li><a style="color: green" href="#resumeModal"
+														class="btn btn-link" data-toggle="modal">Show resume</a></li>
+												</ul>
+											</c:when>
+											<c:otherwise>
+												<ul class="dropdown-menu">
+													<li><a style="color: red" href="#resumeModal"
+														class="btn btn-link" data-toggle="modal">Generate
+															resume</a></li>
+												</ul>
+											</c:otherwise>
+										</c:choose>
 									</c:if>
 								</ul></li>
 							<li><a>
@@ -203,7 +203,7 @@
 				<div class="modal-content ">
 					<div class="modal-header">
 						<h4 class="modal-title" style="color: orange;">Profile Form</h4>
-						<h4 style="color: green;">${user.name}${user.surname}</h4>
+						<h4 style="color: green;">${user.name}${user.surName}</h4>
 						<button class="close" type="button" data-dismiss="modal">
 							<i class="fa fa-close"></i>
 						</button>
@@ -214,29 +214,28 @@
 								<div class="col-md-8 col-sm-3 col-xs-3">
 									<c:choose>
 										<c:when test="${user.profileId!='0'}">
-
 											<div class="form-group">
 												<c:choose>
 													<c:when test="${not empty profile.photoPath}">
 														<img src="img/slider/profile_photo/${profile.photoPath}"
-															id="imagePath" alt="img" class="img-circle">
+															alt="${profile.photoPath}" class="img-circle">
 													</c:when>
 													<c:otherwise>
-														<img src="img/slider/profile_photo/nobody.jpg" alt="img"
-															class="img-circle">
+														<img src="img/slider/profile_photo/nobody.jpg"
+															alt="nobody" class="img-circle">
 													</c:otherwise>
 												</c:choose>
 												<br> <br>
 												<div class="form-group">
-													<input type="file" class="form-control-file" id="photo"
-														name="photo">
+													<input type="file" class="form-control-file" id="photopath"
+														name="photopath">
 												</div>
 												<br> <a><label for="phone">Phone:</label> <br>
 													<input id="phone" type="text" class="bfh-phone"
 													data-format="+375 (17)dd-dd-dd" name="phone"></a> <br>
-												<a><label for="dateOfBirthDay">Date Of BirthDay:</label>
-													<input id="dateOfBirthDay" type="date" class="form-control"
-													name="dateOfBirthDay"></a> <br> <a><label
+												<a><label for="birthdaydate">Date Of BirthDay:</label> <input
+													id="birthdaydate" type="date" class="form-control"
+													name="birthdaydate"></a> <br> <a><label
 													for="residence">Residence: </label> <select
 													class="form-control hidden-xs" id="residence"
 													name="residence">
@@ -254,9 +253,9 @@
 														<option>Могилёв</option>
 														<option>Могилёвская область</option>
 														<option>Другое</option>
-												</select> </a> <a><label for="workSpeciality">Work
+												</select> </a> <a><label for="workspeciality">Work
 														speciality: </label> <select class="form-control hidden-xs"
-													id="workSpeciality" name="workSpeciality">
+													id="workspeciality" name="workspeciality">
 														<option selected>${profile.workSpeciality}</option>
 														<option>шахтер</option>
 														<option>автомеханик</option>
@@ -269,9 +268,9 @@
 														<option>слесарь</option>
 														<option>стропальщик</option>
 														<option>штукатур</option>
-												</select> </a> <a><label for="workExpirience">Work
+												</select> </a> <a><label for="workexpirience">Work
 														expirience: </label> <select class="form-control hidden-xs"
-													id="workExpirience" name="workExpirience">
+													id="workexpirience" name="workexpirience">
 														<option selected>${profile.workExpirience}</option>
 														<option>Без опыта работы</option>
 														<option>до 1 года</option>
@@ -293,10 +292,10 @@
 														<option>специальное</option>
 														<option>профессионально-техническое</option>
 														<option>высшее</option>
-												</select> </a> <a><label for="message">About you: </label> <textarea
-														id="message" class="form-control" name="message" rows="5"
-														data-rule="required""></textarea> </a> <input type="hidden"
-													name="user_id" value="${user.id}">
+												</select> </a> <a><label for="aboutuser">About you: </label> <textarea
+														id="aboutuser" class="form-control" name="aboutuser"
+														rows="5" data-rule="required"></textarea> </a> <input
+													type="hidden" name="userid" value="${user.userId}">
 											</div>
 										</c:when>
 										<c:otherwise>
@@ -370,7 +369,7 @@
 														class="form-control" name="message" rows="5"
 														data-rule="required" required
 														placeholder="Please write something about yourSelf:"></textarea>
-												</a> <input type="hidden" name="user_id" value="${user.id}">
+												</a> <input type="hidden" name="userid" value="${user.userId}">
 											</div>
 										</c:otherwise>
 									</c:choose>
@@ -429,8 +428,8 @@
 								class="form-control" id="name" name="name"></a> <a><label
 								for="surname">SurName</label> <input type="text"
 								class="form-control" id="surname" name="surname"></a> <a><label
-								for="birthDayDate">BirthDay</label> <input type="text"
-								class="form-control" id="birthDayDate" name=dateOfBirthDay></a>
+								for="birthdaydate">BirthDay</label> <input type="text"
+								class="form-control" id="birthdaydate" name=birthdaydate></a>
 							<a><label for="residenc">Residence</label> <input type="text"
 								class="form-control" id="residenc" name="residence"></a> <a><label
 								for="tel">Phone</label> <input type="text" class="form-control"
@@ -439,13 +438,13 @@
 							<a><label for="educat">Education</label> <input type="text"
 								class="form-control" id="educat" name="education"></a> <a><label
 								for="speciality">Work Speciality</label> <input type="text"
-								class="form-control" id="speciality" name="workSpeciality"></a>
+								class="form-control" id="speciality" name="workspeciality"></a>
 							<a><label for="expirience">Work Expirience</label> <input
 								type="text" class="form-control" id="expirience"
-								name="workExpirience"></a> <a><label for="about">About:</label>
+								name="workexpirience"></a> <a><label for="about">About:</label>
 								<input type="text" class="form-control" id="about"
-								name="aboutUser"></a> <input type="hidden" name="userId"
-								value="${user.id}"> <input type="hidden"
+								name="abouteuser"></a> <input type="hidden" name="userId"
+								value="${user.userId}"> <input type="hidden"
 								name="registrationDate" value="${profile.registrationDate}">
 							<input type="hidden" name="photoPath"
 								value="${profile.photoPath}">
@@ -458,10 +457,11 @@
 						<c:choose>
 							<c:when test="${user.resumeId!='0'}">
 								<input type="hidden" name="command" value="cb.delete_resume">
-						<button class="btn btn-danger" type="button" data-dismiss="modal">Close</button>
-						<input type="hidden" name="command" value="cb.delete_resume">
-						<input type="hidden" name="userResumeId" value="${user.resumeId}">
-						<button class="btn btn-success" type="submit">Delete</button>
+								<button class="btn btn-danger" type="button"
+									data-dismiss="modal">Close</button>
+								<input type="hidden" name="command" value="cb.delete_resume">
+								<input type="hidden" name="resumeid" value="${user.resumeId}">
+								<button class="btn btn-success" type="submit">Delete</button>
 							</c:when>
 							<c:otherwise>
 								<input type="hidden" name="command" value="cb.add_resume">
@@ -475,7 +475,7 @@
 			</div>
 		</div>
 	</form>
-	
+
 
 
 

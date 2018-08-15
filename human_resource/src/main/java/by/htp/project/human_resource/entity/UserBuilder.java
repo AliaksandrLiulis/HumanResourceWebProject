@@ -2,7 +2,7 @@ package by.htp.project.human_resource.entity;
 
 public class UserBuilder {
 	
-	private int id;
+	private int userId;
 	private String name;
 	private String surName;
 	private String nickName;
@@ -16,8 +16,8 @@ public class UserBuilder {
 	}
 	
 	
-	public UserBuilder id(final int id) {
-		this.id = id;
+	public UserBuilder userId(final int id) {
+		this.userId = id;
 		return this;
 	}
 	
@@ -63,7 +63,7 @@ public class UserBuilder {
 			
 	public User build() {
 		User user = new User();
-		user.setId(id);
+		user.setUserId(userId);
 		user.setName(name);
 		user.setSurname(surName);
 		user.setNickName(nickName);

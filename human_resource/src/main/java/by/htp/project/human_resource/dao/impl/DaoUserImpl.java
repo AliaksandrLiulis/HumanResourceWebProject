@@ -29,10 +29,10 @@ public class DaoUserImpl implements IDaoUser {
 	private Map<String, Integer> allRolles = null;
 
 
-	private final String SEARCH_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
-	private final String GET_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profile, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.iduser = ?";
-	private final String SEARCH_USER_NICKNAME = "SELECT nickname from users  where nickname = ?";
-	private final String ADD_USER = "INSERT into users (nickName ,name,  surname, password , avaliable, email, userroles_iduserrole, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
+	private final String SEARCH_USER = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.roleId = userroles.rolesId where users.nickName = ? and users.password = ?";
+	private final String GET_USER = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.roleId = userroles.rolesId where users.userId = ?";
+	private final String SEARCH_USER_NICKNAME = "SELECT nickName from users  where nickName = ?";
+	private final String ADD_USER = "INSERT into users (nickName ,name,  surName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
 	private final String GET_ALL_USER_BASE = "SELECT * FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole";
 	private final String ADD_NEW_PROFILE = "INSERT into profile (registration_date ,birth_date,  phone, residence , work_speciality, work_expirience, education, photo, about_user, id_user ) VALUES (?,?,?,?,?,?,?,?,?,?)";
 	private final String GET_PROFILE_ID = "SELECT idprofiles from profile where profile.id_user = ?";
@@ -58,8 +58,8 @@ public class DaoUserImpl implements IDaoUser {
 	public User searchUser(final String nickName, final String password) throws DaoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		ResultSet result = null;
-		User user = null;
+		ResultSet result = null;		
+		User user = null;		
 		
 		try {
 			connection = connectionPool.takeConnection();
@@ -70,7 +70,7 @@ public class DaoUserImpl implements IDaoUser {
 
 			while (result.next()) {
 
-				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7))).resumeId(result.getInt(8))
 						.role(result.getString(9)).build();
@@ -200,6 +200,38 @@ public class DaoUserImpl implements IDaoUser {
 			}
 		}
 		return numForSql;
+	}
+	
+	public Profile getProfile(int idUser) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		Profile profile = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(GET_EXIST_PROFILE);
+			preparedStatement.setInt(1, idUser);
+			result = preparedStatement.executeQuery();
+			while (result.next()) {
+				profile = new ProfileBuilder().profileId(result.getInt(1)).registrationDate(result.getDate(2))
+						.birthDayDate(result.getDate(3)).phone(result.getString(4)).residence(result.getString(5))
+						.workSpeciality(result.getString(6)).workExpirience(result.getString(7))
+						.education(result.getString(8)).photoPath(result.getString(9)).abouteUser(result.getString(10))
+						.build();
+			}
+
+		} catch (InterruptedException e) {
+			logger.error("DaoUserImpl: getProfile: Connection interrupted: " + e);
+			new DaoException("error");
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: getProfile: SQL error: " + e);
+			new DaoException("error");
+		} finally {
+			closeResources(preparedStatement, result, connection, "getProfile");
+
+		}
+		return profile;
 	}
 	
 	

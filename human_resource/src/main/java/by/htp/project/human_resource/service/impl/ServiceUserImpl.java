@@ -2,39 +2,30 @@ package by.htp.project.human_resource.service.impl;
 
 import java.io.IOException;
 
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
-import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
 import by.htp.project.human_resource.controller.commandprovider.command.general_command.CheckCommand;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.factory.DaoFactory;
-import by.htp.project.human_resource.dao.interf.IDAOJodSeeker;
 import by.htp.project.human_resource.dao.interf.IDaoUser;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.service.constant.ServiceCommandConstant;
 import by.htp.project.human_resource.service.constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.constant.ServiceParamConstant;
-import by.htp.project.human_resource.service.exception.ServiceException;
 import by.htp.project.human_resource.service.interf.IServiceUser;
 
 public class ServiceUserImpl implements IServiceUser {
 
-	private final Logger logger = LogManager.getLogger(ServiceUserImpl.class);
 	private HttpSession session = null;
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
-	private final IDAOJodSeeker daoJodSeeker = daoFactory.getDaoJodSeeker();
-
+	
 	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
 
 		String nickName = null;
@@ -58,7 +49,7 @@ public class ServiceUserImpl implements IServiceUser {
 					if (user.getAvaliable() != 0) {
 						session.setAttribute(ServiceParamConstant.USER_ATTRIBUTE, user);
 						if (user.getProfileId() != 0) {
-							profile = daoJodSeeker.getProfile(user.getId());
+							profile = daoUser.getProfile(user.getUserId());
 							session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
 						}
 						try {
@@ -69,7 +60,7 @@ public class ServiceUserImpl implements IServiceUser {
 						}
 					} else {
 						try {
-							goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;
+							goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
 
@@ -130,7 +121,7 @@ public class ServiceUserImpl implements IServiceUser {
 				if (daoUser.searchUserNickName(nickName)) {
 					user = daoUser.addUser(name, surname, nickName, password, email, role);
 					if (user != null) {
-						goToPage = request.getRequestURI() + CommandConst.EXPECT_COMMAND;
+						goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
 						try {
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
@@ -149,11 +140,9 @@ public class ServiceUserImpl implements IServiceUser {
 					try {
 						dispatcher.forward(request, response);
 					} catch (ServletException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						
 					}
 				}
 			} catch (DaoException e) {
@@ -181,28 +170,10 @@ public class ServiceUserImpl implements IServiceUser {
 		session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 		session.removeAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE);
 		try {
-			goToPage = request.getRequestURI() + JSPPagePath.PATH_MAIN_PAGE_COMMAND;
+			goToPage = request.getRequestURI() + ServiceCommandConstant.PATH_MAIN_PAGE_COMMAND;
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
 
 		}
 	}	
-	
-	
-	
-	
-	
-	
-	
-	@Override
-	public List<User> getAllUser() throws ServiceException {
-		List<User> allUserBase = null;
-		allUserBase = daoJodSeeker.getAllUserBase();
-		if (allUserBase.size() == 0) {
-			throw new ServiceException("Base is Empty");
-		} else {
-			return allUserBase;
-		}
-	}
-
 }

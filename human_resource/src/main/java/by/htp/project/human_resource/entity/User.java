@@ -6,7 +6,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 5242719719164225740L;
 
-	private int id;
+	private int userId;
 	private String name;
 	private String surName;
 	private String nickName;
@@ -19,13 +19,15 @@ public class User implements Serializable {
 	User() {
 	}
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
+
+
 
 	public void setProfile(int profile) {
 		this.profileId = profile;
@@ -109,13 +111,13 @@ public class User implements Serializable {
 		int result = 1;
 		result = prime * result + avaliable;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nickName == null) ? 0 : nickName.hashCode());
 		result = prime * result + profileId;
 		result = prime * result + resumeId;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((surName == null) ? 0 : surName.hashCode());
+		result = prime * result + userId;
 		return result;
 	}
 
@@ -134,8 +136,6 @@ public class User implements Serializable {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (id != other.id)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -161,8 +161,12 @@ public class User implements Serializable {
 				return false;
 		} else if (!surName.equals(other.surName))
 			return false;
+		if (userId != other.userId)
+			return false;
 		return true;
 	}
+
+	
 
 
 }

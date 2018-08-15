@@ -10,13 +10,14 @@ import by.htp.project.human_resource.service.factory.ServiceFactory;
 import by.htp.project.human_resource.service.interf.IServiceJobSeeker;
 
 public class AddProfile implements ICommand {
+	
+	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
 
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-
-		ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-		IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
+		
 		jobSeeker.addProfile(request, response);
 	}
 }

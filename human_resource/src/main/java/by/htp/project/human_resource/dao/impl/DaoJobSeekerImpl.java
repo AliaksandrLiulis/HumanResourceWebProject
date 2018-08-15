@@ -14,21 +14,21 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import by.htp.project.human_resource.dao.exception.DaoException;
-import by.htp.project.human_resource.dao.interf.IDAOJodSeeker;
+import by.htp.project.human_resource.dao.interf.IDAOJobSeeker;
 import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.ProfileBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 
-public class DaoJobSeekerImpl implements IDAOJodSeeker {
+public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	private final Logger logger = LogManager.getLogger(DaoJobSeekerImpl.class);
 	private ConnectionPool connectionPool = null;
 	private Map<String, Integer> allRolles = null;
 
 	private final String SEARCH_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
-	private final String GET_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profile, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.iduser = ?";
+	private final String GET_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.iduser = ?";
 	private final String SEARCH_USER_NICKNAME = "SELECT nickname from users  where nickname = ?";
 	private final String ADD_USER = "INSERT into users (nickName ,name,  surname, password , avaliable, email, userroles_iduserrole, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
 	private final String GET_ALL_USER_BASE = "SELECT * FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole";
@@ -39,7 +39,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 	private final String DELETE_PROFILE = "DELETE FROM profile where id_user = ?";
 	private final String UPDATE_FIELD_FROM_USER = "UPDATE users  SET profile=? , resumeId=? where iduser=?";
 	private final String UPDATE_OLD_PROFILE = "UPDATE profile SET registration_date = ?, birth_date = ?,phone = ?, residence = ?, work_speciality = ?, work_expirience = ?, education = ?, photo = ?, about_user = ? where id_user = ?";
-	private final String ADD_NEW_RESUME = "INSERT into resume (idUser ,registrationDate,  name, surName , dateOfBirthDay, residence, phone, email, education, workSpeciality, workExpirience, aboutUser, photoPath ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private final String ADD_NEW_RESUME = "INSERT into resume (name, surName, email, registrationDate, birthDayDate, phone,residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private final String GET_RESUMEE_ID = "SELECT idresume from resume where resume.idUser = ?";
 	private final String SET_ID_RESUME_FOR_USER = "UPDATE users SET resumeId=? where iduser=?";
 	private final String DELETE_RESUME = "DELETE FROM resume where idUser = ?";
@@ -91,7 +91,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();
@@ -234,7 +234,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();
@@ -313,16 +313,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			preparedStatement.setString(10, profileParams[0]);
 			preparedStatement.executeUpdate();
 
-//			System.out.println(profileParams[1]);
-//			System.out.println(profileParams[4]);
-//			System.out.println(profileParams[3]);
-//			System.out.println(profileParams[5]);
-//			System.out.println(profileParams[6]);
-//			System.out.println(profileParams[7]);
-//			System.out.println(profileParams[8]);
-//			System.out.println(profileParams[2]);
-//			System.out.println(profileParams[9]);
-//			System.out.println(profileParams[0]);
+
 
 			profile = getProfile(userId);
 
@@ -356,7 +347,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 	}
 
 	@Override
-	public User addNewResume(String[] resumeParams) {
+	public User addNewResume(String... resumeParams) {
 		int resumeId = 0;
 		User user = null;
 		Connection connection = null;
@@ -366,9 +357,8 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 		try {
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
-
 			preparedStatement = connection.prepareStatement(ADD_NEW_RESUME);
-			preparedStatement.setInt(1, Integer.parseInt(resumeParams[0]));
+			preparedStatement.setString(1, resumeParams[0]);
 			preparedStatement.setString(2, resumeParams[1]);
 			preparedStatement.setString(3, resumeParams[2]);
 			preparedStatement.setString(4, resumeParams[3]);
@@ -380,7 +370,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			preparedStatement.setString(10, resumeParams[9]);
 			preparedStatement.setString(11, resumeParams[10]);
 			preparedStatement.setString(12, resumeParams[11]);
-			preparedStatement.setString(13, resumeParams[12]);
+			preparedStatement.setInt(13, Integer.parseInt(resumeParams[12]));
 			preparedStatement.executeUpdate();
 
 			preparedStatement = connection.prepareStatement(GET_RESUMEE_ID);
@@ -400,7 +390,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();
@@ -456,7 +446,7 @@ public class DaoJobSeekerImpl implements IDAOJodSeeker {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				user = new UserBuilder().id(Integer.parseInt(result.getString(1))).name(result.getString(2))
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();

@@ -8,5 +8,5 @@ public interface IDaoUser {
 	User searchUser(final String nickName, final String password) throws DaoException;	
 	boolean searchUserNickName(final String nickName) throws DaoException;
 	User addUser(final String... userParams) throws DaoException;
-	Profile getProfile(final int idUser);
+	Profile getProfile(final int idUser) throws DaoException;
 }

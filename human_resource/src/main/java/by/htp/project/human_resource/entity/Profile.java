@@ -16,7 +16,7 @@ public class Profile implements Serializable{
 	private String workExpirience;
 	private String education;
 	private String photoPath;
-	private String abouteUser;
+	private String aboutUser;
 	
 	Profile() {
 		
@@ -94,19 +94,20 @@ public class Profile implements Serializable{
 		this.photoPath = photoPath;
 	}
 
-	public String getAbouteUser() {
-		return abouteUser;
+	
+	public String getAboutUser() {
+		return aboutUser;
 	}
 
-	public void setAbouteUser(String abouteUser) {
-		this.abouteUser = abouteUser;
+	public void setAboutUser(String aboutUser) {
+		this.aboutUser = aboutUser;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((abouteUser == null) ? 0 : abouteUser.hashCode());
+		result = prime * result + ((aboutUser == null) ? 0 : aboutUser.hashCode());
 		result = prime * result + ((birthDayDate == null) ? 0 : birthDayDate.hashCode());
 		result = prime * result + ((education == null) ? 0 : education.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
@@ -128,10 +129,10 @@ public class Profile implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Profile other = (Profile) obj;
-		if (abouteUser == null) {
-			if (other.abouteUser != null)
+		if (aboutUser == null) {
+			if (other.aboutUser != null)
 				return false;
-		} else if (!abouteUser.equals(other.abouteUser))
+		} else if (!aboutUser.equals(other.aboutUser))
 			return false;
 		if (birthDayDate == null) {
 			if (other.birthDayDate != null)

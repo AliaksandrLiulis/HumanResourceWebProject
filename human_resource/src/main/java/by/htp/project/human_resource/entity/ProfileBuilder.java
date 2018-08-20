@@ -13,7 +13,7 @@ public class ProfileBuilder {
 	private String workExpirience;
 	private String education;
 	private String photoPath;
-	private String abouteUser;
+	private String aboutUser;
 
 	public ProfileBuilder() {
 
@@ -59,8 +59,8 @@ public class ProfileBuilder {
 		return this;
 	}
 
-	public ProfileBuilder abouteUser(final String abouteUser) {
-		this.abouteUser = abouteUser;
+	public ProfileBuilder aboutUser(final String aboutUser) {
+		this.aboutUser = aboutUser;
 		return this;
 	}
 
@@ -80,7 +80,7 @@ public class ProfileBuilder {
 		profile.setWorkExpirience(workExpirience);
 		profile.setEducation(education);
 		profile.setPhotoPath(photoPath);
-		profile.setAbouteUser(abouteUser);
+		profile.setAboutUser(aboutUser);
 
 		return profile;
 	}

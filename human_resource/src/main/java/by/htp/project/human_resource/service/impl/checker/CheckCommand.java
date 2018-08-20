@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.controller.commandprovider.command.general_command;
+package by.htp.project.human_resource.service.impl.checker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,8 @@ import java.util.Set;
 import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
 import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.ParamConst;
+import by.htp.project.human_resource.service.constant.ServiceCommandConstant;
+import by.htp.project.human_resource.service.constant.ServiceParamConstant;
 
 public class CheckCommand {
 
@@ -52,19 +54,19 @@ public class CheckCommand {
 
 	private Map<String, String> setRolesForCommand() {
 		allRollesForCommand = new HashMap<String, String>();
-		allRollesForCommand.put(ParamConst.ADMIN_ROLE, CommandConst.ADMIN_COMMAND);
-		allRollesForCommand.put(ParamConst.BOSS_ROLE, CommandConst.BOSS_COMMAND);
-		allRollesForCommand.put(ParamConst.HR_ROLE, CommandConst.HR_COMMAND);
-		allRollesForCommand.put(ParamConst.EMPLOYEE_ROLE, CommandConst.EMPLOYEE_COMMAND);
+		allRollesForCommand.put(ServiceParamConstant.ADMIN_ROLE, ServiceCommandConstant.ADMIN_COMMAND);
+		allRollesForCommand.put(ServiceParamConstant.BOSS_ROLE, ServiceCommandConstant.BOSS_COMMAND);
+		allRollesForCommand.put(ServiceParamConstant.HR_ROLE, ServiceCommandConstant.HR_COMMAND);
+		allRollesForCommand.put(ServiceParamConstant.EMPLOYEE_ROLE, ServiceCommandConstant.EMPLOYEE_COMMAND);
 		return allRollesForCommand;
 	}
 	
 	private Map<String, String> setRolesForPath() {
 		allRollesForPath = new HashMap<String, String>();
-		allRollesForPath.put(ParamConst.ADMIN_ROLE, JSPPagePath.PATH_ADMIN_PAGE);
-		allRollesForPath.put(ParamConst.BOSS_ROLE, JSPPagePath.PATH_BOSS_PAGE);
-		allRollesForPath.put(ParamConst.HR_ROLE, JSPPagePath.PATH_HR_PAGE);
-		allRollesForPath.put(ParamConst.EMPLOYEE_ROLE, JSPPagePath.PATH_EMPLOYEE_PAGE);
+		allRollesForPath.put(ServiceParamConstant.ADMIN_ROLE, JSPPagePath.PATH_ADMIN_PAGE);
+		allRollesForPath.put(ServiceParamConstant.BOSS_ROLE, JSPPagePath.PATH_BOSS_PAGE);
+		allRollesForPath.put(ServiceParamConstant.HR_ROLE, JSPPagePath.PATH_HR_PAGE);
+		allRollesForPath.put(ServiceParamConstant.EMPLOYEE_ROLE, JSPPagePath.PATH_EMPLOYEE_PAGE);
 		return allRollesForPath;
 	}
 }

@@ -27,8 +27,6 @@ public class User implements Serializable {
 		this.userId = userId;
 	}
 
-
-
 	public void setProfile(int profile) {
 		this.profileId = profile;
 	}

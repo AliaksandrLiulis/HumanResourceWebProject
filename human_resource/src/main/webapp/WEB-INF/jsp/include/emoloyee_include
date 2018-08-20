@@ -1,0 +1,94 @@
+<fmt:message bundle="${loc}" key="local.main.locbutton.ru" var="ru_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.en" var="en_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.registration" var="registration" />
+<fmt:message bundle="${loc}" key="local.main.phone" var="phone" />
+<fmt:message bundle="${loc}" key="local.main.weakday" var="weakday" />
+<fmt:message bundle="${loc}" key="local.main.info" var="info" />
+<fmt:message bundle="${loc}" key="local.main.email" var="email" />
+<fmt:message bundle="${loc}" key="local.login.nickname" var="nickname" />
+<fmt:message bundle="${loc}" key="local.login.yournickname" var="yournickname" />
+<fmt:message bundle="${loc}" key="local.login.password" var="password" />
+<fmt:message bundle="${loc}" key="local.login.yourpassword" var="yourpassword" />
+<fmt:message bundle="${loc}" key="local.main.pagebutton.login"	var="login" />
+<fmt:message bundle="${loc}" key="local.login.incorrectmessage" var="incorrectmessage" />
+<fmt:message bundle="${loc}" key="local.login.notexistusertmessage" var="notexistusertmessage" />
+<fmt:message bundle="${loc}" key="local.main.Logout" var="logout" />
+<fmt:message bundle="${loc}" key="local.main.mypage" var="mypage" />
+<fmt:message bundle="${loc}" key="local.main.Logout" var="Logout" />
+<fmt:message bundle="${loc}" key="local.employee.myprofile" var="myprofile" />
+<fmt:message bundle="${loc}" key="local.employee.myresume" var="myresume" />
+<fmt:message bundle="${loc}" key="local.employee.vacancies" var="vacancies" />
+<fmt:message bundle="${loc}" key="local.employee.editprofile" var="editprofile" />
+<fmt:message bundle="${loc}" key="local.employee.addprofile" var="addprofile" />
+<fmt:message bundle="${loc}" key="local.employee.showresume" var="showresume" />
+<fmt:message bundle="${loc}" key="local.employee.createresume" var="createresume" />
+<fmt:message bundle="${loc}" key="local.employee.welcomtomessage" var="welcomtomessage" />
+<fmt:message bundle="${loc}" key="local.employee.presentationmessage" var="presentationmessage" />
+<fmt:message bundle="${loc}" key="local.employee.modalprofileform" var="modalprofileform" />
+<fmt:message bundle="${loc}" key="local.employee.modalphone" var="modalphone" />
+<fmt:message bundle="${loc}" key="local.employee.modaldateofbirthday" var="modaldateofbirthday" />
+<fmt:message bundle="${loc}" key="local.employee.modalresidence" var="modalresidence" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectminsk" var="modalselectminsk" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectminskregion" var="modalselectminskregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectbrest" var="modalselectbrest" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectbrestregion" var="modalselectbrestregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectvitebsk" var="modalselectvitebsk" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectvitebskregion" var="modalselectvitebskregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectgomel" var="modalselectgomel" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectgomelregion" var="modalselectgomelregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectgrodno" var="modalselectgrodno" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectgrodnoregion" var="modalselectgrodnoregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectmogilev" var="modalselectmogilev" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectmogilevregion" var="modalselectmogilevregion" />
+<fmt:message bundle="${loc}" key="local.employee.modalworkingspecialty" var="modalworkingspecialty" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectdriver" var="modalselectdriver" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectaccountant" var="modalselectaccountant" />
+<fmt:message bundle="${loc}" key="local.employee.modalworkexpiriance" var="modalworkexpiriance" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectnoworkexpiriance" var="modalselectnoworkexpiriance" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto1year" var="modalselectupto1year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto2year" var="modalselectupto2year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto3year" var="modalselectupto3year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto4year" var="modalselectupto4year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto5year" var="modalselectupto5year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto6year" var="modalselectupto6year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto7year" var="modalselectupto7year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto8year" var="modalselectupto8year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto9year" var="modalselectupto9year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto10year" var="modalselectupto10year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectmorethan10years" var="modalselectmorethan10years" />
+<fmt:message bundle="${loc}" key="local.employee.modaleducation" var="modaleducation" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectsecondaryeducation" var="modalselectsecondaryeducation" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectspecialyeducation" var="modalselectspecialyeducation" />
+<fmt:message bundle="${loc}" key="local.employee.modalselecthighereducation" var="modalselecthighereducation" />
+<fmt:message bundle="${loc}" key="local.employee.modaleaboutyou" var="modaleaboutyou" />
+<fmt:message bundle="${loc}" key="local.employee.deletebutton" var="deletebutton" />
+<fmt:message bundle="${loc}" key="local.employee.updatebutton" var="updatebutton" />
+<fmt:message bundle="${loc}" key="local.employee.closebutton" var="closebutton" />
+<fmt:message bundle="${loc}" key="local.employee.applybutton" var="applybutton" />
+<fmt:message bundle="${loc}" key="local.employee.titleresume" var="titleresume" />
+<fmt:message bundle="${loc}" key="local.employee.created" var="created" />
+<fmt:message bundle="${loc}" key="local.employee.modalname" var="modalname" />
+<fmt:message bundle="${loc}" key="local.employee.email" var="email" />
+<fmt:message bundle="${loc}" key="local.employee.buttoncreate" var="buttoncreate" />
+<fmt:message bundle="${loc}" key="local.employee.profileadded" var="profileadded" />
+<fmt:message bundle="${loc}" key="local.employee.profilenotadded" var="profilenotadded" />
+<fmt:message bundle="${loc}" key="local.employee.okbutton" var="okbutton" />
+<fmt:message bundle="${loc}" key="local.employee.profiledeleted" var="profiledeleted" />
+<fmt:message bundle="${loc}" key="local.employee.profilenotdeleted" var="profilenotdeleted" />
+<fmt:message bundle="${loc}" key="local.employee.message" var="message" />
+<fmt:message bundle="${loc}" key="local.employee.profileupdate" var="profileupdate" />
+<fmt:message bundle="${loc}" key="local.employee.profilenotupdate" var="profilenotupdate" />
+<fmt:message bundle="${loc}" key="local.employee.resumeadded" var="resumeadded" />
+<fmt:message bundle="${loc}" key="local.employee.resumenotadded" var="resumenotadded" />
+<fmt:message bundle="${loc}" key="local.employee.resumedeleted" var="resumedeleted" />
+<fmt:message bundle="${loc}" key="local.employee.resumenotdeleted" var="resumenotdeleted" />
+
+
+
+
+
+
+
+
+

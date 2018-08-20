@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.service.impl;
+package by.htp.project.human_resource.service.impl.checker;
 
 public class CheckRegisterParam {
 	private final static CheckRegisterParam instance = new CheckRegisterParam();

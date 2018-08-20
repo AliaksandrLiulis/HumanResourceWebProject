@@ -142,6 +142,15 @@
 																<c:out value="${incorrectmessage}"></c:out>
 
 															</c:if>
+															<c:if
+																test="${requestScope.user_doesnt_exist != null}">
+																<c:out value="${notexistusertmessage}"></c:out>
+															</c:if>
+															<c:if
+																test="${requestScope.login_error != null}">
+																<c:out value="Error login User"></c:out>
+
+															</c:if>
 													</i> </b>
 												</h3>
 											</div>

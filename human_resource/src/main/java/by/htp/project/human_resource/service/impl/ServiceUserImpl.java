@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.CheckCommand;
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.factory.DaoFactory;
 import by.htp.project.human_resource.dao.interf.IDaoUser;
@@ -18,16 +19,19 @@ import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.service.constant.ServiceCommandConstant;
 import by.htp.project.human_resource.service.constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.constant.ServiceParamConstant;
+import by.htp.project.human_resource.service.impl.checker.CheckCommand;
+import by.htp.project.human_resource.service.impl.checker.CheckLoginParam;
+import by.htp.project.human_resource.service.impl.checker.CheckRegisterParam;
 import by.htp.project.human_resource.service.interf.IServiceUser;
 
 public class ServiceUserImpl implements IServiceUser {
 
+	private Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
 	private HttpSession session = null;
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
-	
-	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
 
+	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
 		String nickName = null;
 		String password = null;
 		String goToPage = null;
@@ -56,30 +60,36 @@ public class ServiceUserImpl implements IServiceUser {
 							goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
-
+							logger.error("ServiceUserImpl: logInUser: " + e);
 						}
 					} else {
 						try {
 							goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
-
+							logger.error("ServiceUserImpl: logInUser: " + e);
 						}
 					}
 				} else {
 					try {
 						goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-						request.setAttribute("incorrect_params_message", "User does't exist");
+						request.setAttribute("user_doesnt_exist", "user doesn't exist");
 						dispatcher = request.getRequestDispatcher(goToPage);
 						dispatcher.forward(request, response);
-					} catch (ServletException e) {
-
-					} catch (IOException e) {
-
+					} catch (ServletException | IOException e) {
+						logger.error("ServiceUserImpl: logInUser: " + e);
 					}
 				}
 			} catch (DaoException e) {
-
+				logger.error("ServiceUserImpl: logInUser: DaoException: " + e);
+				try {
+					request.setAttribute("login_error", "user_doesnt login");
+					goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+					dispatcher = request.getRequestDispatcher(goToPage);
+					dispatcher.forward(request, response);
+				} catch (IOException | ServletException e1) {
+					logger.error("ServiceUserImpl: logInUser: " + e1);
+				}
 			}
 		} else {
 			try {
@@ -87,10 +97,8 @@ public class ServiceUserImpl implements IServiceUser {
 				request.setAttribute("incorrect_params_message", "params aren't correct");
 				dispatcher = request.getRequestDispatcher(goToPage);
 				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-
-			} catch (IOException e) {
-
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceUserImpl: logInUser: " + e);
 			}
 		}
 	}
@@ -125,40 +133,43 @@ public class ServiceUserImpl implements IServiceUser {
 						try {
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							logger.error("ServiceUserImpl: registerUser: " + e);
 							e.printStackTrace();
 						}
 					} else {
 						goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-						request.setAttribute("existuser", "user isn't create");
+						request.setAttribute("user_exist", "exist user");
 						dispatcher = request.getRequestDispatcher(goToPage);
 					}
 				} else {
-					goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-					request.setAttribute("existuser", "exist user");
-					dispatcher = request.getRequestDispatcher(goToPage);
 					try {
+						goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+						request.setAttribute("user_exist", "exist user");
+						dispatcher = request.getRequestDispatcher(goToPage);
 						dispatcher.forward(request, response);
-					} catch (ServletException e) {
-						
-					} catch (IOException e) {
-						
+					} catch (ServletException | IOException e) {
+						logger.error("ServiceUserImpl: registerUser: " + e);
 					}
 				}
 			} catch (DaoException e) {
-
+				logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
+				try {
+					goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+					request.setAttribute("user_not_registered", "error user registration");
+					dispatcher = request.getRequestDispatcher(goToPage);
+					dispatcher.forward(request, response);
+				} catch (IOException | ServletException e1) {
+					logger.error("ServiceUserImpl: logInUser: " + e1);
+				}
 			}
 		} else
 			try {
 				goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-
 				request.setAttribute("incorrect_params_message", "params aren't correct");
 				dispatcher = request.getRequestDispatcher(goToPage);
 				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-
-			} catch (IOException e) {
-
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceUserImpl: registerUser: " + e);
 			}
 
 	}
@@ -173,7 +184,7 @@ public class ServiceUserImpl implements IServiceUser {
 			goToPage = request.getRequestURI() + ServiceCommandConstant.PATH_MAIN_PAGE_COMMAND;
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-
+			logger.error("ServiceUserImpl: logOutUser: " + e);
 		}
-	}	
+	}
 }

@@ -1,0 +1,33 @@
+<fmt:message bundle="${loc}" key="local.main.locbutton.ru" var="ru_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.en" var="en_button" />
+<fmt:message bundle="${loc}" key="local.main.locbutton.home" var="home" />
+<fmt:message bundle="${loc}" key="local.main.phone" var="phone" />
+<fmt:message bundle="${loc}" key="local.main.weakday" var="weakday" />
+<fmt:message bundle="${loc}" key="local.main.info" var="info" />
+<fmt:message bundle="${loc}" key="local.main.email" var="email" />
+<fmt:message bundle="${loc}" key="local.main.Logout" var="logout" />
+<fmt:message bundle="${loc}" key="local.hr.vacancies" var="vacancies" />
+<fmt:message bundle="${loc}" key="local.hr.resume" var="resume" />
+<fmt:message bundle="${loc}" key="local.hr.myvacancies" var="myvacancies" />
+<fmt:message bundle="${loc}" key="local.hr.addvacancy" var="addvacancy" />
+<fmt:message bundle="${loc}" key="local.hr.number" var="number" />
+<fmt:message bundle="${loc}" key="local.hr.professionname" var="professionname" />
+<fmt:message bundle="${loc}" key="local.hr.companyname" var="companyname" />
+<fmt:message bundle="${loc}" key="local.hr.experience" var="experience" />
+<fmt:message bundle="${loc}" key="local.hr.salary" var="salary" />
+<fmt:message bundle="${loc}" key="local.hr.showvacancy" var="showvacancy" />
+<fmt:message bundle="${loc}" key="local.hr.deletevacancy" var="deletevacancy" />
+<fmt:message bundle="${loc}" key="local.hr.showbutton" var="showbutton" />
+<fmt:message bundle="${loc}" key="local.hr.deletebutton" var="deletebutton" />
+<fmt:message bundle="${loc}" key="local.hr.next" var="next" />
+<fmt:message bundle="${loc}" key="local.hr.previous" var="previous" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectdriver" var="modalselectdriver" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectaccountant" var="modalselectaccountant" />
+<fmt:message bundle="${loc}" key="local.hr.fillformmessage" var="fillformmessage" />
+<fmt:message bundle="${loc}" key="local.employee.dlcategory" var="dlcategory" />
+<fmt:message bundle="${loc}" key="local.hr.nameofgoods" var="nameofgoods" />
+
+
+
+
+

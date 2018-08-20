@@ -5,13 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.interf.IDAOJobSeeker;
@@ -23,60 +20,87 @@ import by.htp.project.human_resource.entity.UserBuilder;
 
 public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
-	private final Logger logger = LogManager.getLogger(DaoJobSeekerImpl.class);
+	private Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
 	private ConnectionPool connectionPool = null;
-	private Map<String, Integer> allRolles = null;
+	
+	public DaoJobSeekerImpl() {
+		if (null == connectionPool) {
+			connectionPool = ConnectionPool.getInstance();
+		}
+	}
 
-	private final String SEARCH_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.nickname = ? and users.password = ?";
-	private final String GET_USER = "SELECT iduser, name, surname, nickName, email, avaliable, profileId, resumeId, role FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole where users.iduser = ?";
-	private final String SEARCH_USER_NICKNAME = "SELECT nickname from users  where nickname = ?";
-	private final String ADD_USER = "INSERT into users (nickName ,name,  surname, password , avaliable, email, userroles_iduserrole, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
-	private final String GET_ALL_USER_BASE = "SELECT * FROM users join userroles on users.userroles_iduserrole = userroles.iduserrole";
-	private final String ADD_NEW_PROFILE = "INSERT into profile (registration_date ,birth_date,  phone, residence , work_speciality, work_expirience, education, photo, about_user, id_user ) VALUES (?,?,?,?,?,?,?,?,?,?)";
-	private final String GET_PROFILE_ID = "SELECT idprofiles from profile where profile.id_user = ?";
-	private final String SET_ID_PROFILE_FOR_USER = "UPDATE users SET profile=? where iduser=?";
-	private final String GET_EXIST_PROFILE = "SELECT * FROM profile where id_user = ?";
-	private final String DELETE_PROFILE = "DELETE FROM profile where id_user = ?";
-	private final String UPDATE_FIELD_FROM_USER = "UPDATE users  SET profile=? , resumeId=? where iduser=?";
-	private final String UPDATE_OLD_PROFILE = "UPDATE profile SET registration_date = ?, birth_date = ?,phone = ?, residence = ?, work_speciality = ?, work_expirience = ?, education = ?, photo = ?, about_user = ? where id_user = ?";
+	private final String ADD_NEW_PROFILE = "INSERT into profile (registrationDate ,birthDayDate, phone, residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	private final String SEARCH_PROFILE_ID = "SELECT idprofile from profile where profile.idUser = ?";
+	private final String SET_ID_PROFILE_FOR_USER = "UPDATE users SET profileId=? where userId=?";
+	private final String SEARCH_USER_BY_ID = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where users.userId = ?";
+	private final String SEARCH_EXIST_PROFILE = "SELECT * FROM profile where idUser = ?";
+	private final String DELETE_PROFILE_BY_USER_ID = "DELETE FROM profile where idUser = ?";
+	private final String UPDATE_PROFILE_ID_RESUME_ID_FROM_USER_BY_USER_ID = "UPDATE users  SET profileId=? , resumeId=? where userId=?";
+	private final String UPDATE_OLD_PROFILE = "UPDATE profile SET registrationDate = ?, birthDayDate = ?,phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
 	private final String ADD_NEW_RESUME = "INSERT into resume (name, surName, email, registrationDate, birthDayDate, phone,residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	private final String GET_RESUMEE_ID = "SELECT idresume from resume where resume.idUser = ?";
-	private final String SET_ID_RESUME_FOR_USER = "UPDATE users SET resumeId=? where iduser=?";
-	private final String DELETE_RESUME = "DELETE FROM resume where idUser = ?";
-	private final String UPDATE_FIELD_FROM_USER_FOR_RESUME = "UPDATE users  SET resumeId=? where iduser=?";
-	private final String UPDATE_OLD_RESUME = "UPDATE resume SET dateOfBirthDay = ?, phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
+	private final String SEARCH_RESUMEE_ID = "SELECT idresume from resume where resume.idUser = ?";
+	private final String SET_ID_RESUME_FOR_USER = "UPDATE users SET resumeId=? where userId=?";
+	private final String DELETE_RESUME_BY_USER_ID = "DELETE FROM resume where idUser = ?";
+	private final String UPDATE_RESUME_ID_FROM_USER_BY_USER_ID = "UPDATE users  SET resumeId=? where userId=?";
+	private final String UPDATE_OLD_RESUME = "UPDATE resume SET birthDayDate = ?, phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
 
 	@Override
-	public List<Object> addNewProfile(String... profileParams) {
-		List<Object> list = new ArrayList<>();
-		int userId = Integer.parseInt(profileParams[0]);
+	public List<Object> addNewProfile(final String... profileParams) throws DaoException {
+
+		String registrationDate = null;
+		String birthDayDate = null;
+		String phone = null;
+		String residence = null;
+		String workSpeciality = null;
+		String workExpirience = null;
+		String education = null;
+		String photoPath = null;
+		String aboutUser = null;
+		String idUser = null;
+		List<Object> resultList = null;
 		int profileId = 0;
 		User user = null;
+
 		Profile profile = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 
+		idUser = profileParams[0];
+		registrationDate = profileParams[1];
+		photoPath = profileParams[2];
+		phone = profileParams[3];
+		birthDayDate = profileParams[4];
+		residence = profileParams[5];
+		workSpeciality = profileParams[6];
+		workExpirience = profileParams[7];
+		education = profileParams[8];
+		aboutUser = profileParams[9];
+		resultList = new ArrayList<>();
+		int userId = Integer.parseInt(idUser);
+
 		try {
+
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
 
 			preparedStatement = connection.prepareStatement(ADD_NEW_PROFILE);
-			preparedStatement.setString(1, profileParams[1]);
-			preparedStatement.setString(2, profileParams[4]);
-			preparedStatement.setString(3, profileParams[3]);
-			preparedStatement.setString(4, profileParams[5]);
-			preparedStatement.setString(5, profileParams[6]);
-			preparedStatement.setString(6, profileParams[7]);
-			preparedStatement.setString(7, profileParams[8]);
-			preparedStatement.setString(8, profileParams[2]);
-			preparedStatement.setString(9, profileParams[9]);
-			preparedStatement.setString(10, profileParams[0]);
+			preparedStatement.setString(1, registrationDate);
+			preparedStatement.setString(2, birthDayDate);
+			preparedStatement.setString(3, phone);
+			preparedStatement.setString(4, residence);
+			preparedStatement.setString(5, workSpeciality);
+			preparedStatement.setString(6, workExpirience);
+			preparedStatement.setString(7, education);
+			preparedStatement.setString(8, photoPath);
+			preparedStatement.setString(9, aboutUser);
+			preparedStatement.setInt(10, userId);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(GET_PROFILE_ID);
+			preparedStatement = connection.prepareStatement(SEARCH_PROFILE_ID);
 			preparedStatement.setInt(1, userId);
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
 				profileId = (result.getInt(1));
 			}
@@ -86,7 +110,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(2, userId);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(GET_USER);
+			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, userId);
 			result = preparedStatement.executeQuery();
 
@@ -95,141 +119,51 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();
-
 			}
 
 			connection.commit();
-			profile = getProfile(userId);
+			profile = searchProfile(userId);
+			resultList.add(user);
+			resultList.add(profile);
 
-			list.add(user);
-			list.add(profile);
-
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoUserImpl: addNewProfile: Transaction Error: " + e);
 				connection.rollback();
+				throw new DaoException("addNewProfile" +e);
 			} catch (SQLException e1) {
-
+				logger.error("DaoUserImpl: addNewProfile: rollback Error: " + e1);
+				throw new DaoException("addNewProfile" +e1);
 			}
-			logger.error("DaoUserImpl: addNewProfile: Connection interrupted: " + e);
-			new DaoException("error");
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-
-			}
-			logger.error("DaoUserImpl: addNewProfile: SQL error: " + e);
-			new DaoException("error");
 		} finally {
-			closeResources(preparedStatement, result, connection, "addUser");
+			closeResources(result, preparedStatement, connection, "addNewProfile");
 		}
-		return list;
-
+		return resultList;
 	}
 
 	@Override
-	public List<User> getAllUserBase() {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet result = null;
-		List<User> allUser = new ArrayList<>();
-		User user = null;
-		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(GET_ALL_USER_BASE);
-			result = preparedStatement.executeQuery();
-
-			while (result.next()) {
-				user = new UserBuilder().nickName(result.getString(2)).name(result.getString(3))
-						.surName(result.getString(4)).email(result.getString(7)).avaliable(result.getInt(6))
-						.role(result.getString(10)).build();
-				allUser.add(user);
-			}
-
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
-			new DaoException("error");
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchUser: SQL error: " + e);
-			new DaoException("error");
-		} finally {
-			closeResources(preparedStatement, result, connection, "searUser");
-		}
-
-		return allUser;
-	}
-
-	private Map<String, Integer> setRoles() {
-		allRolles = new HashMap<String, Integer>();
-		allRolles.put(AllRole.ADMINISTRATOR.getValue(), AllRole.ADMINISTRATOR.getIdNumber());
-		allRolles.put(AllRole.BOSS.getValue(), AllRole.BOSS.getIdNumber());
-		allRolles.put(AllRole.HR.getValue(), AllRole.HR.getIdNumber());
-		allRolles.put(AllRole.EMPLOYEE.getValue(), AllRole.EMPLOYEE.getIdNumber());
-		return allRolles;
-	}
-
-	private int getNumRoleForSQL(final String role) {
-		Set<Map.Entry<String, Integer>> entrySet = allRolles.entrySet();
-		int numForSql = 0;
-		for (Map.Entry<String, Integer> pair : entrySet) {
-			if (role.equals(pair.getKey())) {
-				numForSql = pair.getValue();
-			}
-		}
-		return numForSql;
-	}
-
-	@Override
-	public Profile getProfile(int idUser) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet result = null;
-		Profile profile = null;
-
-		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(GET_EXIST_PROFILE);
-			preparedStatement.setInt(1, idUser);
-			result = preparedStatement.executeQuery();
-			while (result.next()) {
-				profile = new ProfileBuilder().profileId(result.getInt(1)).registrationDate(result.getDate(2))
-						.birthDayDate(result.getDate(3)).phone(result.getString(4)).residence(result.getString(5))
-						.workSpeciality(result.getString(6)).workExpirience(result.getString(7))
-						.education(result.getString(8)).photoPath(result.getString(9)).abouteUser(result.getString(10))
-						.build();
-			}
-
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: getProfile: Connection interrupted: " + e);
-			new DaoException("error");
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: getProfile: SQL error: " + e);
-			new DaoException("error");
-		} finally {
-			closeResources(preparedStatement, result, connection, "getProfile");
-
-		}
-		return profile;
-	}
-
-	@Override
-	public User removeProfile(int userId) {
+	public User removeProfile(int userId) throws DaoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		User user = null;
 		ResultSet result = null;
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(DELETE_PROFILE);
+
+			preparedStatement = connection.prepareStatement(DELETE_PROFILE_BY_USER_ID);
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
-			preparedStatement = connection.prepareStatement(DELETE_RESUME);
+
+			preparedStatement = connection.prepareStatement(DELETE_RESUME_BY_USER_ID);
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
+
 			updateFieldUser(userId);
-			preparedStatement = connection.prepareStatement(GET_USER);
+
+			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, userId);
 			result = preparedStatement.executeQuery();
 
@@ -243,150 +177,172 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 			connection.commit();
 
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: removeProfile: Connection interrupted: " + e);
+		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoUserImpl: removeProfile: Transaction Error: " + e);
 				connection.rollback();
+				throw new DaoException("removeProfile" +e);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: removeProfile: SQL error: " + e);
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("DaoUserImpl: removeProfile: rollback Error: " + e1);
+				throw new DaoException("removeProfile" +e1);
 			}
 		} finally {
-			closeResources(preparedStatement, result, connection, "removeProfile");
-
+			closeResources(result, preparedStatement, connection, "removeProfile");
 		}
 		return user;
 	}
 
-	private void updateFieldUser(final int idUser) {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(UPDATE_FIELD_FROM_USER);
-			preparedStatement.setInt(1, 0);
-			preparedStatement.setInt(2, 0);
-			preparedStatement.setInt(3, idUser);
-			preparedStatement.executeUpdate();
-
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: updateFieldUser: SQL error: " + e);
-			new DaoException("error");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			closeResources(preparedStatement, null, connection, "getProfile");
-
-		}
-	}
-
 	@Override
-	public Profile updateOldProfile(String... profileParams) {
-		int userId = Integer.parseInt(profileParams[0]);
+	public Profile updateOldProfile(String... profileParams) throws DaoException {
+
+		String registrationDate = null;
+		String birthDayDate = null;
+		String phone = null;
+		String residence = null;
+		String workSpeciality = null;
+		String workExpirience = null;
+		String education = null;
+		String photoPath = null;
+		String aboutUser = null;
+		String idUser = null;
+
 		Profile profile = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
+
+		idUser = profileParams[0];
+		registrationDate = profileParams[1];
+		photoPath = profileParams[2];
+		phone = profileParams[3];
+		birthDayDate = profileParams[4];
+		residence = profileParams[5];
+		workSpeciality = profileParams[6];
+		workExpirience = profileParams[7];
+		education = profileParams[8];
+		aboutUser = profileParams[9];
+
+		int userId = Integer.parseInt(idUser);
+
 		try {
 			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
 
 			preparedStatement = connection.prepareStatement(UPDATE_OLD_PROFILE);
-			preparedStatement.setString(1, profileParams[1]);
-			preparedStatement.setString(2, profileParams[4]);
-			preparedStatement.setString(3, profileParams[3]);
-			preparedStatement.setString(4, profileParams[5]);
-			preparedStatement.setString(5, profileParams[6]);
-			preparedStatement.setString(6, profileParams[7]);
-			preparedStatement.setString(7, profileParams[8]);
-			preparedStatement.setString(8, profileParams[2]);
-			preparedStatement.setString(9, profileParams[9]);
-			preparedStatement.setString(10, profileParams[0]);
+			preparedStatement.setString(1, registrationDate);
+			preparedStatement.setString(2, birthDayDate);
+			preparedStatement.setString(3, phone);
+			preparedStatement.setString(4, residence);
+			preparedStatement.setString(5, workSpeciality);
+			preparedStatement.setString(6, workExpirience);
+			preparedStatement.setString(7, education);
+			preparedStatement.setString(8, photoPath);
+			preparedStatement.setString(9, aboutUser);
+			preparedStatement.setInt(10, userId);
 			preparedStatement.executeUpdate();
-
-
-
-			profile = getProfile(userId);
 
 			preparedStatement = connection.prepareStatement(UPDATE_OLD_RESUME);
-			preparedStatement.setString(1, profileParams[4]);
-			preparedStatement.setString(2, profileParams[3]);
-			preparedStatement.setString(3, profileParams[5]);
-			preparedStatement.setString(4, profileParams[6]);
-			preparedStatement.setString(5, profileParams[7]);
-			preparedStatement.setString(6, profileParams[8]);
-			preparedStatement.setString(7, profileParams[2]);
-			preparedStatement.setString(8, profileParams[9]);
-			preparedStatement.setString(9, profileParams[0]);
+			preparedStatement.setString(1, birthDayDate);
+			preparedStatement.setString(2, phone);
+			preparedStatement.setString(3, residence);
+			preparedStatement.setString(4, workSpeciality);
+			preparedStatement.setString(5, workExpirience);
+			preparedStatement.setString(6, education);
+			preparedStatement.setString(7, photoPath);
+			preparedStatement.setString(8, aboutUser);
+			preparedStatement.setInt(9, userId);
 			preparedStatement.executeUpdate();
 
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: updateOldProfile: Connection interrupted: " + e);
-			new DaoException("error");
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
+			connection.commit();
+			profile = searchProfile(userId);
 
+		} catch (InterruptedException | SQLException e) {
+			try {
+				logger.error("DaoUserImpl: updateOldProfile: Transaction Error: " + e);
+				connection.rollback();
+				throw new DaoException("updateOldProfile" +e);
+			} catch (SQLException e1) {
+				logger.error("DaoUserImpl: updateOldProfile: rollback Error: " + e1);
+				throw new DaoException("updateOldProfile" +e1);
 			}
-			logger.error("DaoUserImpl: updateOldProfile: SQL error: " + e);
-			new DaoException("error");
 		} finally {
-			closeResources(preparedStatement, result, connection, "updateOldProfile");
+			closeResources(result, preparedStatement, connection, "updateOldProfile");
 		}
 		return profile;
 	}
 
 	@Override
-	public User addNewResume(String... resumeParams) {
+	public User addNewResume(final String... resumeParams) throws DaoException {
+
+		String name = null;
+		String surName = null;
+		String email = null;
+		String registrationDate = null;
+		String birthDayDate = null;
+		String phone = null;
+		String residence = null;
+		String workSpeciality = null;
+		String workExpirience = null;
+		String education = null;
+		String photoPath = null;
+		String aboutUser = null;
+		String idUser = null;
 		int resumeId = 0;
 		User user = null;
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 
+		name = resumeParams[0];
+		surName = resumeParams[1];
+		email = resumeParams[2];
+		registrationDate = resumeParams[3];
+		birthDayDate = resumeParams[4];
+		phone = resumeParams[5];
+		residence = resumeParams[6];
+		workSpeciality = resumeParams[7];
+		workExpirience = resumeParams[8];
+		education = resumeParams[9];
+		photoPath = resumeParams[10];
+		aboutUser = resumeParams[11];
+		idUser = resumeParams[12];
+
 		try {
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
+
 			preparedStatement = connection.prepareStatement(ADD_NEW_RESUME);
-			preparedStatement.setString(1, resumeParams[0]);
-			preparedStatement.setString(2, resumeParams[1]);
-			preparedStatement.setString(3, resumeParams[2]);
-			preparedStatement.setString(4, resumeParams[3]);
-			preparedStatement.setString(5, resumeParams[4]);
-			preparedStatement.setString(6, resumeParams[5]);
-			preparedStatement.setString(7, resumeParams[6]);
-			preparedStatement.setString(8, resumeParams[7]);
-			preparedStatement.setString(9, resumeParams[8]);
-			preparedStatement.setString(10, resumeParams[9]);
-			preparedStatement.setString(11, resumeParams[10]);
-			preparedStatement.setString(12, resumeParams[11]);
-			preparedStatement.setInt(13, Integer.parseInt(resumeParams[12]));
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, surName);
+			preparedStatement.setString(3, email);
+			preparedStatement.setString(4, registrationDate);
+			preparedStatement.setString(5, birthDayDate);
+			preparedStatement.setString(6, phone);
+			preparedStatement.setString(7, residence);
+			preparedStatement.setString(8, workSpeciality);
+			preparedStatement.setString(9, workExpirience);
+			preparedStatement.setString(10, education);
+			preparedStatement.setString(11, photoPath);
+			preparedStatement.setString(12, aboutUser);
+			preparedStatement.setInt(13, Integer.parseInt(idUser));
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(GET_RESUMEE_ID);
-			preparedStatement.setInt(1, Integer.parseInt(resumeParams[0]));
+			preparedStatement = connection.prepareStatement(SEARCH_RESUMEE_ID);
+			preparedStatement.setInt(1, Integer.parseInt(idUser));
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
 				resumeId = (result.getInt(1));
 			}
 
 			preparedStatement = connection.prepareStatement(SET_ID_RESUME_FOR_USER);
 			preparedStatement.setInt(1, resumeId);
-			preparedStatement.setInt(2, Integer.parseInt(resumeParams[0]));
+			preparedStatement.setInt(2, Integer.parseInt(idUser));
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(GET_USER);
-			preparedStatement.setInt(1, Integer.parseInt(resumeParams[0]));
+			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
+			preparedStatement.setInt(1, Integer.parseInt(idUser));
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
@@ -399,49 +355,46 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 			connection.commit();
 
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoUserImpl: addNewResume: Transaction Error: " + e);
 				connection.rollback();
+				throw new DaoException("addNewResume" +e);
 			} catch (SQLException e1) {
-
+				logger.error("DaoUserImpl: addNewResume: rollback Error: " + e1);
+				throw new DaoException("addNewResume" +e1);
 			}
-			logger.error("DaoUserImpl: addNewResume: Connection interrupted: " + e);
-			new DaoException("error");
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-
-			}
-			logger.error("DaoUserImpl: addNewResume: SQL error: " + e);
-			new DaoException("error");
 		} finally {
-			closeResources(preparedStatement, result, connection, "addNewResume");
+			closeResources(result, preparedStatement, connection, "addNewResume");
 		}
 		return user;
 
 	}
 
 	@Override
-	public User deleteResume(int idUserResume) {
+	public User deleteResume(int idUserResume) throws DaoException {
+
+		User user = null;
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		User user = null;
 		ResultSet result = null;
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(DELETE_RESUME);
+
+			preparedStatement = connection.prepareStatement(DELETE_RESUME_BY_USER_ID);
 			preparedStatement.setInt(1, idUserResume);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(UPDATE_FIELD_FROM_USER_FOR_RESUME);
+			preparedStatement = connection.prepareStatement(UPDATE_RESUME_ID_FROM_USER_BY_USER_ID);
 			preparedStatement.setInt(1, 0);
 			preparedStatement.setInt(2, idUserResume);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(GET_USER);
+			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, idUserResume);
 			result = preparedStatement.executeQuery();
 
@@ -455,51 +408,96 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 			connection.commit();
 
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: deleteResume: Connection interrupted: " + e);
+		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoUserImpl: deleteResume: Transaction Error: " + e);
 				connection.rollback();
+				throw new DaoException("deleteResume" +e);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: deleteResume: SQL error: " + e);
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("DaoUserImpl: deleteResume: rollback Error: " + e1);
+				throw new DaoException("deleteResume" +e1);
 			}
 		} finally {
-			closeResources(preparedStatement, result, connection, "deleteResume");
-
+			closeResources(result, preparedStatement, connection, "deleteResume");
 		}
 		return user;
 	}
 
-	private void closeResources(PreparedStatement preparedStatement, ResultSet resultSet, Connection connection,
-			String methodName) {
-		if (preparedStatement != null) {
-			try {
-				preparedStatement.close();
-			} catch (SQLException e) {
-				logger.error("DaoUserImpl: " + methodName + ": PreparedStatment Error " + e);
+	private Profile searchProfile(final int idUser) throws DaoException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		Profile profile = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_EXIST_PROFILE);
+			preparedStatement.setInt(1, idUser);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				profile = new ProfileBuilder().profileId(result.getInt(1)).registrationDate(result.getDate(2))
+						.birthDayDate(result.getDate(3)).phone(result.getString(4)).residence(result.getString(5))
+						.workSpeciality(result.getString(6)).workExpirience(result.getString(7))
+						.education(result.getString(8)).photoPath(result.getString(9)).aboutUser(result.getString(10))
+						.build();
 			}
-		}
-		if (resultSet != null) {
+
+		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoUserImpl: searchProfile: Transaction Error: " + e);
+				connection.rollback();
+				throw new DaoException("searchProfile" +e);
+			} catch (SQLException e1) {
+				logger.error("DaoUserImpl: searchProfile: rollback Error: " + e1);
+				throw new DaoException("searchProfile" +e1);
+			}
+		} finally {
+			closeResources(result, preparedStatement, connection, "searchProfile");
+		}
+		return profile;
+	}
+
+	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
+			final Connection connection, String methodName) {
+		try {
+			if (resultSet != null) {
 				resultSet.close();
-			} catch (SQLException e) {
-				logger.error("DaoUserImpl: " + methodName + ": ResultSet Error " + e);
 			}
-		}
-		if (connection != null) {
-			try {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
 				connection.close();
-			} catch (SQLException e) {
-				logger.error("DaoUserImpl: " + methodName + ": Connection Error " + e);
 			}
+		} catch (Exception e) {
+			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+		}
+	}
+
+	private void updateFieldUser(final int idUser) throws DaoException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(UPDATE_PROFILE_ID_RESUME_ID_FROM_USER_BY_USER_ID);
+			preparedStatement.setInt(1, 0);
+			preparedStatement.setInt(2, 0);
+			preparedStatement.setInt(3, idUser);
+			preparedStatement.executeUpdate();
+
+		} catch (InterruptedException | SQLException e) {
+			try {
+				logger.error("DaoUserImpl: updateFieldUser: Transaction Error: " + e);
+				connection.rollback();
+				throw new DaoException("updateFieldUser" +e);
+			} catch (SQLException e1) {
+				logger.error("DaoUserImpl: updateFieldUser: rollback Error: " + e1);
+				throw new DaoException("updateFieldUser" +e1);
+			}
+		} finally {
+			closeResources(null, preparedStatement, connection, "updateFieldUser");
 		}
 	}
 

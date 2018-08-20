@@ -187,12 +187,36 @@ function InvalidMsg(textbox) {
 									</div>
 								</div>
 							</div>
+							<div class="row">
+										<div class="col-md-12 col-sm-12 col-xs-12">
+											<div class="layer-1-1 hidden-xs wow slideInDown"
+												data-wow-duration="1s" data-wow-delay=".2s">
+												<h3 align="center" style="color: orange;">
+													<b><i> <c:if
+																test="${requestScope.incorrect_params_message != null}">
+																<c:out value="${incorrectmessage}"></c:out>
+
+															</c:if>
+															<c:if
+																test="${requestScope.user_exist != null}">
+																<c:out value="${userexist}"></c:out>
+															</c:if>
+															<c:if
+																test="${requestScope.user_not_registered != null}">
+																<c:out value="User not registered"></c:out>
+															</c:if>
+													</i> </b>
+												</h3>
+											</div>
+										</div>
+									</div>
+								</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	
 	<%@ include file="include/footer_include"%>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.service.impl;
+package by.htp.project.human_resource.service.impl.checker;
 
 public class CheckLoginParam {
 	
@@ -15,7 +15,7 @@ public class CheckLoginParam {
 	public boolean check(final String... params) {
 		for (String param : params) {
 			param.trim();
-			if (param.equals(null) || param.length() <= 0 || param.length() > 15) {
+			if (param.equals(null) || param.length() <= 0 || param.length() > 20) {
 				return false;
 			}
 		}

@@ -48,6 +48,10 @@
 		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ExpectPage</value>
 	</command>
 	<command>
+		<key>cb.error_page</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ErrorPage</value>
+	</command>
+	<command>
 		<key>cb.logout_user</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LogOut</value>
 	</command>
@@ -75,6 +79,16 @@
 		<key>cb.delete_resume</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteResume</value>
 	</command>
-	
-		
+	<command>
+		<key>cb.add_vacancy</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddVacancy</value>
+	</command>
+	<command>
+		<key>cb.get_vacancy</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetVacancy</value>
+	</command>	
+	<command>
+		<key>cb.delete_vacancy</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteVacancy</value>
+	</command>			
 </commands>

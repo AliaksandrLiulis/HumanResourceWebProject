@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.service.impl.checker.CheckCommand;
 
 public class BackOnUserPage implements ICommand{
 	

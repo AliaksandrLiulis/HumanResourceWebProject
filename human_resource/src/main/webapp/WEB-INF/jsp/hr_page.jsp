@@ -63,8 +63,9 @@
 							</a></li>
 							<li><a>
 									<form "controllerServlet" method="get">
-										<input type="hidden" name="command" value="cb.get_vacancy">
-										<input type="hidden" name="limitLine" value="5"> <input
+										<input type="hidden" name="command"
+											value="cb.get_own_vacancy_for_hr"> <input
+											type="hidden" name="limitLine" value="5"> <input
 											type="hidden" name="offsetline" value="0"> <input
 											type="hidden" name="vacancy" value="vacancies"> <input
 											type="hidden" name="userid" value="${user.userId}"> <input
@@ -182,11 +183,7 @@
 																		<td style="color: black;">${vacancy.salary}</td>
 																		<td><c:set var="count" value="${count + 1}"
 																				scope="page" />
-																			<form method="post" action="/controller/Controler"
-																				role="form" role="form">
-																				<input type="hidden" name="command"
-																					value="cn.admin.to.user.settings.page">
-
+																			<form method="post" action="">
 																				<button type="submit" class="btn btn-success">${showbutton}</button>
 																			</form></td>
 																		<td><input type="hidden" name="vacancyId"
@@ -201,76 +198,74 @@
 															</tbody>
 														</table>
 														<c:if test="${requestScope.pagecount > 1}">
-														<c:choose>
-															<c:when test="${requestScope.pagecount > 2}">
-																<nav aria-label="Page navigation">
-																<ul class="pagination justify-content-center">
+															<c:choose>
+																<c:when test="${requestScope.pagecount > 2}">
+																	<nav aria-label="Page navigation">
+																	<ul class="pagination justify-content-center">
+																		<c:choose>
+																			<c:when test="${requestScope.pagenum == 1}">
+																				<li class="page-item disabled"><a
+																					class="page-link" href="#" tabindex="-1">Previous</a></li>
+																			</c:when>
+																			<c:otherwise>
+																				<li class="page-item "><a class="page-link"
+																					href="controllerServlet?command=cb.get_own_vacancy_for_hr&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																			</c:otherwise>
+																		</c:choose>
+
+																		<c:forEach begin="1" end="${requestScope.pagecount}"
+																			varStatus="loop">
+																			<li class="page-item"><a class="page-link"
+																				href="controllerServlet?command=cb.get_own_vacancy_for_hr&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}">${loop.index}</a></li>
+																		</c:forEach>
+
+																		<c:choose>
+																			<c:when
+																				test="${requestScope.pagenum == requestScope.pagecount}">
+																				<li class="page-item disabled"><a
+																					class="page-link" href="#">${next}</a></li>
+																			</c:when>
+																			<c:otherwise>
+																				<li class="page-item "><a class="page-link"
+																					href="controllerServlet?command=cb.get_own_vacancy_for_hr&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																			</c:otherwise>
+																		</c:choose>
+																	</ul>
+																	</nav>
+																</c:when>
+																<c:otherwise>
 																	<c:choose>
 																		<c:when test="${requestScope.pagenum == 1}">
-																			<li class="page-item disabled"><a
-																				class="page-link" href="#" tabindex="-1">Previous</a></li>
+																			<nav aria-label="Page navigation">
+																			<ul class="pagination justify-content-center">
+																				<li class="page-item disabled"><a
+																					class="page-link" href="#" tabindex="-1">${previous}</a></li>
+																				<li class="page-item "><a class="page-link"
+																					href="controllerServlet?command=cb.get_own_vacancy_for_hr&limitLine=5&offsetline=5&vacancy=vacancies&userid=${user.userId}&pagenum=2">${next}</a>
+																				</li>
+																			</ul>
+																			</nav>
 																		</c:when>
 																		<c:otherwise>
-																			<li class="page-item "><a class="page-link"
-																				href="controllerServlet?command=cb.get_vacancy&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																			<nav aria-label="Page navigation">
+																			<ul class="pagination justify-content-center">
+																				<li class="page-item"><a class="page-link"
+																					href="controllerServlet?command=cb.get_own_vacancy_for_hr&limitLine=5&offsetline=0&vacancy=vacancies&userid=${user.userId}&pagenum=1"
+																					tabindex="-1">${previous}</a></li>
+																				<li class="page-item disabled"><a
+																					class="page-link" href="#">${next}</a></li>
+																			</ul>
+																			</nav>
 																		</c:otherwise>
 																	</c:choose>
-
-																	<c:forEach begin="1" end="${requestScope.pagecount}"
-																		varStatus="loop">
-																		<li class="page-item"><a class="page-link"
-																			href="controllerServlet?command=cb.get_vacancy&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}">${loop.index}</a></li>
-																	</c:forEach>
-
-																	<c:choose>
-																		<c:when
-																			test="${requestScope.pagenum == requestScope.pagecount}">
-																			<li class="page-item disabled"><a
-																				class="page-link" href="#">${next}</a></li>
-																		</c:when>
-																		<c:otherwise>
-																			<li class="page-item "><a class="page-link"
-																				href="controllerServlet?command=cb.get_vacancy&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
-																		</c:otherwise>
-																	</c:choose>
-																</ul>
-																</nav>
-															</c:when>
-															<c:otherwise>
-																<c:choose>
-																	<c:when test="${requestScope.pagenum == 1}">
-																		<nav aria-label="Page navigation">
-																		<ul class="pagination justify-content-center">
-																			<li class="page-item disabled"><a
-																				class="page-link" href="#" tabindex="-1">${previous}</a></li>
-																			<li class="page-item "><a class="page-link"
-																				href="controllerServlet?command=cb.get_vacancy&limitLine=5&offsetline=5&vacancy=vacancies&userid=${user.userId}&pagenum=2">${next}</a>
-																			</li>
-																		</ul>
-																		</nav>
-																	</c:when>
-																	<c:otherwise>
-																		<nav aria-label="Page navigation">
-																		<ul class="pagination justify-content-center">
-																			<li class="page-item"><a class="page-link"
-																				href="controllerServlet?command=cb.get_vacancy&limitLine=5&offsetline=0&vacancy=vacancies&userid=${user.userId}&pagenum=1"
-																				tabindex="-1">${previous}</a></li>
-																			<li class="page-item disabled"><a
-																				class="page-link" href="#">${next}</a></li>
-																		</ul>
-																		</nav>
-																	</c:otherwise>
-																</c:choose>
-															</c:otherwise>
-														</c:choose>
+																</c:otherwise>
+															</c:choose>
 														</c:if>
-														</div>
-														</div>
-														
-													
+													</div>
+												</div>
 											</c:if>
 
 										</div>
@@ -326,11 +321,10 @@
 							<a><label for="expirience">${experience}</label> <input
 								type="text" class="form-control" id="expirience"
 								name=workexpirience required></a> <a><label
-								for="category">${dlcategory}</label> <input
-								type="text" class="form-control" id="category" name="category"
-								required></a> <a><label for="salary">${salary}</label> <input
-								type="text" class="form-control" id="Salary" name="salary"
-								required></a>
+								for="category">${dlcategory}</label> <input type="text"
+								class="form-control" id="category" name="category" required></a>
+							<a><label for="salary">${salary}</label> <input type="text"
+								class="form-control" id="Salary" name="salary" required></a>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -391,8 +385,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<br>
-						<h3 align="center" class="modal-title" style="color: orange;">Are
-							you shure?</h3>
+						<h3 align="center" class="modal-title" style="color: orange;">${messageverificationdelete}</h3>
 						<br>
 						<button class="close" type="button" data-dismiss="modal">
 							<i class="fa fa-close"></i>
@@ -400,89 +393,127 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<h5 align="center" class="modal-title" style="color: red;">Vacancy
-								Will be Delete</h5>
+							<h5 align="center" class="modal-title" style="color: red;">${messagedeletevacancy}</h5>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="button" data-dismiss="modal">Cancel</button>
+						<button class="btn btn-success" type="button" data-dismiss="modal">${cancelbutton}</button>
 						<input type="hidden" id="vacancyId" name="vacancyId"> <input
 							type="hidden" name="command" value="cb.delete_vacancy">
-						<button class="btn btn-danger" type="submit">Delete</button>
+						<button class="btn btn-danger" type="submit">${deletebutton}</button>
 
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
+
+	<div id="vacancydeletemessage" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+					<br>
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<c:choose>
+							<c:when test="${requestScope.vacancy_delete_message == 1}">
+								<h5 align="center" class="modal-title" style="color: green;">${vacancydeleted}</h5>
+							</c:when>
+							<c:otherwise>
+								<h5 align="center" class="modal-title" style="color: red;">${vacancynotdeleted}</h5>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
+	<div id="vacancyaddmessage" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+					<br>
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<c:choose>
+							<c:when test="${requestScope.vacancy_add_message == 1}">
+								<h5 align="center" class="modal-title" style="color: green;">${vacancyadded}</h5>
+							</c:when>
+							<c:otherwise>
+								<h5 align="center" class="modal-title" style="color: red;">${vacancynotadded}</h5>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	
-		<div id="vacancydeleted" class="modal fade" tabindex="-1">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<br>
-						<button class="close" type="button" data-dismiss="modal">
-							<i class="fa fa-close"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<h5 align="center" class="modal-title" style="color: red;">Vacancy
-								has been deleted</h5>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-success" type="button" data-dismiss="modal">OK</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div id="vacancyadded" class="modal fade" tabindex="-1">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<br>
-						<button class="close" type="button" data-dismiss="modal">
-							<i class="fa fa-close"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<h5 align="center" class="modal-title" style="color: red;">Vacancy
-								has been added</h5>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-success" type="button" data-dismiss="modal">OK</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	
+
+
+
 
 	<%@ include file="include/footer_include"%>
 
-<c:if test="${not empty requestScope.vacancy_deleted}">
-	<script>
-		$(document).ready(function(){  
-	    $("#vacancydeleted").modal('show');  });
-	</script>
+	<c:if test="${not empty requestScope.vacancy_deleted}">
+		<script>
+			$(document).ready(function() {
+				$("#vacancydeleted").modal('show');
+			});
+		</script>
 	</c:if>
 	<c:if test="${not empty requestScope.vacancy_added}">
-	<script>
-		$(document).ready(function(){  
-	    $("#vacancyadded").modal('show');  });
-	</script>
+		<script>
+			$(document).ready(function() {
+				$("#vacancyadded").modal('show');
+			});
+		</script>
 	</c:if>
 
 	<script>
-		$('#deleteVacancy').on('show.bs.modal',	function(e) {
-			var $modal = $(this), idvacancy = e.relatedTarget.dataset.idvacancy;
-			document.getElementById('vacancyId').value = idvacancy;
-		})
+		$('#deleteVacancy')
+				.on(
+						'show.bs.modal',
+						function(e) {
+							var $modal = $(this), idvacancy = e.relatedTarget.dataset.idvacancy;
+							document.getElementById('vacancyId').value = idvacancy;
+						})
 	</script>
+
+	<c:if test="${not empty requestScope.vacancy_delete_message}">
+		<script>
+			$(document).ready(function() {
+				$("#vacancydeletemessage").modal('show');
+			});
+		</script>
+	</c:if>
+	
+	<c:if test="${not empty requestScope.vacancy_add_message}">
+		<script>
+			$(document).ready(function() {
+				$("#vacancyaddmessage").modal('show');
+			});
+		</script>
+	</c:if>
 </body>
 </html>

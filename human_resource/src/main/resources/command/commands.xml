@@ -84,11 +84,15 @@
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddVacancy</value>
 	</command>
 	<command>
-		<key>cb.get_vacancy</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetVacancy</value>
+		<key>cb.get_own_vacancy_for_hr</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetOwnVacancyForHr</value>
 	</command>	
 	<command>
 		<key>cb.delete_vacancy</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteVacancy</value>
 	</command>			
+	<command>
+		<key>cb.get_vacancy_for_job_seeker</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetVacancyForJobSeeker</value>
+	</command>
 </commands>

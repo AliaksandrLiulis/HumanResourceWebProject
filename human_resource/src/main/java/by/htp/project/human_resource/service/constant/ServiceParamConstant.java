@@ -38,6 +38,7 @@ public class ServiceParamConstant {
 	public final static String DRIVER_LICENC_CATEGORY_PARAM = "category";
 	public final static String SALARY_PARAM = "salary";
 	public final static String PROFESSION_PARAM = "profession";
+	public final static String VACANCIES_TABLE_NAME_PARAM = "vacancies";
 	public final static String DRIVER_NAME = "driver";
 	public final static String ACCOUNTANT_NAME = "accountant";
 	public final static String Limit_LINE_NUMBER = "limitLine";
@@ -49,5 +50,5 @@ public class ServiceParamConstant {
 	
 	
 	
-
+	
 }

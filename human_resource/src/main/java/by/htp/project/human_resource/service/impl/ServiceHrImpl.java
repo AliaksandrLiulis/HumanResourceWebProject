@@ -42,7 +42,7 @@ public class ServiceHrImpl implements IServiceHr {
 					vacancy = daoHr.addDriverVacancy(paramsList);
 				} catch (DaoException e) {
 					logger.error("ServiceHrImpl: addVacancyDriver: " + e);
-					request.setAttribute("vacancy_not_added", "message_error_added_vacancy");
+					request.setAttribute("vacancy_add_message", "0");
 				}
 			}
 			if (request.getParameter(ServiceParamConstant.PROFESSION_PARAM)
@@ -52,15 +52,15 @@ public class ServiceHrImpl implements IServiceHr {
 					vacancy = daoHr.addAccountantVacancy(paramsList);
 				} catch (DaoException e) {
 					logger.error("ServiceHrImpl: addVacancyAccountant: " + e);
-					request.setAttribute("vacancy_not_added", "message_error_added_vacancy");
+					request.setAttribute("vacancy_add_message", "0");
 				}
 			}
 			if (vacancy != null) {
 				request.setAttribute(ServiceParamConstant.VACANCY_ATTRIBUTE, vacancy);
-				request.setAttribute("vacancy_added", "vacancy_added");
+				request.setAttribute("vacancy_add_message", "1");
 				
 			} else {
-				request.setAttribute("vacancy_not_added", "message_error_added_vacancy");
+				request.setAttribute("vacancy_add_message", "0");
 			}
 		} finally {
 			try {
@@ -127,13 +127,13 @@ public class ServiceHrImpl implements IServiceHr {
 
 		try {
 			if (daoHr.deleteVacancy(Integer.parseInt(idVacancy))) {
-				request.setAttribute("vacancy_deleted", "vacancy_deleted");
+				request.setAttribute("vacancy_delete_message", "1");
 			} else {
-				request.setAttribute("error_delete_vacancy", "vacancy not deleted");
+				request.setAttribute("vacancy_delete_message", "0");
 			}
 		} catch (NumberFormatException | DaoException e) {
 			logger.error("ServiceHrImpl: deleteVacancyById: " + e);
-			request.setAttribute("error_delete_vacancy", "vacancy not deleted");
+			request.setAttribute("vacancy_delete_message", "0");
 		} finally {
 			try {
 				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);

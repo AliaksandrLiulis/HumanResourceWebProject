@@ -10,7 +10,7 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.service.factory.ServiceFactory;
 import by.htp.project.human_resource.service.interf.IServiceHr;
 
-public class GetVacancy implements ICommand{
+public class GetOwnVacancyForHr implements ICommand{
 
 	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 	IServiceHr serviceHr = serviceFactory.getServiceHr();

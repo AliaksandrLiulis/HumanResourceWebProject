@@ -19,6 +19,7 @@ import by.htp.project.human_resource.dao.factory.DaoFactory;
 import by.htp.project.human_resource.dao.interf.IDAOJobSeeker;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.service.constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.interf.IServiceJobSeeker;
@@ -262,5 +263,55 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 				logger.error("ServiceJobSeekerImpl: deleteResume: " + e);
 			}
 		}
+	}
+	
+	@Override
+	public void getVacancy(HttpServletRequest request, HttpServletResponse response) {
+		int pageNum = 0;
+		String tableNameVacancy;
+		int countAllVacancies = 0;
+		String limitLine = null;
+		String offsetLine = null;
+		int pageCount = 0;
+		List<Vacancy> allVacancy;
+		RequestDispatcher dispatcher = null;
+
+		tableNameVacancy = ServiceParamConstant.VACANCIES_TABLE_NAME_PARAM;
+		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
+		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
+		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
+		try {
+			countAllVacancies = daoJobSeeker.getCountAllRowsForTable(tableNameVacancy);
+			if (countAllVacancies != 0) {
+				allVacancy = daoJobSeeker.searchVacancyByParam(limitLine, offsetLine);
+				if (allVacancy != null) {
+					pageCount = countPaging(countAllVacancies, Integer.parseInt(limitLine));
+					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
+					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
+					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allVacancy);
+
+				} else {
+					request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
+				}
+			} else {
+				request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
+			}
+		} catch (DaoException e) {
+			logger.error("ServiceJobSeekerImpl: getVacancy: " + e);
+			request.setAttribute("error_get_vacancy", "vacancy receipt error");
+		} finally {
+			try {
+				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceJobSeekerImpl: getVacancy: " + e);
+			}
+		}
+	}
+	
+	private int countPaging(final int commonCount, final int offsetLine) {
+		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
+				: Math.floorDiv(commonCount, offsetLine);
+		return result;
 	}
 }

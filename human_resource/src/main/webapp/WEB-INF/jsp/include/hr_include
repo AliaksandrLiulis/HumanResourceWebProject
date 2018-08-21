@@ -27,6 +27,17 @@
 <fmt:message bundle="${loc}" key="local.employee.dlcategory" var="dlcategory" />
 <fmt:message bundle="${loc}" key="local.hr.nameofgoods" var="nameofgoods" />
 
+<fmt:message bundle="${loc}" key="local.hr.vacancydeleted" var="vacancydeleted" />
+<fmt:message bundle="${loc}" key="local.hr.vacancydeleted" var="vacancynotdeleted" />
+<fmt:message bundle="${loc}" key="local.hr.vacancyadded" var="vacancyadded" />
+<fmt:message bundle="${loc}" key="local.hr.vacancynotadded" var="vacancynotadded" />
+<fmt:message bundle="${loc}" key="local.employee.okbutton" var="okbutton" />
+<fmt:message bundle="${loc}" key="local.employee.message" var="message" />
+<fmt:message bundle="${loc}" key="local.employee.messageverificationdelete" var="messageverificationdelete" />
+<fmt:message bundle="${loc}" key="local.employee.messagedeletevacancy" var="messagedeletevacancy" />
+<fmt:message bundle="${loc}" key="local.hr.deletebutton" var="deletebutton" />
+<fmt:message bundle="${loc}" key="local.employee.cancelbutton" var="cancelbutton" />
+
 
 
 

@@ -171,159 +171,156 @@
 			<div id="ensign-nivoslider" class="slides">
 				<img src="img/slider/slider7.jpg" alt="" title="#slider-direction-1" />
 			</div>
-			<div id="slider-direction-1" class="slider-direction slider-one">
-				<div class="container">
-					<div class="row">
-						<c:if test="${not empty requestScope.allVacancy}">
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<div class="layer-1-1 hidden-xs wow slideInDown"
-								data-wow-duration="1s" data-wow-delay=".2s">
-								<div class="row">
-									<div class="col-md-5 col-sm-6 col-xs-6">
-										<div class="section section-breadcrumbs">
-											<div class="container">
-												<div class="row">
-													<div class="col-md-12">
-														<h4>${vacancies}</h4>
+			<c:choose>
+				<c:when test="${not empty requestScope.allVacancy}">
+					<div id="slider-direction-1" class="slider-direction slider-one">
+						<div class="container">
+							<div class="row">
+								<br> <br> <br> <br> <br> <br>
+								<div class="layer-1-1 hidden-xs wow slideInDown"
+									data-wow-duration="1s" data-wow-delay=".2s">
+									<div class="row">
+										<div class="col-md-5 col-sm-6 col-xs-6">
+											<div class="section section-breadcrumbs">
+												<div class="container">
+													<div class="row">
+														<div class="col-md-12">
+															<h4>${vacancies}</h4>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="section">
-											<div class="container">
-												<table class="table table-bordered table-hover table-sm">
-													<thead>
-														<tr>
-															<th style="color: orange;" scope="col">${number}</th>
-															<th style="color: orange;" scope="col">${professionname}</th>
-															<th style="color: orange;" scope="col">${companyname}</th>
-															<th style="color: orange;" scope="col">${experience}</th>
-															<th style="color: orange;" scope="col">${salary}</th>
-															<th style="color: orange;" scope="col">${showvacancy}</th>
-														</tr>
-													</thead>
-													<tbody>
-														<c:set var="count" value="${(requestScope.pagenum * 5)-4}"
-															scope="page" />
-														<c:forEach var="vacancy"
-															items="${requestScope.allVacancy}">
+											<div class="section">
+												<div class="container">
+													<table class="table table-bordered table-hover table-sm">
+														<thead>
 															<tr>
-																<td style="color: black;">${count}</td>
-																<td style="color: black;">${vacancy.professionName}</td>
-																<td style="color: black;">${vacancy.companyName}</td>
-																<td style="color: black;">${vacancy.experience}</td>
-																<td style="color: black;">${vacancy.salary}</td>
-																<td><c:set var="count" value="${count + 1}"
-																		scope="page" />
-																	<form method="post" action="">
-																		<button type="submit" class="btn btn-success">${showbutton}</button>
-																	</form></td>
-
+																<th style="color: orange;" scope="col">${number}</th>
+																<th style="color: orange;" scope="col">${professionname}</th>
+																<th style="color: orange;" scope="col">${companyname}</th>
+																<th style="color: orange;" scope="col">${experience}</th>
+																<th style="color: orange;" scope="col">${salary}</th>
+																<th style="color: orange;" scope="col">${showvacancy}</th>
 															</tr>
+														</thead>
+														<tbody>
+															<c:set var="count"
+																value="${(requestScope.pagenum * 5)-4}" scope="page" />
+															<c:forEach var="vacancy"
+																items="${requestScope.allVacancy}">
+																<tr>
+																	<td style="color: black;">${count}</td>
+																	<td style="color: black;">${vacancy.professionName}</td>
+																	<td style="color: black;">${vacancy.companyName}</td>
+																	<td style="color: black;">${vacancy.experience}</td>
+																	<td style="color: black;">${vacancy.salary}</td>
+																	<td><c:set var="count" value="${count + 1}"
+																			scope="page" />
+																		<form method="post" action="">
+																			<button type="submit" class="btn btn-success">${showbutton}</button>
+																		</form></td>
 
-														</c:forEach>
-													</tbody>
-												</table>
-												<c:if test="${requestScope.pagecount > 1}">
-													<c:choose>
-														<c:when test="${requestScope.pagecount > 2}">
-															<nav aria-label="Page navigation">
-															<ul class="pagination justify-content-center">
+																</tr>
+
+															</c:forEach>
+														</tbody>
+													</table>
+													<c:if test="${requestScope.pagecount > 1}">
+														<c:choose>
+															<c:when test="${requestScope.pagecount > 2}">
+																<nav aria-label="Page navigation">
+																<ul class="pagination justify-content-center">
+																	<c:choose>
+																		<c:when test="${requestScope.pagenum == 1}">
+																			<li class="page-item disabled"><a
+																				class="page-link" href="#" tabindex="-1">${previous}</a></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li class="page-item "><a class="page-link"
+																				href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}">${previous}</a></li>
+																		</c:otherwise>
+																	</c:choose>
+
+																	<c:forEach begin="1" end="${requestScope.pagecount}"
+																		varStatus="loop">
+																		<li class="page-item"><a class="page-link"
+																			href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}">${loop.index}</a></li>
+																	</c:forEach>
+
+																	<c:choose>
+																		<c:when
+																			test="${requestScope.pagenum == requestScope.pagecount}">
+																			<li class="page-item disabled"><a
+																				class="page-link" href="#">${next}</a></li>
+																		</c:when>
+																		<c:otherwise>
+																			<li class="page-item "><a class="page-link"
+																				href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																		</c:otherwise>
+																	</c:choose>
+																</ul>
+																</nav>
+															</c:when>
+															<c:otherwise>
 																<c:choose>
 																	<c:when test="${requestScope.pagenum == 1}">
-																		<li class="page-item disabled"><a
-																			class="page-link" href="#" tabindex="-1">Previous</a></li>
+																		<nav aria-label="Page navigation">
+																		<ul class="pagination justify-content-center">
+																			<li class="page-item disabled"><a
+																				class="page-link" href="#" tabindex="-1">${previous}</a></li>
+																			<li class="page-item "><a class="page-link"
+																				href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																			</li>
+																		</ul>
+																		</nav>
 																	</c:when>
 																	<c:otherwise>
-																		<li class="page-item "><a class="page-link"
-																			href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																		<nav aria-label="Page navigation">
+																		<ul class="pagination justify-content-center">
+																			<li class="page-item"><a class="page-link"
+																				href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=0&pagenum=1"
+																				tabindex="-1">${previous}</a></li>
+																			<li class="page-item disabled"><a
+																				class="page-link" href="#">${next}</a></li>
+																		</ul>
+																		</nav>
 																	</c:otherwise>
 																</c:choose>
-
-																<c:forEach begin="1" end="${requestScope.pagecount}"
-																	varStatus="loop">
-																	<li class="page-item"><a class="page-link"
-																		href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}">${loop.index}</a></li>
-																</c:forEach>
-
-																<c:choose>
-																	<c:when
-																		test="${requestScope.pagenum == requestScope.pagecount}">
-																		<li class="page-item disabled"><a
-																			class="page-link" href="#">${next}</a></li>
-																	</c:when>
-																	<c:otherwise>
-																		<li class="page-item "><a class="page-link"
-																			href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
-																	</c:otherwise>
-																</c:choose>
-															</ul>
-															</nav>
-														</c:when>
-														<c:otherwise>
-															<c:choose>
-																<c:when test="${requestScope.pagenum == 1}">
-																	<nav aria-label="Page navigation">
-																	<ul class="pagination justify-content-center">
-																		<li class="page-item disabled"><a
-																			class="page-link" href="#" tabindex="-1">${previous}</a></li>
-																		<li class="page-item "><a class="page-link"
-																			href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=5&pagenum=2">${next}</a>
-																		</li>
-																	</ul>
-																	</nav>
-																</c:when>
-																<c:otherwise>
-																	<nav aria-label="Page navigation">
-																	<ul class="pagination justify-content-center">
-																		<li class="page-item"><a class="page-link"
-																			href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=0&pagenum=1"
-																			tabindex="-1">${previous}</a></li>
-																		<li class="page-item disabled"><a
-																			class="page-link" href="#">${next}</a></li>
-																	</ul>
-																	</nav>
-																</c:otherwise>
-															</c:choose>
-														</c:otherwise>
-													</c:choose>
-												</c:if>
+															</c:otherwise>
+														</c:choose>
+													</c:if>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-					</div>
-				</div>
-				</c:if>
-				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="slider-content">
-						<div class="layer-1-1 hidden-xs wow slideInDown"
-							data-wow-duration="2s" data-wow-delay=".2s">
-							<h2 style="color: white">
-								${welcomtomessage}
-								<h3 style="color: aqua">Human Resources</h3>
-							</h2>
 
+							</div>
 						</div>
-						<div class="layer-1-2 wow slideInUp" data-wow-duration="2s"
-							data-wow-delay=".1s">
-							<h4 style="color: white">${presentationmessage}</h4>
+				</c:when>
+				<c:otherwise>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="slider-content">
+							<div class="layer-1-1 hidden-xs wow slideInDown"
+								data-wow-duration="2s" data-wow-delay=".2s">
+								<h2 style="color: white">
+									${welcomtomessage}
+									<h3 style="color: aqua">Human Resources</h3>
+								</h2>
+
+							</div>
+							<div class="layer-1-2 wow slideInUp" data-wow-duration="2s"
+								data-wow-delay=".1s">
+								<h4 style="color: white">${presentationmessage}</h4>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
-	</div>
-	</div>
 	</div>
 
 	<form action="controllerServlet" method="get">
@@ -399,7 +396,7 @@
 														<option>${modalselectupto4year}</option>
 														<option>${modalselectupto5year}</option>
 														<option>${modalselectupto6year}</option>
-														<option>${modalselectupto7year}т</option>
+														<option>${modalselectupto7year}</option>
 														<option>${modalselectupto8year}</option>
 														<option>${modalselectupto9year}</option>
 														<option>${modalselectupto10year}</option>
@@ -463,7 +460,7 @@
 														<option>${modalselectupto4year}</option>
 														<option>${modalselectupto5year}</option>
 														<option>${modalselectupto6year}</option>
-														<option>${modalselectupto7year}т</option>
+														<option>${modalselectupto7year}</option>
 														<option>${modalselectupto8year}</option>
 														<option>${modalselectupto9year}</option>
 														<option>${modalselectupto10year}</option>
@@ -477,7 +474,7 @@
 												</select> </a> <a><label for="message">${modaleaboutyou} </label> <textarea
 														class="form-control" name="aboutuser" rows="5"
 														data-rule="required"
-														placeholder="Please write something about yourSelf:"></textarea>
+														placeholder="${messageaboutyourself}"></textarea>
 												</a> <input type="hidden" name="userid" value="${user.userId}">
 											</div>
 										</c:otherwise>
@@ -495,7 +492,7 @@
 											data-id="${user.userId}">${deletebutton}</button>
 										<button class="btn btn-success" type="submit" name="command"
 											value="cb.update_profile">${updatebutton}</button>
-										<button class="btn btn-danger" type="button"
+										<button class="btn btn-info" type="button"
 											data-dismiss="modal">${closebutton}</button>
 									</div>
 								</c:when>
@@ -569,11 +566,11 @@
 							<c:when test="${user.resumeId!='0'}">
 								<button class="btn btn-success" type="button"
 									data-dismiss="modal">${closebutton}</button>
-								
-								<button type="button" class="btn btn-danger"
-											data-toggle="modal" data-target="#resumewilbedeletedmodal"
-											data-idresume="${user.userId}">${deletebutton}</button>
-								</c:when>
+
+								<button type="button" class="btn btn-danger" data-toggle="modal"
+									data-target="#resumewilbedeletedmodal"
+									data-idresume="${user.userId}">${deletebutton}</button>
+							</c:when>
 							<c:otherwise>
 								<input type="hidden" name="command" value="cb.add_resume">
 								<button class="btn btn-danger" type="button"
@@ -588,156 +585,172 @@
 	</form>
 
 
-
-	<div id="profilemodaladd" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${requestScope.profile_add_message == 1}">
-								<h5 align="center" class="modal-title" style="color: green;">${profileadded}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${profilenotadded}</h5>
-							</c:otherwise>
-						</c:choose>
-
+	<form action="controllerServlet" method="get">
+		<div id="profilemodaladd" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					<div class="modal-body">
+						<div class="form-group">
+							<c:choose>
+								<c:when test="${requestScope.profile_add_message == 1}">
+									<h5 align="center" class="modal-title" style="color: green;">${profileadded}</h5>
+								</c:when>
+								<c:otherwise>
+									<h5 align="center" class="modal-title" style="color: red;">${profilenotadded}</h5>
+								</c:otherwise>
+							</c:choose>
+
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="cb.employee_page">
+						<button class="btn btn-success" type="submit">${okbutton}</button>
+					</div>
+
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
-	<div id="profilemodaldelete" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${requestScope.profile_delete_message == 1}">
-								<h5 align="center" class="modal-title" style="color: green;">${profiledeleted}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${profilenotdeleted}</h5>
-							</c:otherwise>
-						</c:choose>
-
+	<form action="controllerServlet" method="get">
+		<div id="profilemodaldelete" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					<div class="modal-body">
+						<div class="form-group">
+							<c:choose>
+								<c:when test="${requestScope.profile_delete_message == 1}">
+									<h5 align="center" class="modal-title" style="color: green;">${profiledeleted}</h5>
+								</c:when>
+								<c:otherwise>
+									<h5 align="center" class="modal-title" style="color: red;">${profilenotdeleted}</h5>
+								</c:otherwise>
+							</c:choose>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="cb.employee_page">
+						<button class="btn btn-success" type="submit">${okbutton}</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
-	<div id="profilemodalupdate" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${requestScope.profile_update_message == 1}">
-								<h5 align="center" class="modal-title" style="color: green;">${profileupdate}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${profilenotupdate}</h5>
-							</c:otherwise>
-						</c:choose>
-
+	<form action="controllerServlet" method="get">
+		<div id="profilemodalupdate" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					<div class="modal-body">
+						<div class="form-group">
+							<c:choose>
+								<c:when test="${requestScope.profile_update_message == 1}">
+									<h5 align="center" class="modal-title" style="color: green;">${profileupdate}</h5>
+								</c:when>
+								<c:otherwise>
+									<h5 align="center" class="modal-title" style="color: red;">${profilenotupdate}</h5>
+								</c:otherwise>
+							</c:choose>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="cb.employee_page">
+						<button class="btn btn-success" type="submit">${okbutton}</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
-	<div id="resumemodaladd" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${requestScope.resume_add_message == 1}">
-								<h5 align="center" class="modal-title" style="color: green;">${resumeadded}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${resumenotadded}</h5>
-							</c:otherwise>
-						</c:choose>
-
+	<form action="controllerServlet" method="get">
+		<div id="resumemodaladd" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					<div class="modal-body">
+						<div class="form-group">
+							<c:choose>
+								<c:when test="${requestScope.resume_add_message == 1}">
+									<h5 align="center" class="modal-title" style="color: green;">${resumeadded}</h5>
+								</c:when>
+								<c:otherwise>
+									<h5 align="center" class="modal-title" style="color: red;">${resumenotadded}</h5>
+								</c:otherwise>
+							</c:choose>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="cb.employee_page">
+						<button class="btn btn-success" type="submit">${okbutton}</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
-	<div id="resumemodaldelete" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${requestScope.resume_delete_message == 1}">
-								<h5 align="center" class="modal-title" style="color: green;">${resumedeleted}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${resumenotdeleted}</h5>
-							</c:otherwise>
-						</c:choose>
-
+	<form action="controllerServlet" method="get">
+		<div id="resumemodaldelete" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					<div class="modal-body">
+						<div class="form-group">
+							<c:choose>
+								<c:when test="${requestScope.resume_delete_message == 1}">
+									<h5 align="center" class="modal-title" style="color: green;">${resumedeleted}</h5>
+								</c:when>
+								<c:otherwise>
+									<h5 align="center" class="modal-title" style="color: red;">${resumenotdeleted}</h5>
+								</c:otherwise>
+							</c:choose>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="command" value="cb.employee_page">
+						<button class="btn btn-success" type="submit">${okbutton}</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
 	<form action="controllerServlet" method="get">
 		<div id="profilewilbedeletedmodal" class="modal fade" tabindex="-1">
@@ -767,7 +780,7 @@
 			</div>
 		</div>
 	</form>
-	
+
 	<form action="controllerServlet" method="get">
 		<div id="resumewilbedeletedmodal" class="modal fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -787,7 +800,8 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success" type="button" data-dismiss="modal">${cancelbutton}</button>
-						<input type="hidden" id="resumeid" name="resumeid"> <input type="hidden" name="command" value="cb.delete_resume">
+						<input type="hidden" id="resumeid" name="resumeid"> <input
+							type="hidden" name="command" value="cb.delete_resume">
 						<button class="btn btn-danger" type="submit">${deletebutton}</button>
 
 					</div>
@@ -795,8 +809,6 @@
 			</div>
 		</div>
 	</form>
-	
-
 
 
 	<%@ include file="include/footer_include"%>
@@ -807,15 +819,15 @@
 			document.getElementById('userid').value = id;
 		})
 	</script>
-	
+
 	<script>
 		$('#resumewilbedeletedmodal').on('show.bs.modal', function(e) {
 			var $modal = $(this), idresume = e.relatedTarget.dataset.idresume;
 			document.getElementById('resumeid').value = idresume;
 		})
 	</script>
-		
-	
+
+
 
 	<c:if test="${not empty requestScope.profile_add_message}">
 		<script>
@@ -875,10 +887,5 @@
 		document.getElementById("tel").value = "${profile.phone}";
 		document.getElementById("about").value = "${profile.aboutUser}";
 	</script>
-
-
-
-
-
 </body>
 </html>

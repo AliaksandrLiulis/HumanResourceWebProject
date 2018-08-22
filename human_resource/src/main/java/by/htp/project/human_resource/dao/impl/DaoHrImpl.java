@@ -200,6 +200,8 @@ public class DaoHrImpl implements IDaoHr {
 		}
 		return allVacancy;
 	}
+	
+	
 
 	@Override
 	public boolean deleteVacancy(int id) throws DaoException {
@@ -244,5 +246,12 @@ public class DaoHrImpl implements IDaoHr {
 		}
 	}
 
+	@Override
+	public List<String> searchResumeByParam(String... params) throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

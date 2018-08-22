@@ -37,6 +37,26 @@
 <fmt:message bundle="${loc}" key="local.employee.messagedeletevacancy" var="messagedeletevacancy" />
 <fmt:message bundle="${loc}" key="local.hr.deletebutton" var="deletebutton" />
 <fmt:message bundle="${loc}" key="local.employee.cancelbutton" var="cancelbutton" />
+<fmt:message bundle="${loc}" key="local.employee.messagedonthavevacancy" var="messagedonthavevacancy" />
+
+<fmt:message bundle="${loc}" key="local.employee.selectfood" var="selectfood" />
+<fmt:message bundle="${loc}" key="local.employee.selectdrink" var="selectdrink" />
+<fmt:message bundle="${loc}" key="local.employee.messagedonthavevacancy" var="selectproducts" />
+<fmt:message bundle="${loc}" key="local.employee.selectbuildingmaterials" var="selectbuildingmaterials" />
+<fmt:message bundle="${loc}" key="local.employee.selectothergoods" var="selectothergoods" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectnoworkexpiriance" var="modalselectnoworkexpiriance" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto1year" var="modalselectupto1year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto2year" var="modalselectupto2year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto3year" var="modalselectupto3year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto4year" var="modalselectupto4year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto5year" var="modalselectupto5year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto6year" var="modalselectupto6year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto7year" var="modalselectupto7year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto8year" var="modalselectupto8year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto9year" var="modalselectupto9year" />
+<fmt:message bundle="${loc}" key="local.employee.modalselectupto10year" var="modalselectupto10year" />
+<fmt:message bundle="${loc}" key="local.registration.messagefildvalidaty" var="messagefildvalidaty" />
+
 
 
 

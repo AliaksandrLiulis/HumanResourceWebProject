@@ -27,19 +27,7 @@
 <%@ include file="include/registration_include"%>
 
 <script type="text/javascript">
-function InvalidMsg(textbox) {
-	
-    if (textbox.value == '' || textbox.value.length > 30) {
-        textbox.setCustomValidity("${messagefildvalidaty}");
-    }
-    else if(textbox.validity.typeMismatch){
-        textbox.setCustomValidity("${messageemailvalidaty}");
-    }
-    else {
-        textbox.setCustomValidity('');
-    }
-    return true;
-}
+
 </script>
 
 </head>
@@ -160,8 +148,8 @@ function InvalidMsg(textbox) {
 													oninput="InvalidMsg(this);"
 													class="form-control hidden-xs" name="surname"
 													placeholder="${messageforsurname}" required> <br>
-												<label for="email">email</label> <input type="email" oninvalid="InvalidMsg(this);"
-													oninput="InvalidMsg(this);"
+												<label for="email">email</label> <input type="email" oninvalid="InvalidMailMsg(this);"
+													oninput="InvalidMailMsg(this);"
 													class="form-control hidden-xs" name="email"
 													placeholder="${messageforemail}" required> <br>
 												<input type="hidden" name="command" value="login"> <label
@@ -215,8 +203,34 @@ function InvalidMsg(textbox) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
 	
 	<%@ include file="include/footer_include"%>
+	
+	<script type="text/javascript">
+function InvalidMsg(textbox) {
+	
+    if (textbox.value == '' || textbox.value.length > 15) {
+        textbox.setCustomValidity("${messagefildvalidaty}");
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+function InvalidMailMsg(textbox) {
+	
+    if (textbox.value == '' || textbox.value.length > 30) {
+        textbox.setCustomValidity("${messagemailfildvalidaty}");
+    }
+    else if(textbox.validity.typeMismatch){
+        textbox.setCustomValidity("${messageemailvalidaty}");
+    }
+    else {
+        textbox.setCustomValidity('');
+    }
+    return true;
+}
+</script>
 </body>
 </html>

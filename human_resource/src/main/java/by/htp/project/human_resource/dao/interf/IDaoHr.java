@@ -11,6 +11,7 @@ public interface IDaoHr {
 	int getCountAllRowsForTable(final String tableName) throws DaoException;
 	List<Vacancy> searchVacancyByParam(final String... params) throws DaoException;
 	boolean deleteVacancy(final int id) throws DaoException;
+	List<String> searchResumeByParam(final String... params) throws DaoException;
 		
 	
 

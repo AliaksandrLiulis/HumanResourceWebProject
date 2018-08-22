@@ -12,6 +12,7 @@ public class ServiceParamConstant {
 	public final static String USER_ATTRIBUTE = "user";
 	public final static String PROFILE_ATTRIBUTE = "profile";
 	public final static String VACANCY_ATTRIBUTE= "vacancy";
+	public final static String RESUME_ATTRIBUTE= "resume";
 	public final static String ALL_VACANCY_ATTRIBUTE= "allVacancy";
 	public final static String PAGE_COUNT= "pagecount";
 	public final static String PAGE_NUM = "pagenum";

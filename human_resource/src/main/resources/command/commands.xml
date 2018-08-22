@@ -95,4 +95,8 @@
 		<key>cb.get_vacancy_for_job_seeker</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetVacancyForJobSeeker</value>
 	</command>
+	<command>
+		<key>cb.get_all_resume</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetResumeForHr</value>
+	</command>
 </commands>

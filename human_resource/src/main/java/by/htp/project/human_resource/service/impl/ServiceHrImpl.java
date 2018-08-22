@@ -117,6 +117,51 @@ public class ServiceHrImpl implements IServiceHr {
 			}
 		}
 	}
+	
+	@Override
+	public void getResume(HttpServletRequest request, HttpServletResponse response) {
+		String tableNameVacancy = null;
+		int pageNum = 0;		
+		int countAllResume = 0;
+		String limitLine = null;
+		String offsetLine = null;
+		int pageCount = 0;
+		List<String> allResume;
+		RequestDispatcher dispatcher = null;
+
+		tableNameVacancy = ServiceParamConstant.RESUME_ATTRIBUTE;
+		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
+		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
+		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
+		try {
+						
+			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
+			if (countAllResume != 0) {
+				allResume = daoHr.searchResumeByParam(limitLine, offsetLine);
+				if (allResume != null) {
+					pageCount = countPaging(countAllResume, Integer.parseInt(limitLine));
+					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
+					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
+					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allResume);
+
+				} else {
+					request.setAttribute("no_resume", "message_about_empty_list_resume");
+				}
+			} else {
+				request.setAttribute("no_resume", "message_about_empty_list_resume");
+			}
+		} catch (DaoException e) {
+			logger.error("ServiceHrImpl: getVacancy: " + e);
+			request.setAttribute("error_get_resume", "resume receipt error");
+		} finally {
+			try {
+				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceHrImpl: getResume: " + e);
+			}
+		}
+	}
 
 	@Override
 	public void deleteVacancyById(HttpServletRequest request, HttpServletResponse response) {

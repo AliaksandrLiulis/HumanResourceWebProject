@@ -242,7 +242,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 
 		session = request.getSession();
 		resumeId = request.getParameter(ServiceParamConstant.USER_RESUME_ID__PARAM);
-		System.out.println(resumeId);
 		try {
 			user = daoJobSeeker.deleteResume(Integer.parseInt(resumeId));
 			if (user != null) {

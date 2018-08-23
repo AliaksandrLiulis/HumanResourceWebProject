@@ -46,6 +46,8 @@ public class ServiceParamConstant {
 	public final static String OFFSET_LINE_NUMBER = "offsetline";
 	public final static String EMPTY_VACANCY_MESSAGE = "no_vacancies";
 	public final static String MESSAGE_ERROR_GET_VACANCY = "error_get_vacancy";
+	public final static String PROFESSION_NAME_BY_LOCAL = "professionnamebylocal";
+	
 	
 	
 	

@@ -26,6 +26,8 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <%@ include file="include/emoloyee_include"%>
 
+</style>
+
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
@@ -198,8 +200,6 @@
 																<th style="color: orange;" scope="col">${number}</th>
 																<th style="color: orange;" scope="col">${professionname}</th>
 																<th style="color: orange;" scope="col">${companyname}</th>
-																<th style="color: orange;" scope="col">${experience}</th>
-																<th style="color: orange;" scope="col">${salary}</th>
 																<th style="color: orange;" scope="col">${showvacancy}</th>
 															</tr>
 														</thead>
@@ -212,13 +212,27 @@
 																	<td style="color: black;">${count}</td>
 																	<td style="color: black;">${vacancy.professionName}</td>
 																	<td style="color: black;">${vacancy.companyName}</td>
-																	<td style="color: black;">${vacancy.experience}</td>
-																	<td style="color: black;">${vacancy.salary}</td>
-																	<td><c:set var="count" value="${count + 1}"
-																			scope="page" />
-																		<form method="post" action="">
-																			<button type="submit" class="btn btn-success">${showbutton}</button>
-																		</form></td>
+																	<td><c:set var="count" value="${count + 1}"	scope="page" /> 
+																		<c:choose>
+																		<c:when test="${vacancy.professionName eq 'Водитель' || vacancy.professionName eq 'Driver'}">
+																				<a href="#vocancywievdrivermodal"
+																		class="btn btn-link " data-toggle="modal"																		
+																		data-vacancycompanynamebutton="${vacancy.companyName}"
+																		data-vacancyexperiencebutton="${vacancy.experience}"
+																		data-vacancydlcategorybutton="${vacancy.dlCategory}"
+																		data-vacancysalarybutton="${vacancy.salary}"
+																		>${showbutton}</a></td>
+																		</c:when>
+																		<c:when test="${vacancy.professionName eq 'Бухгалтер' || vacancy.professionName eq 'Accountant'}">
+																		<a href="#vocancywievaccountantmodal"
+																		class="btn btn-link " data-toggle="modal"																		
+																		data-vacancycompanynamebutton="${vacancy.companyName}"
+																		data-vacancyexperiencebutton="${vacancy.experience}"
+																		data-vacancysalarybutton="${vacancy.salary}"
+																		>${showbutton}</a></td>
+																		</c:when>
+																		</c:choose>	
+																		
 
 																</tr>
 
@@ -302,19 +316,23 @@
 						</div>
 				</c:when>
 				<c:otherwise>
-					<div class="col-md-12 col-sm-12 col-xs-12">
-						<div class="slider-content">
-							<div class="layer-1-1 hidden-xs wow slideInDown"
-								data-wow-duration="2s" data-wow-delay=".2s">
-								<h2 style="color: white">
-									${welcomtomessage}
-									<h3 style="color: aqua">Human Resources</h3>
-								</h2>
+					<div id="slider-direction-1" class="slider-direction slider-one">
 
-							</div>
-							<div class="layer-1-2 wow slideInUp" data-wow-duration="2s"
-								data-wow-delay=".1s">
-								<h4 style="color: white">${presentationmessage}</h4>
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="slider-content">
+
+								<div class="layer-1-1 hidden-xs wow slideInDown"
+									data-wow-duration="2s" data-wow-delay=".2s">
+									<h2 style="color: white">
+										${welcomtomessage}
+										<h3 style="color: aqua">Human Resources</h3>
+									</h2>
+
+								</div>
+								<div class="layer-1-2 wow slideInUp" data-wow-duration="2s"
+									data-wow-delay=".1s">
+									<h4 style="color: white">${presentationmessage}</h4>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -465,16 +483,15 @@
 														<option>${modalselectupto9year}</option>
 														<option>${modalselectupto10year}</option>
 														<option>${modalselectmorethan10years}</option>
-												</select> </a> <a><label for="education">${profile.education}
-												</label> <select class="form-control hidden-xs" id="education"
+												</select> </a> <a><label for="education">${modaleducation} </label> <select
+													class="form-control hidden-xs" id="education"
 													name="education" required>
 														<option selected>${modalselectsecondaryeducation}</option>
 														<option>${modalselectspecialyeducation}</option>
 														<option>${modalselecthighereducation}</option>
 												</select> </a> <a><label for="message">${modaleaboutyou} </label> <textarea
 														class="form-control" name="aboutuser" rows="5"
-														data-rule="required"
-														placeholder="${messageaboutyourself}"></textarea>
+														data-rule="required" placeholder="${messageaboutyourself}"></textarea>
 												</a> <input type="hidden" name="userid" value="${user.userId}">
 											</div>
 										</c:otherwise>
@@ -781,6 +798,124 @@
 		</div>
 	</form>
 
+		<div id="vocancywievdrivermodal" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<br>
+						<h3 align="center" class="modal-title" style="color: Blue;">${headervacancydriver}</h3>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<h4>${company}
+								<label id="nameOfcompany"></label> ${welcomtoworkdriver}
+							</h4>
+
+							<b><h5 style="color: red">${responsibility}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${transportations}</li>
+									<li>- ${maintenanceservice}</li>
+									<li>- ${controlofloading}</li>
+									<li>- ${adherencetodelivery}</li>
+									<li>- ${smallrepairs}</li>
+									<li>- ${servicestandards}</li>
+									<li>- ${carefulattitude}</li>
+								</ul>
+							</h6>
+							<b><h5 style="color: red">${requirements}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${experienceinsimilarposition} <label
+										id="vacancyexperience"></label></li>
+									<li>- ${drivinglicensecategory} <label
+										id="vacancydlcategory"></label></li>
+									<li>- ${responsibilityorganizationpunctuality}</li>
+									<li>- ${comfortabledrivingstyle}</li>
+								</ul>
+							</h6>
+							<b><h5 style="color: red">${conditions}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${registration}</li>
+									<li>- ${officialsalary} <label
+										id="vacancysalary"></label></li>
+									<li>- ${workingconditions}</li>
+								</ul>
+							</h6>
+						</div>
+					</div>
+					<div class="modal-footer">
+
+						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="vocancywievaccountantmodal" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<br>
+						<h3 align="center" class="modal-title" style="color: Blue;">${headervacancyaccountant}</h3>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<h4>${company}
+								<label id="namecompany"></label> ${welcomtoworkaccountant}
+							</h4>
+
+							<b><h5 style="color: red">${responsibility}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${collectionofdocuments}</li>
+									<li>- ${payroll}</li>
+									<li>- ${creationmaintenance}</li>
+									<li>- ${conductingcomparisons}</li>
+								</ul>
+							</h6>
+							<b><h5 style="color: red">${requirements}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${highereducation} </li>
+									<li>- ${experienceasanaccountant} <label id="vacancyaccountantexperience"></label></li>
+									<li>- ${responsibilitydiligence}</li>
+									<li>- ${knowledgeofaccounting}</li>
+								</ul>
+							</h6>
+							<b><h5 style="color: red">${conditions}</h5></b>
+							<h6 style="color: black;">
+								<ul align="left">
+									<li>- ${registration}</li>
+									<li>- ${officialsalary} <label
+										id="vacancyaccaountantsalary"></label></li>
+									<li>- ${workingconditions}</li>
+								</ul>
+							</h6>
+						</div>
+					</div>
+					<div class="modal-footer">
+
+						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	
+	
+
 	<form action="controllerServlet" method="get">
 		<div id="resumewilbedeletedmodal" class="modal fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -800,9 +935,8 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success" type="button" data-dismiss="modal">${cancelbutton}</button>
-						<input type="hidden" id="resumeid" name="resumeid"> <input
-							type="hidden" name="command" value="cb.delete_resume">
-						<button class="btn btn-danger" type="submit">${deletebutton}</button>
+						<input type="hidden" id="resumeid" name="resumeid">
+
 
 					</div>
 				</div>
@@ -811,8 +945,43 @@
 	</form>
 
 
+
+
 	<%@ include file="include/footer_include"%>
 
+	<script>
+		$('#vocancywievdrivermodal')
+				.on(
+						'show.bs.modal',
+						function(e) {
+							var $modal = $(this), vacancycompanynamebutton = e.relatedTarget.dataset.vacancycompanynamebutton;
+							document.getElementById('nameOfcompany').innerHTML = vacancycompanynamebutton;
+							var $modal = $(this), vacancyexperiencebutton = e.relatedTarget.dataset.vacancyexperiencebutton;
+							document.getElementById('vacancyexperience').innerHTML = vacancyexperiencebutton;
+							var $modal = $(this), vacancydlcategorybutton = e.relatedTarget.dataset.vacancydlcategorybutton;
+							document.getElementById('vacancydlcategory').innerHTML = vacancydlcategorybutton;
+							var $modal = $(this), vacancysalarybutton = e.relatedTarget.dataset.vacancysalarybutton;
+							document.getElementById('vacancysalary').innerHTML = vacancysalarybutton;
+
+						})
+	</script>
+	
+	<script>
+		$('#vocancywievaccountantmodal')
+				.on(
+						'show.bs.modal',
+						function(e) {
+							var $modal = $(this), vacancycompanynamebutton = e.relatedTarget.dataset.vacancycompanynamebutton;
+							document.getElementById('namecompany').innerHTML = vacancycompanynamebutton;
+							var $modal = $(this), vacancyexperiencebutton = e.relatedTarget.dataset.vacancyexperiencebutton;
+							document.getElementById('vacancyaccountantexperience').innerHTML = vacancyexperiencebutton;
+							var $modal = $(this), vacancysalarybutton = e.relatedTarget.dataset.vacancysalarybutton;							
+							document.getElementById('vacancyaccaountantsalary').innerHTML = vacancysalarybutton;
+
+						})
+	</script>
+	
+	
 	<script>
 		$('#profilewilbedeletedmodal').on('show.bs.modal', function(e) {
 			var $modal = $(this), id = e.relatedTarget.dataset.id;

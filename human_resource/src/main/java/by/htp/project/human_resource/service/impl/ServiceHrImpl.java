@@ -138,7 +138,9 @@ public class ServiceHrImpl implements IServiceHr {
 			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
 			if (countAllResume != 0) {
 				allResume = daoHr.searchResumeByParam(limitLine, offsetLine);
+				System.out.println(allResume);
 				if (allResume != null) {
+					
 					pageCount = countPaging(countAllResume, Integer.parseInt(limitLine));
 					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
@@ -197,7 +199,7 @@ public class ServiceHrImpl implements IServiceHr {
 		String dlCategory = null;
 		String salary = null;
 		String whoAdded = null;
-		String profession = ServiceParamConstant.DRIVER_NAME;
+		String professionByLocal = null;
 		List<String> paramsList = new ArrayList<>();
 
 		companyName = request.getParameter(ServiceParamConstant.COMPANY_NAME_PARAM);
@@ -206,8 +208,9 @@ public class ServiceHrImpl implements IServiceHr {
 		dlCategory = request.getParameter(ServiceParamConstant.DRIVER_LICENC_CATEGORY_PARAM);
 		salary = request.getParameter(ServiceParamConstant.SALARY_PARAM);
 		whoAdded = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
+		professionByLocal = request.getParameter(ServiceParamConstant.PROFESSION_NAME_BY_LOCAL);
 
-		paramsList.add(profession);
+		paramsList.add(professionByLocal);
 		paramsList.add(companyName);
 		paramsList.add(experience);
 		paramsList.add(salary);
@@ -223,15 +226,16 @@ public class ServiceHrImpl implements IServiceHr {
 		String experience = null;
 		String salary = null;
 		String whoAdded = null;
-		String profession = ServiceParamConstant.ACCOUNTANT_NAME;
+		String professionByLocal = null;
 		List<String> paramsList = new ArrayList<>();
-
+		
 		companyName = request.getParameter(ServiceParamConstant.COMPANY_NAME_PARAM);
 		experience = request.getParameter(ServiceParamConstant.WORK_EXPIRIENCE_PARAM);
 		salary = request.getParameter(ServiceParamConstant.SALARY_PARAM);
 		whoAdded = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
+		professionByLocal = request.getParameter(ServiceParamConstant.PROFESSION_NAME_BY_LOCAL);
 
-		paramsList.add(profession);
+		paramsList.add(professionByLocal);
 		paramsList.add(companyName);
 		paramsList.add(experience);
 		paramsList.add(salary);

@@ -57,6 +57,39 @@
 <fmt:message bundle="${loc}" key="local.employee.modalselectupto10year" var="modalselectupto10year" />
 <fmt:message bundle="${loc}" key="local.registration.messagefildvalidaty" var="messagefildvalidaty" />
 
+<fmt:message bundle="${loc}" key="local.employee.headervacancy" var="headervacancydriver" />
+<fmt:message bundle="${loc}" key="local.employee.company" var="company" />
+<fmt:message bundle="${loc}" key="local.employee.welcomtowork" var="welcomtoworkdriver" />
+<fmt:message bundle="${loc}" key="local.employee.responsibility" var="responsibility" />
+<fmt:message bundle="${loc}" key="local.employee.transportations" var="transportations" />
+<fmt:message bundle="${loc}" key="local.employee.maintenanceservice" var="maintenanceservice" />
+<fmt:message bundle="${loc}" key="local.employee.controlofloading" var="controlofloading" />
+<fmt:message bundle="${loc}" key="local.employee.adherencetodelivery" var="adherencetodelivery" />
+<fmt:message bundle="${loc}" key="local.employee.smallrepairs" var="smallrepairs" />
+<fmt:message bundle="${loc}" key="local.employee.servicestandards" var="servicestandards" />
+<fmt:message bundle="${loc}" key="local.employee.carefulattitude" var="carefulattitude" />
+<fmt:message bundle="${loc}" key="local.employee.requirements" var="requirements" />
+<fmt:message bundle="${loc}" key="local.employee.experienceinsimilarposition" var="experienceinsimilarposition" />
+<fmt:message bundle="${loc}" key="local.employee.drivinglicensecategory" var="drivinglicensecategory" />
+<fmt:message bundle="${loc}" key="local.employee.responsibilityorganizationpunctuality" var="responsibilityorganizationpunctuality" />
+<fmt:message bundle="${loc}" key="local.employee.comfortabledrivingstyle" var="comfortabledrivingstyle" />
+<fmt:message bundle="${loc}" key="local.employee.conditions" var="conditions" />
+<fmt:message bundle="${loc}" key="local.employee.registration" var="registration" />
+<fmt:message bundle="${loc}" key="local.employee.officialsalary" var="officialsalary" />
+<fmt:message bundle="${loc}" key="local.employee.workingconditions" var="workingconditions" />
+
+<fmt:message bundle="${loc}" key="local.employee.headervacancyaccountant" var="headervacancyaccountant" />
+<fmt:message bundle="${loc}" key="local.employee.welcomtoworkaccountant" var="welcomtoworkaccountant" />
+<fmt:message bundle="${loc}" key="local.employee.collectionofdocuments" var="collectionofdocuments" />
+<fmt:message bundle="${loc}" key="local.employee.payroll" var="payroll" />
+<fmt:message bundle="${loc}" key="local.employee.creationmaintenance" var="creationmaintenance" />
+<fmt:message bundle="${loc}" key="local.employee.conductingcomparisons" var="conductingcomparisons" />
+<fmt:message bundle="${loc}" key="local.employee.highereducation" var="highereducation" />
+<fmt:message bundle="${loc}" key="local.employee.experienceasanaccountant" var="experienceasanaccountant" />
+<fmt:message bundle="${loc}" key="local.employee.responsibilitydiligence" var="responsibilitydiligence" />
+<fmt:message bundle="${loc}" key="local.employee.knowledgeofaccounting" var="knowledgeofaccounting" />
+
+
 
 
 

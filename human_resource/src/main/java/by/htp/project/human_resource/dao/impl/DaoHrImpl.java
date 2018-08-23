@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.interf.IDaoHr;
 import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
+import by.htp.project.human_resource.entity.Resume;
+import by.htp.project.human_resource.entity.ResumeBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
 
@@ -23,7 +25,8 @@ public class DaoHrImpl implements IDaoHr {
 
 	private final String ADD_DRIVER_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
 	private final String ADD_ACCOUNTANT_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
-	private final String SEARCH_BY_PARAM = "select * from vacancies where whoAddedId = ? LIMIT ?, ?";
+	private final String SEARCH_BY_PARAM_FOR_VACANCY = "select * from vacancies where whoAddedId = ? LIMIT ?, ?";
+	private final String SEARCH_BY_PARAM_FOR_RESUME = "select * from resume LIMIT ?, ?";
 	private final String DELETE_VACANCY_BY_ID = "DELETE from vacancies where idvacancies = ?";
 
 	public DaoHrImpl() {
@@ -35,7 +38,7 @@ public class DaoHrImpl implements IDaoHr {
 	@Override
 	public Vacancy addDriverVacancy(final List<String> params) throws DaoException {
 
-		String profession = null;
+		String professionByLocal = null;
 		String companyName = null;
 		String experience = null;
 		String salary = null;
@@ -48,18 +51,19 @@ public class DaoHrImpl implements IDaoHr {
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 
-		profession = params.get(0);
+		professionByLocal = params.get(0);
 		companyName = params.get(1);
 		experience = params.get(2);
 		salary = params.get(3);
 		goods = params.get(4);
 		dlCategory = params.get(5);
 		whoAddedId = params.get(6);
+		
 
 		try {
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_DRIVER_VACANCY);
-			preparedStatement.setString(1, profession);
+			preparedStatement.setString(1, professionByLocal);
 			preparedStatement.setString(2, companyName);
 			preparedStatement.setString(3, experience);
 			preparedStatement.setString(4, salary);
@@ -68,7 +72,7 @@ public class DaoHrImpl implements IDaoHr {
 			preparedStatement.setInt(7, Integer.parseInt(whoAddedId));
 			preparedStatement.executeUpdate();
 
-			vacancy = new VacancyBuilder().professionName(profession).companyName(companyName).experience(experience)
+			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName).experience(experience)
 					.salary(Integer.parseInt(salary)).goods(goods).dlCategory(dlCategory)
 					.whoAddedId(Integer.parseInt(whoAddedId)).build();
 
@@ -86,7 +90,7 @@ public class DaoHrImpl implements IDaoHr {
 
 	@Override
 	public Vacancy addAccountantVacancy(final List<String> params) throws DaoException {
-		String profession = null;
+		String professionByLocal = null;
 		String companyName = null;
 		String experience = null;
 		String salary = null;
@@ -97,23 +101,23 @@ public class DaoHrImpl implements IDaoHr {
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 
-		profession = params.get(0);
+		professionByLocal = params.get(0);
 		companyName = params.get(1);
 		experience = params.get(2);
 		salary = params.get(3);
 		whoAddedId = params.get(4);
-
+		
 		try {
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_ACCOUNTANT_VACANCY);
-			preparedStatement.setString(1, profession);
+			preparedStatement.setString(1, professionByLocal);
 			preparedStatement.setString(2, companyName);
 			preparedStatement.setString(3, experience);
 			preparedStatement.setString(4, salary);
 			preparedStatement.setInt(5, Integer.parseInt(whoAddedId));
 			preparedStatement.executeUpdate();
 
-			vacancy = new VacancyBuilder().professionName(profession).companyName(companyName).experience(experience)
+			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName).experience(experience)
 					.salary(Integer.parseInt(salary)).whoAddedId(Integer.parseInt(whoAddedId)).build();
 
 		} catch (InterruptedException e) {
@@ -176,7 +180,7 @@ public class DaoHrImpl implements IDaoHr {
 		try {
 			connection = connectionPool.takeConnection();
 
-			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM);
+			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_VACANCY);
 			preparedStatement.setInt(1, Integer.parseInt(whoAddedId));
 			preparedStatement.setInt(2, Integer.parseInt(offsetLine));
 			preparedStatement.setInt(3, Integer.parseInt(limiLine));
@@ -248,7 +252,39 @@ public class DaoHrImpl implements IDaoHr {
 
 	@Override
 	public List<String> searchResumeByParam(String... params) throws DaoException {
-		// TODO Auto-generated method stub
+		String limiLine = null;
+		String offsetLine = null;
+		List<Resume> allResume = null;
+		Resume resume;
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		limiLine = params[0];
+		offsetLine = params[1];		
+		allResume = new ArrayList<>();
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_RESUME);			
+			preparedStatement.setInt(2, Integer.parseInt(offsetLine));
+			preparedStatement.setInt(3, Integer.parseInt(limiLine));
+
+			result = preparedStatement.executeQuery();
+			while (result.next()) {
+				
+			}
+		} catch (InterruptedException e) {
+			logger.error("DaoUserImpl: searchVacancyByParam: Connection interrupted: " + e);
+			throw new DaoException("searchVacancyByParam" + e);
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: searchVacancyByParam: SQL error: " + e);
+			throw new DaoException("searchVacancyByParam" + e);
+		} finally {
+			closeResources(result, preparedStatement, connection, "searchVacancyByParam");
+		}
+		
 		return null;
 	}
 

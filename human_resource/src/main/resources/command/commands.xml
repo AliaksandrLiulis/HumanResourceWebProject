@@ -99,4 +99,12 @@
 		<key>cb.get_all_resume</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetResumeForHr</value>
 	</command>
+	<command>
+		<key>cb.read_registered_users</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetRegisteredUser</value>
+	</command>
+	<command>
+		<key>cb.read_unregistered_users</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetUnregisteredUser</value>
+	</command>
 </commands>

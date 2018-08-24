@@ -12,8 +12,8 @@ import by.htp.project.human_resource.service.interf.IServiceHr;
 
 public class GetResumeForHr implements ICommand{
 
-	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	IServiceHr serviceHr = serviceFactory.getServiceHr();
+	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	private IServiceHr serviceHr = serviceFactory.getServiceHr();
 	
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)

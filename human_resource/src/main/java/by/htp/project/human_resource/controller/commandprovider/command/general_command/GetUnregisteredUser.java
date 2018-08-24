@@ -8,16 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.service.factory.ServiceFactory;
-import by.htp.project.human_resource.service.interf.IServiceHr;
+import by.htp.project.human_resource.service.interf.IServiceAdmin;
 
-public class DeleteVacancy implements ICommand {
-
+public class GetUnregisteredUser implements ICommand{
+	
 	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	private IServiceHr serviceHr = serviceFactory.getServiceHr();
+	private IServiceAdmin serviceAdmin = serviceFactory.getServiceAdmin();
 
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-
-		serviceHr.deleteVacancyById(request, response);
+		// TODO Auto-generated method stub
+		
 	}
+
 }

@@ -12,8 +12,8 @@ import by.htp.project.human_resource.service.interf.IServiceJobSeeker;
 
 public class GetVacancyForJobSeeker implements ICommand{
 
-	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	IServiceJobSeeker serviceJpbSeeker = serviceFactory.getServiceJobSeeker();
+	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	private IServiceJobSeeker serviceJpbSeeker = serviceFactory.getServiceJobSeeker();
 	
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)

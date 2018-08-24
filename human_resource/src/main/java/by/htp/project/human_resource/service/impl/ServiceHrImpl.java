@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import by.htp.project.human_resource.dao.exception.DaoException;
 import by.htp.project.human_resource.dao.factory.DaoFactory;
 import by.htp.project.human_resource.dao.interf.IDaoHr;
+import by.htp.project.human_resource.entity.Resume;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.service.constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.constant.ServiceParamConstant;
@@ -126,26 +127,22 @@ public class ServiceHrImpl implements IServiceHr {
 		String limitLine = null;
 		String offsetLine = null;
 		int pageCount = 0;
-		List<String> allResume;
+		List<Resume> allResume;
 		RequestDispatcher dispatcher = null;
 
 		tableNameVacancy = ServiceParamConstant.RESUME_ATTRIBUTE;
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
-		try {
-						
+		try {						
 			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
 			if (countAllResume != 0) {
 				allResume = daoHr.searchResumeByParam(limitLine, offsetLine);
-				System.out.println(allResume);
-				if (allResume != null) {
-					
+				if (allResume != null) {	
 					pageCount = countPaging(countAllResume, Integer.parseInt(limitLine));
 					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
-					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allResume);
-
+					request.setAttribute(ServiceParamConstant.ALL_RESUME_ATTRIBUTE, allResume);
 				} else {
 					request.setAttribute("no_resume", "message_about_empty_list_resume");
 				}

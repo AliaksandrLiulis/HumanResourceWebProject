@@ -8,6 +8,7 @@
 <fmt:message bundle="${loc}" key="local.main.Logout" var="logout" />
 <fmt:message bundle="${loc}" key="local.hr.vacancies" var="vacancies" />
 <fmt:message bundle="${loc}" key="local.hr.resume" var="resume" />
+<fmt:message bundle="${loc}" key="local.hr.bigresume" var="bigresume" />
 <fmt:message bundle="${loc}" key="local.hr.myvacancies" var="myvacancies" />
 <fmt:message bundle="${loc}" key="local.hr.addvacancy" var="addvacancy" />
 <fmt:message bundle="${loc}" key="local.hr.number" var="number" />
@@ -88,6 +89,21 @@
 <fmt:message bundle="${loc}" key="local.employee.experienceasanaccountant" var="experienceasanaccountant" />
 <fmt:message bundle="${loc}" key="local.employee.responsibilitydiligence" var="responsibilitydiligence" />
 <fmt:message bundle="${loc}" key="local.employee.knowledgeofaccounting" var="knowledgeofaccounting" />
+
+<fmt:message bundle="${loc}" key="local.hr.number" var="number" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytablename" var="vacancytablename" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytablesurName" var="vacancytablesurName" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableemail" var="vacancytableemail" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytablephone" var="vacancytablephone" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytablebirthDayDate" var="vacancytablebirthDayDate" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableregistrationDate" var="vacancytableregistrationDate" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableresidence" var="vacancytableresidence" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableworkSpeciality" var="vacancytableworkSpeciality" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableworkExpirience" var="vacancytableworkExpirience" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableeducation" var="vacancytableeducation" />
+<fmt:message bundle="${loc}" key="local.hr.vacancytableaboutUser" var="vacancytableaboutUser" />
+
+
 
 
 

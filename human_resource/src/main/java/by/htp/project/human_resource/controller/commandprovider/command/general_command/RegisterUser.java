@@ -12,8 +12,8 @@ import by.htp.project.human_resource.service.interf.IServiceUser;
 
 public class RegisterUser implements ICommand {
 
-	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	IServiceUser serviceUser = serviceFactory.getServiceUser();
+	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	private IServiceUser serviceUser = serviceFactory.getServiceUser();
 
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)

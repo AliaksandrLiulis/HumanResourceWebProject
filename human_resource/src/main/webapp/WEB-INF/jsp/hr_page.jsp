@@ -312,6 +312,163 @@
 					</div>
 				</div>
 			</c:if>
+			<c:if test="${not empty requestScope.allResume}">
+				<div id="slider-direction-1" class="slider-direction slider-one">
+					<div class="container-fluid">
+						<div class="row">
+							<br> <br> <br> <br> <br> <br> <br>
+							<br>
+							<div class="layer-1-1 hidden-xs wow slideInDown"
+								data-wow-duration="1s" data-wow-delay=".2s">
+								<div class="row">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+
+										<div class="section section-breadcrumbs">
+											<div class="container">
+												<div class="row">
+													<div class="col-md-12">
+														<h4>${bigresume}</h4>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="section">
+											<div class="container">
+												<table class="table table-bordered table-hover table-sm">
+													<thead>
+														<tr>
+															<th style="color: orange;" scope="col">${number}</th>
+															<th style="color: orange;" scope="col">${vacancytablename}</th>
+															<th style="color: orange;" scope="col">${vacancytablesurName}</th>
+															<th style="color: orange;" scope="col">${vacancytableemail}</th>	
+															<th style="color: orange;" scope="col">${vacancytablephone}</th>														
+															<th style="color: orange;" scope="col">${vacancytablebirthDayDate}</th>
+															<th style="color: orange;" scope="col">${vacancytableregistrationDate}</th>															
+															<th style="color: orange;" scope="col">${vacancytableresidence}</th>
+															<th style="color: orange;" scope="col">${vacancytableworkSpeciality}</th>
+															<th style="color: orange;" scope="col">${vacancytableworkExpirience}</th>
+															<th style="color: orange;" scope="col">${vacancytableeducation}</th>
+															<th style="color: orange;" scope="col">${vacancytableaboutUser}</th>
+														</tr>
+													</thead>
+													<tbody>
+														<c:set var="count" value="${(requestScope.pagenum * 5)-4}"
+															scope="page" />
+														<c:forEach var="resume" items="${requestScope.allResume}">
+															<tr>
+																<td style="color: black;">${count}</td>
+																<td style="color: black;">${resume.name}</td>
+																<td style="color: black;">${resume.surName}</td>
+																<td style="color: black;">${resume.email}</td>
+																<td style="color: black;">${resume.phone}</td>
+																<td style="color: black;">${resume.birthDayDate}</td>
+																<td style="color: black;">${resume.registrationDate}</td>															
+																<td style="color: black;">${resume.residence}</td>
+																<td style="color: black;">${resume.workSpeciality}</td>
+																<td style="color: black;">${resume.workExpirience}</td>
+																<td style="color: black;">${resume.education}</td>
+																<td style="color: black;">${resume.aboutUser}</td>
+																<c:set var="count" value="${count + 1}"
+																		scope="page" />
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+												<c:if test="${requestScope.pagecount > 1}">
+													<c:choose>
+														<c:when test="${requestScope.pagecount > 2}">
+															<nav aria-label="Page navigation">
+															<ul class="pagination justify-content-center">
+																<c:choose>
+																	<c:when test="${requestScope.pagenum == 1}">
+																		<li class="page-item disabled"><a
+																			class="page-link" href="#" tabindex="-1">Previous</a></li>
+																	</c:when>
+																	<c:otherwise>
+																		<li class="page-item "><a class="page-link"
+																			href="controllerServlet?command=cb.get_all_resume&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																	</c:otherwise>
+																</c:choose>
+
+																<c:forEach begin="1" end="${requestScope.pagecount}"
+																	varStatus="loop">
+																	<li class="page-item"><a class="page-link"
+																		href="controllerServlet?command=cb.get_all_resume&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																			&pagenum=${loop.index}">${loop.index}</a></li>
+																</c:forEach>
+
+																<c:choose>
+																	<c:when
+																		test="${requestScope.pagenum == requestScope.pagecount}">
+																		<li class="page-item disabled"><a
+																			class="page-link" href="#">${next}</a></li>
+																	</c:when>
+																	<c:otherwise>
+																		<li class="page-item "><a class="page-link"
+																			href="controllerServlet?command=cb.get_all_resume&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																	</c:otherwise>
+																</c:choose>
+															</ul>
+															</nav>
+														</c:when>
+														<c:otherwise>
+															<c:choose>
+																<c:when test="${requestScope.pagenum == 1}">
+																	<nav aria-label="Page navigation">
+																	<ul class="pagination justify-content-center">
+																		<li class="page-item disabled"><a
+																			class="page-link" href="#" tabindex="-1">${previous}</a></li>
+																		<li class="page-item "><a class="page-link"
+																			href="controllerServlet?command=cb.get_all_resume&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																		</li>
+																	</ul>
+																	</nav>
+																</c:when>
+																<c:otherwise>
+																	<nav aria-label="Page navigation">
+																	<ul class="pagination justify-content-center">
+																		<li class="page-item"><a class="page-link"
+																			href="controllerServlet?command=cb.get_all_resume&limitLine=5&offsetline=0&pagenum=1"
+																			tabindex="-1">${previous}</a></li>
+																		<li class="page-item disabled"><a
+																			class="page-link" href="#">${next}</a></li>
+																	</ul>
+																	</nav>
+																</c:otherwise>
+															</c:choose>
+														</c:otherwise>
+													</c:choose>
+												</c:if>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<div class="layer-1-1 hidden-xs wow slideInDown"
+											data-wow-duration="1s" data-wow-delay=".2s">
+											<h3 align="center" style="color: orange;">
+												<b><i> <c:if
+															test="${requestScope.no_vacancies != null}">
+															<c:out value="You don't have vacancy"></c:out>
+
+														</c:if> <c:if test="${requestScope.error_get_vacancy != null}">
+															<c:out value="vacancy receipt error"></c:out>
+														</c:if> <c:if test="${requestScope.error_delete_vacancy != null}">
+															<c:out value="vacancy not deleted"></c:out>
+														</c:if>
+												</i> </b>
+											</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 
@@ -696,7 +853,6 @@
 							document.getElementById('vacancydlcategory').innerHTML = vacancydlcategorybutton;
 							var $modal = $(this), vacancysalarybutton = e.relatedTarget.dataset.vacancysalarybutton;
 							document.getElementById('vacancysalary').innerHTML = vacancysalarybutton;
-
 						})
 	</script>
 	
@@ -711,7 +867,6 @@
 							document.getElementById('vacancyaccountantexperience').innerHTML = vacancyexperiencebutton;
 							var $modal = $(this), vacancysalarybutton = e.relatedTarget.dataset.vacancysalarybutton;							
 							document.getElementById('vacancyaccaountantsalary').innerHTML = vacancysalarybutton;
-
 						})
 	</script>
 	
@@ -758,7 +913,6 @@
 	</c:if>
 	<script>
 		function InvalidMsg(textbox) {
-
 			if (textbox.value == '' || textbox.value.length > 15) {
 				textbox.setCustomValidity("${messagefildvalidaty}");
 			} else {

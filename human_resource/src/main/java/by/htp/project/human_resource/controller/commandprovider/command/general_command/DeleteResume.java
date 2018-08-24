@@ -12,11 +12,11 @@ import by.htp.project.human_resource.service.interf.IServiceJobSeeker;
 
 public class DeleteResume implements ICommand{
 	
-	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
+	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	private IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
 
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		
 		jobSeeker.deleteResume(request, response);		
 	}

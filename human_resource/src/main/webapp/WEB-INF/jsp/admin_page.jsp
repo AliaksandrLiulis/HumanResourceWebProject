@@ -112,21 +112,21 @@
 										<div class="col-md-4 col-sm-6 col-xs-6">
 											<form action="controllerServlet" method="get">
 												<input type="hidden" name="command"
-													value="cb.get_all_users_base">
+													value="cb.read_registered_users">
 												<div class="wow " data-wow-duration="4s"
 													data-wow-delay=".2s">
 													<input type="submit"
 														class="ready-btn right-btn page-scroll"
-														value="     All User    ">
+														value="     Registered Users    ">
 												</div>
 											</form>
 											<form action="controllerServlet" method="get">
-												<input type="hidden" name="command" value="read_user">
+												<input type="hidden" name="command" value="cb.read_unregistered_users">
 												<div class="hidden-xs wow" data-wow-duration="4s"
 													data-wow-delay=".2s">
 													<input type="submit"
 														class="ready-btn right-btn page-scroll"
-														value="   Read_User  ">
+														value="   Unregistered Users  ">
 												</div>
 											</form>
 											<form action="controllerServlet" method="get">

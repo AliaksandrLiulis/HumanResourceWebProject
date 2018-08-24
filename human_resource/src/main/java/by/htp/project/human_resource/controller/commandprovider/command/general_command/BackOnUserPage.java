@@ -14,9 +14,9 @@ import by.htp.project.human_resource.service.impl.checker.CheckCommand;
 
 public class BackOnUserPage implements ICommand{
 	
-	CheckCommand checkCommand = new CheckCommand();
-	HttpSession session = null;	
-	RequestDispatcher dispatcher = null;
+	private CheckCommand checkCommand = new CheckCommand();
+	private HttpSession session = null;	
+	private RequestDispatcher dispatcher = null;
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

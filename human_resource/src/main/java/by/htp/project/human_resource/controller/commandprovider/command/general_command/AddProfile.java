@@ -11,8 +11,8 @@ import by.htp.project.human_resource.service.interf.IServiceJobSeeker;
 
 public class AddProfile implements ICommand {
 	
-	ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
-	IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
+	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
+	private IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
 
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)

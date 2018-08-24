@@ -25,8 +25,8 @@ public class DaoHrImpl implements IDaoHr {
 
 	private final String ADD_DRIVER_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
 	private final String ADD_ACCOUNTANT_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
-	private final String SEARCH_BY_PARAM_FOR_VACANCY = "select * from vacancies where whoAddedId = ? LIMIT ?, ?";
-	private final String SEARCH_BY_PARAM_FOR_RESUME = "select * from resume LIMIT ?, ?";
+	private final String SEARCH_BY_PARAM_FOR_VACANCY = "SELECT * from vacancies where whoAddedId = ? LIMIT ?, ?";
+	private final String SEARCH_BY_PARAM_FOR_RESUME = "SELECT * from resume LIMIT ?, ?";
 	private final String DELETE_VACANCY_BY_ID = "DELETE from vacancies where idvacancies = ?";
 
 	public DaoHrImpl() {
@@ -58,7 +58,6 @@ public class DaoHrImpl implements IDaoHr {
 		goods = params.get(4);
 		dlCategory = params.get(5);
 		whoAddedId = params.get(6);
-		
 
 		try {
 			connection = connectionPool.takeConnection();
@@ -72,8 +71,8 @@ public class DaoHrImpl implements IDaoHr {
 			preparedStatement.setInt(7, Integer.parseInt(whoAddedId));
 			preparedStatement.executeUpdate();
 
-			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName).experience(experience)
-					.salary(Integer.parseInt(salary)).goods(goods).dlCategory(dlCategory)
+			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName)
+					.experience(experience).salary(Integer.parseInt(salary)).goods(goods).dlCategory(dlCategory)
 					.whoAddedId(Integer.parseInt(whoAddedId)).build();
 
 		} catch (InterruptedException e) {
@@ -106,7 +105,7 @@ public class DaoHrImpl implements IDaoHr {
 		experience = params.get(2);
 		salary = params.get(3);
 		whoAddedId = params.get(4);
-		
+
 		try {
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_ACCOUNTANT_VACANCY);
@@ -117,8 +116,9 @@ public class DaoHrImpl implements IDaoHr {
 			preparedStatement.setInt(5, Integer.parseInt(whoAddedId));
 			preparedStatement.executeUpdate();
 
-			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName).experience(experience)
-					.salary(Integer.parseInt(salary)).whoAddedId(Integer.parseInt(whoAddedId)).build();
+			vacancy = new VacancyBuilder().professionName(professionByLocal).companyName(companyName)
+					.experience(experience).salary(Integer.parseInt(salary)).whoAddedId(Integer.parseInt(whoAddedId))
+					.build();
 
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: addAccountantVacancy: Connection interrupted: " + e);
@@ -184,7 +184,6 @@ public class DaoHrImpl implements IDaoHr {
 			preparedStatement.setInt(1, Integer.parseInt(whoAddedId));
 			preparedStatement.setInt(2, Integer.parseInt(offsetLine));
 			preparedStatement.setInt(3, Integer.parseInt(limiLine));
-
 			result = preparedStatement.executeQuery();
 			while (result.next()) {
 				vacancy = new VacancyBuilder().idvacancy(result.getInt(1)).professionName(result.getString(2))
@@ -202,17 +201,16 @@ public class DaoHrImpl implements IDaoHr {
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchVacancyByParam");
 		}
+		
 		return allVacancy;
 	}
-	
-	
 
 	@Override
 	public boolean deleteVacancy(int id) throws DaoException {
 		boolean resultDeleted = false;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-			
+
 		try {
 			connection = connectionPool.takeConnection();
 
@@ -228,11 +226,10 @@ public class DaoHrImpl implements IDaoHr {
 			throw new DaoException("searchVacancyByParam" + e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "deleteVacancy");
-		}		
+		}
 		return resultDeleted;
 	}
-	
-	
+
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
 		try {
@@ -251,7 +248,7 @@ public class DaoHrImpl implements IDaoHr {
 	}
 
 	@Override
-	public List<String> searchResumeByParam(String... params) throws DaoException {
+	public List<Resume> searchResumeByParam(String... params) throws DaoException {
 		String limiLine = null;
 		String offsetLine = null;
 		List<Resume> allResume = null;
@@ -262,18 +259,24 @@ public class DaoHrImpl implements IDaoHr {
 		ResultSet result = null;
 
 		limiLine = params[0];
-		offsetLine = params[1];		
+		offsetLine = params[1];
 		allResume = new ArrayList<>();
 
 		try {
 			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_RESUME);			
-			preparedStatement.setInt(2, Integer.parseInt(offsetLine));
-			preparedStatement.setInt(3, Integer.parseInt(limiLine));
+			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_RESUME);
+			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
+			preparedStatement.setInt(2, Integer.parseInt(limiLine));
 
 			result = preparedStatement.executeQuery();
 			while (result.next()) {
-				
+				resume = new ResumeBuilder().id(result.getInt(1)).name(result.getString(2)).surName(result.getString(3))
+						.email(result.getString(4)).registrationDate(result.getDate(5)).birthDayDate(result.getDate(6))
+						.phone(result.getString(7)).residence(result.getString(8)).workSpeciality(result.getString(9))
+						.workExpirience(result.getString(10)).education(result.getString(11))
+						.photoPath(result.getString(12)).aboutUser(result.getString(13)).idUser(result.getInt(14))
+						.build();
+				allResume.add(resume);
 			}
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchVacancyByParam: Connection interrupted: " + e);
@@ -284,10 +287,8 @@ public class DaoHrImpl implements IDaoHr {
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchVacancyByParam");
 		}
-		
-		return null;
-	}
 
-	
+		return allResume;
+	}
 
 }

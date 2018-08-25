@@ -10,15 +10,17 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.service.factory.ServiceFactory;
 import by.htp.project.human_resource.service.interf.IServiceAdmin;
 
-public class GetUnregisteredUser implements ICommand{
-	
+public class GetUnregisteredUser implements ICommand {
+
 	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 	private IServiceAdmin serviceAdmin = serviceFactory.getServiceAdmin();
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+	public void execute(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+
+		serviceAdmin.getUnRegisteredUserByParam(request, response);
+
 	}
 
 }

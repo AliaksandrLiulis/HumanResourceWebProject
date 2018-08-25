@@ -107,4 +107,16 @@
 		<key>cb.read_unregistered_users</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetUnregisteredUser</value>
 	</command>
+	<command>
+		<key>cb.read_all_users</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetAllUser</value>
+	</command>
+	<command>
+		<key>cb.delete_user</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteUser</value>
+	</command>
+	<command>
+		<key>cb.add_user</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddUser</value>
+	</command>
 </commands>

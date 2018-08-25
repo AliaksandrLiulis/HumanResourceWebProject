@@ -24,7 +24,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	private Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
 	private ConnectionPool connectionPool = null;
-	
+
 	public DaoJobSeekerImpl() {
 		if (null == connectionPool) {
 			connectionPool = ConnectionPool.getInstance();
@@ -46,8 +46,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 	private final String UPDATE_RESUME_ID_FROM_USER_BY_USER_ID = "UPDATE users  SET resumeId=? where userId=?";
 	private final String UPDATE_OLD_RESUME = "UPDATE resume SET birthDayDate = ?, phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
 	private final String SEARCH_BY_PARAM = "select * from vacancies LIMIT ?, ?";
-	
-	
+
 	@Override
 	public List<Object> addNewProfile(final String... profileParams) throws DaoException {
 
@@ -134,10 +133,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: addNewProfile: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("addNewProfile" +e);
+				throw new DaoException("addNewProfile" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: addNewProfile: rollback Error: " + e1);
-				throw new DaoException("addNewProfile" +e1);
+				throw new DaoException("addNewProfile" + e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "addNewProfile");
@@ -185,10 +184,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: removeProfile: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("removeProfile" +e);
+				throw new DaoException("removeProfile" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: removeProfile: rollback Error: " + e1);
-				throw new DaoException("removeProfile" +e1);
+				throw new DaoException("removeProfile" + e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "removeProfile");
@@ -264,10 +263,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: updateOldProfile: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("updateOldProfile" +e);
+				throw new DaoException("updateOldProfile" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: updateOldProfile: rollback Error: " + e1);
-				throw new DaoException("updateOldProfile" +e1);
+				throw new DaoException("updateOldProfile" + e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "updateOldProfile");
@@ -363,10 +362,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: addNewResume: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("addNewResume" +e);
+				throw new DaoException("addNewResume" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: addNewResume: rollback Error: " + e1);
-				throw new DaoException("addNewResume" +e1);
+				throw new DaoException("addNewResume" + e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "addNewResume");
@@ -416,10 +415,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: deleteResume: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("deleteResume" +e);
+				throw new DaoException("deleteResume" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: deleteResume: rollback Error: " + e1);
-				throw new DaoException("deleteResume" +e1);
+				throw new DaoException("deleteResume" + e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "deleteResume");
@@ -449,15 +448,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoUserImpl: searchProfile: Transaction Error: " + e);
-				connection.rollback();
-				throw new DaoException("searchProfile" +e);
-			} catch (SQLException e1) {
-				logger.error("DaoUserImpl: searchProfile: rollback Error: " + e1);
-				throw new DaoException("searchProfile" +e1);
+				logger.error("DaoUserImpl: searchProfile: " + e);
+				throw new DaoException("searchProfile" + e);
+			} finally {
+				closeResources(result, preparedStatement, connection, "searchProfile");
 			}
-		} finally {
-			closeResources(result, preparedStatement, connection, "searchProfile");
 		}
 		return profile;
 	}
@@ -495,10 +490,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			try {
 				logger.error("DaoUserImpl: updateFieldUser: Transaction Error: " + e);
 				connection.rollback();
-				throw new DaoException("updateFieldUser" +e);
+				throw new DaoException("updateFieldUser" + e);
 			} catch (SQLException e1) {
 				logger.error("DaoUserImpl: updateFieldUser: rollback Error: " + e1);
-				throw new DaoException("updateFieldUser" +e1);
+				throw new DaoException("updateFieldUser" + e1);
 			}
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateFieldUser");
@@ -527,7 +522,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
 			preparedStatement.setInt(2, Integer.parseInt(limiLine));
 			result = preparedStatement.executeQuery();
-			
+
 			while (result.next()) {
 				vacancy = new VacancyBuilder().idvacancy(result.getInt(1)).professionName(result.getString(2))
 						.companyName(result.getString(3)).experience(result.getString(4)).salary(result.getInt(5))
@@ -546,7 +541,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		}
 		return allVacancy;
 	}
-	
+
 	@Override
 	public int getCountAllRowsForTable(String tableName) throws DaoException {
 		int count = 0;

@@ -26,8 +26,6 @@
 <fmt:setBundle basename="localization.local" var="loc" />
 <%@ include file="include/emoloyee_include"%>
 
-</style>
-
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
@@ -936,6 +934,8 @@
 					<div class="modal-footer">
 						<button class="btn btn-success" type="button" data-dismiss="modal">${cancelbutton}</button>
 						<input type="hidden" id="resumeid" name="resumeid">
+						 <input	type="hidden" name="command" value="cb.delete_resume">
+						<button class="btn btn-danger" type="submit">${deletebutton}</button>
 
 
 					</div>

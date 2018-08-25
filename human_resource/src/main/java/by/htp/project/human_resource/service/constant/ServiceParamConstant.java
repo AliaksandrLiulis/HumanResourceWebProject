@@ -10,9 +10,11 @@ public class ServiceParamConstant {
 	public final static String COMMAND = "command";	
 	public final static String SIMPLE_DATE_FORMATE = "yyyy.MM.dd";
 	public final static String USER_ATTRIBUTE = "user";
+	public final static String FOUNDED_USERS_ATTRIBUTE = "founded_users";
 	public final static String PROFILE_ATTRIBUTE = "profile";
 	public final static String VACANCY_ATTRIBUTE= "vacancy";
 	public final static String RESUME_ATTRIBUTE= "resume";
+	public final static String USERS_ATTRIBUTE= "users";
 	public final static String ALL_VACANCY_ATTRIBUTE= "allVacancy";
 	public final static String ALL_RESUME_ATTRIBUTE= "allResume";
 	public final static String PAGE_COUNT= "pagecount";
@@ -25,6 +27,8 @@ public class ServiceParamConstant {
 	public final static String ROLE_PARAM = "role";
 	public final static String USER_ID_PARAM = "userid";
 	public final static String REGISTRATION_DATE_PARAM = "registrationDate";
+	public final static String FILD_NAME_PARAM = "fildName";
+	public final static String VALUE_BY_FILD_NAME_PARAM = "valueByField";
 	public final static String VACANCY_ID_PARAM = "vacancyId";
 	public final static String BIRTHDAY_DATE_PARAM = "birthdaydate";
 	public final static String PHONE_PARAM = "phone";

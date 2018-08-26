@@ -1,7 +1,10 @@
 package by.htp.project.human_resource.dao.poolconnection;
 
-public class DBParametr {
-	private DBParametr() {}
+public final class DBParametr {
+
+	private DBParametr() {
+	}
+
 	public static final String DB_DRIVER = "db.driver";
 	public static final String DB_URL = "db.url";
 	public static final String DB_USER = "db.user";

@@ -3,6 +3,7 @@ package by.htp.project.human_resource.dao.poolconnection;
 import java.util.ResourceBundle;
 
 public class DBResourceManager {
+	
 	private final static DBResourceManager instance = new DBResourceManager();
 	
 	private DBResourceManager() {}

@@ -38,3 +38,9 @@
 <fmt:message bundle="${loc}" key="local.main.sendmessage" var="sendmessage" />
 <fmt:message bundle="${loc}" key="local.main.Logout" var="Logout" />
 <fmt:message bundle="${loc}" key="local.main.mypage" var="mypage" />
+<fmt:message bundle="${loc}" key="local.registration.messagefildvalidaty" var="messagefildvalidaty" />
+<fmt:message bundle="${loc}" key="local.registration.messagemailfildvalidaty" var="messagemailfildvalidaty" />
+<fmt:message bundle="${loc}" key="local.registration.messagefortextfilddvalidaty" var="messagefortextfilddvalidaty" />
+<fmt:message bundle="${loc}" key="local.registration.messagesent" var="messagesent" />
+<fmt:message bundle="${loc}" key="local.registration.messagenotsent" var="messagenotsent" />
+<fmt:message bundle="${loc}" key="local.employee.okbutton" var="okbutton" />

@@ -25,18 +25,24 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ConnectionPool {
+
+	private static Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
 	private static final ConnectionPool instance = new ConnectionPool();
 
 	static {
 		try {
 			instance.initPoolData();
 		} catch (ClassNotFoundException e) {
-			new RuntimeException("Can't create cnnection pool");
-		}catch ( SQLException e) {
-			new RuntimeException("Can't create cnnection pool");
+			logger.error("ConnectionPool: Can't create conection pool: Class not found " + e);
+			new RuntimeException(e);
+		} catch (SQLException e) {
+			logger.error("ConnectionPool: Can't create conection pool: SQL exception " + e);
+			new RuntimeException(e);
 		}
-
 	}
 
 	private BlockingQueue<Connection> connectionQueue;
@@ -89,12 +95,12 @@ public class ConnectionPool {
 	private void clearConnectionQueue() throws SQLException {
 
 		ArrayList<Connection> deletedConnections = new ArrayList<Connection>();
-		
+
 		deletedConnections.addAll(connectionQueue);
 		connectionQueue.clear();
 		deletedConnections.addAll(givenAwayconnectionQueue);
 		givenAwayconnectionQueue.clear();
-		
+
 		closeConnectionsQueue(deletedConnections);
 	}
 
@@ -105,15 +111,9 @@ public class ConnectionPool {
 			if (!connection.getAutoCommit()) {
 				connection.commit();
 			}
-			((PoolConnection)connection).realyClose();
+			((PoolConnection) connection).realyClose();
 		}
 	}
-
-	// public void releaseConnection(Connection connection) throws
-	// InterruptedException {
-	// givenAwayconnectionQueue.remove(connection);
-	// connectionQueue.add(connection);
-	// }
 
 	public static ConnectionPool getInstance() {
 		return instance;
@@ -144,11 +144,11 @@ public class ConnectionPool {
 			connection.setAutoCommit(true);
 
 			if (!givenAwayconnectionQueue.remove(this)) {
-				throw new SQLException("Erroe delleting connection");
+				throw new SQLException("Error delleting connection");
 			}
 
 			if (!connectionQueue.offer(this)) {
-				throw new SQLException("Erroe allocating connection");
+				throw new SQLException("Error allocating connection");
 			}
 
 		}

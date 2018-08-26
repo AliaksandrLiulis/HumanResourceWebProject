@@ -13,9 +13,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.ParamConst;
-import by.htp.project.human_resource.service.constant.ServiceCommandConstant;
-import by.htp.project.human_resource.service.constant.ServiceParamConstant;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.ParamConst;
+import by.htp.project.human_resource.service.service_constant.ServiceCommandConstant;
+import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 
 
 

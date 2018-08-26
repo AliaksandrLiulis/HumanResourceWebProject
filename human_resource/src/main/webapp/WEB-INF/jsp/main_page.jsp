@@ -60,7 +60,7 @@
 							<li><a class="page-scroll" href="#contact">${contact}</a></li>
 							<c:choose>
 								<c:when test="${user != null}">
-								<li><br>
+									<li><br>
 										<form action="controllerServlet" method="get">
 											<input type="hidden" name="command" value="cb.back_user">
 											<button class="btn  btn-xs" type="submit">${mypage}</button>
@@ -477,30 +477,32 @@
 					<div class="col-md-3 col-sm-3 col-xs-12"></div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form contact-form">
-							<div id="sendmessage">Your message has been sent. Thank
-								you!</div>
 							<div id="errormessage"></div>
-							<form action="" method="post" role="form" class="contactForm">
+							<form action="controllerServlet" method="post" role="form"
+								class="contactForm">
 								<div class="form-group">
-									<input type="text" name="name" class="form-control" id="name"
-										placeholder="${name}" data-rule="minlen:4"
-										data-msg="Please enter at least 4 chars" />
+									<input type="text" name="name" oninvalid="InvalidMsg(this);"
+										oninput="InvalidMsg(this);" class="form-control" id="name"
+										placeholder="${name}" data-rule="minlen:4" required="required" />
 									<div class="validation"></div>
-								</div>
-								<div class="form-group">
-									<input type="email" class="form-control" name="email"
-										id="email" placeholder="${email}" data-rule="email"
-										data-msg="Please enter a valid email" />
+
+
+									<input type="email" class="form-control"
+										oninvalid="InvalidMailMsg(this);"
+										oninput="InvalidMailMsg(this);" name="email" id="email"
+										placeholder="${email}" data-rule="email" required="required" />
 									<div class="validation"></div>
-								</div>
-								<div class="form-group">
+
+
 									<textarea class="form-control" name="message" rows="5"
-										data-rule="required" data-msg="Please write something for us"
-										placeholder="${message}"></textarea>
+										data-rule="required" oninvalid="InvalidforText(this);"
+										oninput="InvalidforText(this);" placeholder="${message}"
+										required="required"></textarea>
 									<div class="validation"></div>
-								</div>
-								<div class="text-center">
-									<button type="submit">${sendmessage}</button>
+									<input type="hidden" name="command" value="cb.email_message">
+									<div class="text-center">
+										<button type="submit">${sendmessage}</button>
+									</div>
 								</div>
 							</form>
 						</div>
@@ -509,6 +511,81 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+	<div id="aboutmassage" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+					<br>
+					<button class="close" type="button" data-dismiss="modal">
+						<i class="fa fa-close"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<c:choose>
+							<c:when test="${not empty param.lettersent}">
+								<h5 align="center" class="modal-title" style="color: green;">${messagesent}</h5>
+							</c:when>
+							<c:otherwise>
+								<h5 align="center" class="modal-title" style="color: red;">${messagenotsent}</h5>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="command" value="cb.employee_page">
+					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<%@ include file="include/footer_include"%>
+
+	<c:if test="${param.sendmess != ok}">
+		<script>
+			$(document).ready(function() {
+				$("#aboutmassage").modal('show');
+			});
+		</script>
+	</c:if>
+
+	<script type="text/javascript">
+		function InvalidMsg(textbox) {
+
+			if (textbox.value == '' || textbox.value.length > 15) {
+				textbox.setCustomValidity("${messagefildvalidaty}");
+			} else {
+				textbox.setCustomValidity('');
+			}
+			return true;
+		}
+		function InvalidMailMsg(textbox) {
+
+			if (textbox.value == '' || textbox.value.length > 30) {
+				textbox.setCustomValidity("${messagemailfildvalidaty}");
+			} else if (textbox.validity.typeMismatch) {
+				textbox.setCustomValidity("${messageemailvalidaty}");
+			} else {
+				textbox.setCustomValidity('');
+			}
+			return true;
+		}
+		function InvalidforText(textbox) {
+
+			if (textbox.value == '') {
+				textbox.setCustomValidity("${messagefortextfilddvalidaty}");
+			} else {
+				textbox.setCustomValidity('');
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>

@@ -15,8 +15,8 @@ import javax.xml.stream.XMLStreamReader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
+import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constant_for_jsp_page.JSPPagePath;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.exception.ControllerException;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
@@ -29,7 +29,7 @@ public class CommandResourceManager {
 	private List<String> command = new ArrayList<>();
 	private List<String> value = new ArrayList<>();
 
-	public CommandResourceManager() {
+	private CommandResourceManager() {
 	}
 
 	public static CommandResourceManager getInstance() {

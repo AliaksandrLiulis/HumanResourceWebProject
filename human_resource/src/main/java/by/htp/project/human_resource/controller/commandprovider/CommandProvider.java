@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ErrorPage;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.CommandConst;
 import by.htp.project.human_resource.controller.commandprovider.exception.ControllerException;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
@@ -20,14 +20,15 @@ public class CommandProvider {
 		}
 	}
 
-	public Map<String, ICommand> getAllCommand() {
+	private Map<String, ICommand> getAllCommand() {
+		Map<String, ICommand> commands = null;
 		try {
-			allcommand = commandResourceManager.getAllCommand();
+			commands = commandResourceManager.getAllCommand();
 		} catch (ControllerException e) {
-			allcommand = new HashMap<>();
-			allcommand.put(CommandConst.COMMAND_FOR_ERROR, new ErrorPage());
+			commands = new HashMap<>();
+			commands.put(CommandConst.COMMAND_FOR_ERROR, new ErrorPage());
 		}
-		return allcommand;
+		return commands;
 	}
 
 	public ICommand getCommand(final String commandRequest) {

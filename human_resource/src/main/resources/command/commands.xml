@@ -33,15 +33,15 @@
 	</command>
 	<command>
 		<key>cb.localization</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.Localization</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.util_command.Localization</value>
 	</command>
 	<command>
 		<key>cb.login_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LoginUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_user.LoginUser</value>
 	</command>
 	<command>
 		<key>cb.register_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.RegisterUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_user.RegisterUser</value>
 	</command>
 	<command>
 		<key>cb.expect_page</key>
@@ -53,70 +53,74 @@
 	</command>
 	<command>
 		<key>cb.logout_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.LogOut</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_user.LogOut</value>
 	</command>
 	<command>
 		<key>cb.back_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.BackOnUserPage</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.util_command.BackOnUserPage</value>
 	</command>
 	<command>
 		<key>cb.add_profile</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddProfile</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.AddProfile</value>
 	</command>
 	<command>
 		<key>cb.delete_profile</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteProfile</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.DeleteProfile</value>
 	</command>
 	<command>
 		<key>cb.update_profile</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.UpdateProfile</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.UpdateProfile</value>
 	</command>
 	<command>
 		<key>cb.add_resume</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddResume</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.AddResume</value>
 	</command>
 	<command>
 		<key>cb.delete_resume</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteResume</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.DeleteResume</value>
 	</command>
 	<command>
 		<key>cb.add_vacancy</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddVacancy</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.AddVacancy</value>
 	</command>
 	<command>
 		<key>cb.get_own_vacancy_for_hr</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetOwnVacancyForHr</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.GetOwnVacancyForHr</value>
 	</command>	
 	<command>
 		<key>cb.delete_vacancy</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteVacancy</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.DeleteVacancy</value>
 	</command>			
 	<command>
 		<key>cb.get_vacancy_for_job_seeker</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetVacancyForJobSeeker</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.GetVacancyForJobSeeker</value>
 	</command>
 	<command>
 		<key>cb.get_all_resume</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetResumeForHr</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.GetResumeForHr</value>
 	</command>
 	<command>
 		<key>cb.read_registered_users</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetRegisteredUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.GetRegisteredUser</value>
 	</command>
 	<command>
 		<key>cb.read_unregistered_users</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetUnregisteredUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.GetUnregisteredUser</value>
 	</command>
 	<command>
 		<key>cb.read_all_users</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.GetAllUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.GetAllUser</value>
 	</command>
 	<command>
 		<key>cb.delete_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.DeleteUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.DeleteUser</value>
 	</command>
 	<command>
 		<key>cb.add_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.AddUser</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.AddUser</value>
+	</command>
+	<command>
+		<key>cb.email_message</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.util_command.SendMessage</value>
 	</command>
 </commands>

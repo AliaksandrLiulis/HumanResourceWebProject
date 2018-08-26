@@ -8,7 +8,7 @@ public class CommandFactory {
 	private final static CommandFactory instance = new CommandFactory();
 	private final CommandProvider commandProvider = new CommandProvider();
 	
-	public CommandFactory() {
+	private CommandFactory() {
 	}
 
 	public static CommandFactory getCommandFactory() {

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constForJspPage.JSPPagePath;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.CommandConst;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constForCommand.ParamConst;
-import by.htp.project.human_resource.service.constant.ServiceCommandConstant;
-import by.htp.project.human_resource.service.constant.ServiceParamConstant;
+import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constant_for_jsp_page.JSPPagePath;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.CommandConst;
+import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.ParamConst;
+import by.htp.project.human_resource.service.service_constant.ServiceCommandConstant;
+import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 
 public class CheckCommand {
 

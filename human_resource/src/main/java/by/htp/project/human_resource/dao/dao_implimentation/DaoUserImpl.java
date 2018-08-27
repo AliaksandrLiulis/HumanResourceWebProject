@@ -24,9 +24,9 @@ public class DaoUserImpl implements IDaoUser {
 	private ConnectionPool connectionPool = null;
 	private Map<String, Integer> allRolles = null;
 
-	private final String SEARCH_USER = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where users.nickName = ? and users.password = ?";
+	private final String SEARCH_USER = "SELECT userId, name, surName, nickName, email, avaliable, role FROM users A JOIN userroles B on A.roleId = B.rolesId where A.nickName = ? and A.password = ?";
 	private final String SEARCH_USER_NICKNAME = "SELECT nickName from users  where nickName = ?";
-	private final String ADD_USER = "INSERT into users (name,  surName, nickName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
+	private final String ADD_USER = "INSERT into users (name,  surName, nickName, password , avaliable, email, roleId ) VALUES (?,?,?,?,?,?,?)";
 	private final String GET_EXIST_PROFILE = "SELECT * FROM profile where idUser = ?";
 	private final String ADD_MESSAGE = "INSERT into message (name, email, createdate, content) VALUES (?,?,?,?)";
 
@@ -54,8 +54,7 @@ public class DaoUserImpl implements IDaoUser {
 
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+						.avaliable(result.getInt(6)).role(result.getString(7)).build();
 			}
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
@@ -66,6 +65,7 @@ public class DaoUserImpl implements IDaoUser {
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchUser");
 		}
+		
 		return user;
 	}
 
@@ -131,8 +131,6 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setInt(5, 0);
 			preparedStatement.setString(6, email);
 			preparedStatement.setInt(7, getNumRoleForSQL(role));
-			preparedStatement.setInt(8, 0);
-			preparedStatement.setInt(9, 0);
 			preparedStatement.executeUpdate();
 
 			user = new UserBuilder().name(name).surName(surname).nickName(nickName).email(email).avaliable(0).role(role)

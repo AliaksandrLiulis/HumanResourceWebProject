@@ -32,18 +32,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 	}
 
 	private final String ADD_NEW_PROFILE = "INSERT into profile (registrationDate ,birthDayDate, phone, residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser ) VALUES (?,?,?,?,?,?,?,?,?,?)";
-	private final String SEARCH_PROFILE_ID = "SELECT idprofile from profile where profile.idUser = ?";
-	private final String SET_ID_PROFILE_FOR_USER = "UPDATE users SET profileId=? where userId=?";
-	private final String SEARCH_USER_BY_ID = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where users.userId = ?";
+	private final String SEARCH_USER_BY_ID = "SELECT * FROM users A JOIN userroles B on A.roleId = B.rolesId join profile C on A.userId = C.idUser where A.userId=?";
 	private final String SEARCH_EXIST_PROFILE = "SELECT * FROM profile where idUser = ?";
 	private final String DELETE_PROFILE_BY_USER_ID = "DELETE FROM profile where idUser = ?";
-	private final String UPDATE_PROFILE_ID_RESUME_ID_FROM_USER_BY_USER_ID = "UPDATE users  SET profileId=? , resumeId=? where userId=?";
 	private final String UPDATE_OLD_PROFILE = "UPDATE profile SET registrationDate = ?, birthDayDate = ?,phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
 	private final String ADD_NEW_RESUME = "INSERT into resume (name, surName, email, registrationDate, birthDayDate, phone,residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	private final String SEARCH_RESUMEE_ID = "SELECT idresume from resume where resume.idUser = ?";
-	private final String SET_ID_RESUME_FOR_USER = "UPDATE users SET resumeId=? where userId=?";
 	private final String DELETE_RESUME_BY_USER_ID = "DELETE FROM resume where idUser = ?";
-	private final String UPDATE_RESUME_ID_FROM_USER_BY_USER_ID = "UPDATE users  SET resumeId=? where userId=?";
 	private final String UPDATE_OLD_RESUME = "UPDATE resume SET birthDayDate = ?, phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? where idUser = ?";
 	private final String SEARCH_BY_PARAM = "select * from vacancies LIMIT ?, ?";
 
@@ -100,28 +94,14 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(10, userId);
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(SEARCH_PROFILE_ID);
-			preparedStatement.setInt(1, userId);
-			result = preparedStatement.executeQuery();
-
-			while (result.next()) {
-				profileId = (result.getInt(1));
-			}
-
-			preparedStatement = connection.prepareStatement(SET_ID_PROFILE_FOR_USER);
-			preparedStatement.setInt(1, profileId);
-			preparedStatement.setInt(2, userId);
-			preparedStatement.executeUpdate();
-
 			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, userId);
 			result = preparedStatement.executeQuery();
-
+			
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+						.role(result.getString(6)).avaliable(result.getInt(7)).profileId(result.getInt(13)).build();
 			}
 
 			connection.commit();
@@ -155,7 +135,6 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 			connection = connectionPool.takeConnection();
 			connection.setAutoCommit(false);
-
 			preparedStatement = connection.prepareStatement(DELETE_PROFILE_BY_USER_ID);
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
@@ -164,8 +143,6 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(1, userId);
 			preparedStatement.executeUpdate();
 
-			updateFieldUser(userId);
-
 			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, userId);
 			result = preparedStatement.executeQuery();
@@ -173,8 +150,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+						.role(result.getString(6)).avaliable(result.getInt(7)).profileId(result.getInt(13)).build();
 
 			}
 
@@ -182,6 +158,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
+				System.out.println("here");
 				logger.error("DaoUserImpl: removeProfile: Transaction Error: " + e);
 				connection.rollback();
 				throw new DaoException("removeProfile" + e);
@@ -331,19 +308,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(13, Integer.parseInt(idUser));
 			preparedStatement.executeUpdate();
 
-			preparedStatement = connection.prepareStatement(SEARCH_RESUMEE_ID);
-			preparedStatement.setInt(1, Integer.parseInt(idUser));
-			result = preparedStatement.executeQuery();
-
-			while (result.next()) {
-				resumeId = (result.getInt(1));
-			}
-
-			preparedStatement = connection.prepareStatement(SET_ID_RESUME_FOR_USER);
-			preparedStatement.setInt(1, resumeId);
-			preparedStatement.setInt(2, Integer.parseInt(idUser));
-			preparedStatement.executeUpdate();
-
+			
 			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
 			preparedStatement.setInt(1, Integer.parseInt(idUser));
 			result = preparedStatement.executeQuery();
@@ -351,9 +316,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
-
+						.role(result.getString(6)).avaliable(result.getInt(7)).profileId(result.getInt(13)).build();
 			}
 
 			connection.commit();
@@ -391,24 +354,13 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement = connection.prepareStatement(DELETE_RESUME_BY_USER_ID);
 			preparedStatement.setInt(1, idUserResume);
 			preparedStatement.executeUpdate();
-
-			preparedStatement = connection.prepareStatement(UPDATE_RESUME_ID_FROM_USER_BY_USER_ID);
-			preparedStatement.setInt(1, 0);
-			preparedStatement.setInt(2, idUserResume);
-			preparedStatement.executeUpdate();
-
-			preparedStatement = connection.prepareStatement(SEARCH_USER_BY_ID);
-			preparedStatement.setInt(1, idUserResume);
-			result = preparedStatement.executeQuery();
-
+			
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
-
+						.role(result.getString(6)).avaliable(result.getInt(7)).profileId(result.getInt(13)).build();
 			}
-
+			
 			connection.commit();
 
 		} catch (InterruptedException | SQLException e) {
@@ -455,51 +407,9 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			}
 		}
 		return profile;
-	}
+	}	
 
-	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
-			final Connection connection, String methodName) {
-		try {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-			if (preparedStatement != null) {
-				preparedStatement.close();
-			}
-			if (connection != null) {
-				connection.close();
-			}
-		} catch (Exception e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
-		}
-	}
-
-	private void updateFieldUser(final int idUser) throws DaoException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(UPDATE_PROFILE_ID_RESUME_ID_FROM_USER_BY_USER_ID);
-			preparedStatement.setInt(1, 0);
-			preparedStatement.setInt(2, 0);
-			preparedStatement.setInt(3, idUser);
-			preparedStatement.executeUpdate();
-
-		} catch (InterruptedException | SQLException e) {
-			try {
-				logger.error("DaoUserImpl: updateFieldUser: Transaction Error: " + e);
-				connection.rollback();
-				throw new DaoException("updateFieldUser" + e);
-			} catch (SQLException e1) {
-				logger.error("DaoUserImpl: updateFieldUser: rollback Error: " + e1);
-				throw new DaoException("updateFieldUser" + e1);
-			}
-		} finally {
-			closeResources(null, preparedStatement, connection, "updateFieldUser");
-		}
-	}
-
+	
 	@Override
 	public List<Vacancy> searchVacancyByParam(String... params) throws DaoException {
 		String limiLine = null;
@@ -568,6 +478,23 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		}
 
 		return count;
+	}
+	
+	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
+			final Connection connection, String methodName) {
+		try {
+			if (resultSet != null) {
+				resultSet.close();
+			}
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+		}
 	}
 
 }

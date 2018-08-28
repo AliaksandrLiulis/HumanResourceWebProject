@@ -10,5 +10,4 @@ public interface IDaoUser {
 	User addUser(final String... userParams) throws DaoException;
 	Profile getProfile(final int idUser) throws DaoException;
 	boolean createmessage(final String... params) throws DaoException;
-
 }

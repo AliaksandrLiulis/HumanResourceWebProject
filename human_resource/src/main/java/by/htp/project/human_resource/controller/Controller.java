@@ -11,7 +11,7 @@ import by.htp.project.human_resource.controller.commandprovider.command.general_
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
 public final class Controller extends HttpServlet {
-	
+
 	private static final long serialVersionUID = -8705374380213176470L;
 	private final CommandFactory factory = CommandFactory.getCommandFactory();
 	private ICommand commands = null;
@@ -19,13 +19,15 @@ public final class Controller extends HttpServlet {
 	public Controller() {
 	}
 
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)	throws ServletException, IOException {
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 		commands = factory.getCommand(request, ParamConst.COMMAND);
-		commands.execute(request, response);		
+		commands.execute(request, response);
 	}
 
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)	throws ServletException, IOException {
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 		commands = factory.getCommand(request, ParamConst.COMMAND);
-		commands.execute(request, response);		
-	}	
+		commands.execute(request, response);
+	}
 }

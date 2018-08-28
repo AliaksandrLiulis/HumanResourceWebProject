@@ -133,6 +133,10 @@
 <fmt:message bundle="${loc}" key="local.employee.experienceasanaccountant" var="experienceasanaccountant" />
 <fmt:message bundle="${loc}" key="local.employee.responsibilitydiligence" var="responsibilitydiligence" />
 <fmt:message bundle="${loc}" key="local.employee.knowledgeofaccounting" var="knowledgeofaccounting" />
+<fmt:message bundle="${loc}" key="local.employee.respondonvacation" var="respondonvacation" />
+<fmt:message bundle="${loc}" key="local.employee.respond" var="respond" />
+<fmt:message bundle="${loc}" key="local.employee.sentapplication" var="sentapplication" />
+<fmt:message bundle="${loc}" key="local.employee.applicationnotsent" var="applicationnotsent" />
 
 
 

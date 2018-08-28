@@ -15,6 +15,7 @@ public interface IDAOJobSeeker {
 	User addNewResume(final String... resumeParams) throws DaoException;
 	User deleteResume(final int idUserResume) throws DaoException;
 	List<Vacancy> searchVacancyByParam(final String... params) throws DaoException;
-	int getCountAllRowsForTable(String tableName) throws DaoException;
+	int getCountAllRowsForTable(final String tableName) throws DaoException;
+	boolean updateVacancyWhenRespond(final int userId, final int vacancyId) throws DaoException;
 
 }

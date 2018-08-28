@@ -123,4 +123,8 @@
 		<key>cb.email_message</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.util_command.SendMessage</value>
 	</command>
+	<command>
+		<key>cb.respond_user</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.RespondVacancy</value>
+	</command>
 </commands>

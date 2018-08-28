@@ -82,14 +82,14 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		} catch (DaoException e1) {
 			logger.error("ServiceJobSeekerImpl: addProfile: " + e1);
 			request.setAttribute("profile_add_message", "0");
-		}finally {
+		} finally {
 			try {
 				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {
 				logger.error("ServiceJobSeekerImpl: addProfile: " + e);
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			}
 		}
 	}
-	
+
 	@Override
 	public void getVacancy(HttpServletRequest request, HttpServletResponse response) {
 		int pageNum = 0;
@@ -307,10 +307,45 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			}
 		}
 	}
-	
+
 	private int countPaging(final int commonCount, final int offsetLine) {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);
 		return result;
+	}
+
+	@Override
+	public void respondOnvacancy(HttpServletRequest request, HttpServletResponse response) {
+
+		String userId = null;
+		String vacancyId = null;
+		boolean result = false;
+
+		userId = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
+		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
+		try {
+			result = daoJobSeeker.updateVacancyWhenRespond(Integer.parseInt(userId), Integer.parseInt(vacancyId));
+			if (result) {
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok&respondadded=yes");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: respondOnvacancy:sendRedirectError " + e);
+				}
+			} else {
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok");
+				} catch (IOException e1) {
+					logger.error("ServiceJobSeekerImpl: respondOnvacancy :sendRedirectError " + e1);
+				}
+			}
+		} catch (DaoException e) {
+			try {
+				response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok");
+				logger.error("ServiceJobSeekerImpl: daoException: " + e);
+			} catch (IOException e1) {
+				logger.error("ServiceJobSeekerImpl: respondOnvacancy:sendRedirectError " + e1);
+				e1.printStackTrace();
+			}
+		}
 	}
 }

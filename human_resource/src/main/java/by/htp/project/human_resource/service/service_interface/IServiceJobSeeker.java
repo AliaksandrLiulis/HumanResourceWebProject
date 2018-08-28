@@ -11,5 +11,6 @@ public interface IServiceJobSeeker {
 	void addResume(final HttpServletRequest request, final HttpServletResponse response);
 	void deleteResume(final HttpServletRequest request, final HttpServletResponse response);
 	void getVacancy(HttpServletRequest request, HttpServletResponse response);
+	void respondOnvacancy(HttpServletRequest request, HttpServletResponse response);
 	
 }

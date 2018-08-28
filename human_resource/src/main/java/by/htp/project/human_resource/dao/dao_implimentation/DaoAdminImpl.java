@@ -20,9 +20,9 @@ public class DaoAdminImpl implements IDaoAdmin {
 	private Logger logger = LoggerFactory.getLogger(DaoAdminImpl.class);
 	private ConnectionPool connectionPool = null;
 
-	private final String SEARCH_REGISTERED_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, role FROM users JOIN userroles on users.roleId = userroles.rolesId where avaliable = 1 LIMIT ?, ?";
-	private final String SEARCH_UNREGISTERED_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, role FROM users JOIN userroles on users.roleId = userroles.rolesId where avaliable = 0 LIMIT ?, ?";
-	private final String SEARCH_ALL_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
+	private final String SEARCH_REGISTERED_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where avaliable = 1 LIMIT ?, ?";
+	private final String SEARCH_UNREGISTERED_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where avaliable = 0 LIMIT ?, ?";
+	private final String SEARCH_ALL_USER_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
 	private final String SET_AVALIABLE_FOR_USER = "UPDATE users SET avaliable=? where userId=?";
 	
 	public DaoAdminImpl() {
@@ -57,7 +57,8 @@ public class DaoAdminImpl implements IDaoAdmin {
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).role(result.getString(7)).build();
+						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
+						.resumeId(result.getInt(8)).role(result.getString(9)).build();
 				allUsers.add(user);
 			}
 
@@ -100,7 +101,8 @@ public class DaoAdminImpl implements IDaoAdmin {
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).role(result.getString(7)).build();
+						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
+						.resumeId(result.getInt(8)).role(result.getString(9)).build();
 				allUsers.add(user);
 			}
 
@@ -142,7 +144,8 @@ public class DaoAdminImpl implements IDaoAdmin {
 			while (result.next()) {
 				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
 						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).role(result.getString(7)).build();
+						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
+						.resumeId(result.getInt(8)).role(result.getString(9)).build();
 				allUsers.add(user);
 			}
 
@@ -214,7 +217,9 @@ public class DaoAdminImpl implements IDaoAdmin {
 	public boolean updateAvaliableFildForUser(int idUser, int value) throws DaoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		boolean result = false;				
+		ResultSet result = null;
+		boolean res = false;
+				
 		
 			try {
 				connection = connectionPool.takeConnection();
@@ -222,12 +227,16 @@ public class DaoAdminImpl implements IDaoAdmin {
 				preparedStatement.setInt(1, value);
 				preparedStatement.setInt(2, idUser);
 				preparedStatement.executeUpdate();
-				result = true;
+				res = true;
 			} catch (InterruptedException | SQLException e) {
 				logger.error("DaoUserImpl: updateAvaliableFildForUser:  " + e);
 				throw new DaoException("updateAvaliableFildForUser" + e);
 			}
-		return result;
+			
+		
+		
+
+		return res;
 	}
 
 }

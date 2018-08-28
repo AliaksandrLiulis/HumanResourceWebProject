@@ -515,7 +515,7 @@
 
 
 
-	<div id="aboutmassage" class="modal fade" tabindex="-1">
+	<div id="aboutmessage" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -551,7 +551,7 @@
 	<c:if test="${param.sendmess != ok}">
 		<script>
 			$(document).ready(function() {
-				$("#aboutmassage").modal('show');
+				$("#aboutmessage").modal('show');
 			});
 		</script>
 	</c:if>

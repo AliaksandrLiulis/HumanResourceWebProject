@@ -15,7 +15,10 @@ public class LoginUser implements ICommand {
 	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 	private IServiceUser serviceUser = serviceFactory.getServiceUser();
 
-	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		
 		serviceUser.logInUser(request, response);
+		
 	}
 }

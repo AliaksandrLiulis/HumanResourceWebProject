@@ -18,6 +18,7 @@ public class DeleteResume implements ICommand{
 	@Override
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		
-		jobSeeker.deleteResume(request, response);		
+		jobSeeker.deleteResume(request, response);
+		
 	}
 }

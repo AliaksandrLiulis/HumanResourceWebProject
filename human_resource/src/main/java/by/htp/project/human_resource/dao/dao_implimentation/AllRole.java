@@ -4,8 +4,8 @@ public enum AllRole {
 	
 	ADMINISTRATOR("admin", 1), BOSS("boss", 2), HR("hr", 3), EMPLOYEE("employee", 4);
 
-	public String value;
-	public int idNumber;
+	private String value;
+	private int idNumber;
 
 	private AllRole(String value, int idNumber) {
 		this.value = value;
@@ -19,4 +19,5 @@ public enum AllRole {
 	public int getIdNumber() {
 		return idNumber;
 	}
+	
 }

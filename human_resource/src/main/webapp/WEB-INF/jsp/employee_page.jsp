@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
 
@@ -130,7 +131,8 @@
 											<form "controllerServlet" method="get">
 												<input type="hidden" name="command"
 													value="cb.get_vacancy_for_job_seeker"> <input
-													type="hidden" name="limitLine" value="5"> <input
+													type="hidden" name="userid" value="${user.userId}">
+												<input type="hidden" name="limitLine" value="5"> <input
 													type="hidden" name="offsetline" value="0"> <input
 													type="hidden" name="pagenum" value="1">
 												<button class="btn btn-link btn-lg" type="submit">
@@ -236,17 +238,52 @@
 
 																					</c:when>
 																				</c:choose></td>
+																			<td><c:choose>
+																					<c:when test="${user.resumeId!=0}">
+																						<c:choose>
+																							<c:when
+																								test="${fn:contains(requestScope.allRespondVacancy,vacancy.idvacancy)}">
+																								<form action="controllerServlet" method="get">
+																									<input type="hidden" name="command"
+																										value="cb.deleterespond_user"> <input
+																										type="hidden" name="userid"
+																										value="${user.userId}"> <input
+																										type="hidden" name="vacancyId"
+																										value="${vacancy.idvacancy}">
+																									<button type="submit" class="btn btn-link"
+																										style="color: green;">${deleterespond}</button>
+																								</form>
+																							</c:when>
+																							<c:otherwise>
+																								<form action="controllerServlet" method="get">
+																									<input type="hidden" name="command"
+																										value="cb.respond_user"> <input
+																										type="hidden" name="userid"
+																										value="${user.userId}"> <input
+																										type="hidden" name="vacancyId"
+																										value="${vacancy.idvacancy}">
+																									<button type="submit" class="btn btn-link"
+																										style="color: red;">${respond}</button>
+																								</form>
+																							</c:otherwise>
+																						</c:choose>
+																					</c:when>
+																					<c:otherwise>
+																						<c:choose>
+																							<c:when test="${user.profileId!=0}">
+																								<a style="color: orange" href="#resumeModal"
+																									class="btn btn-link" data-toggle="modal">${createresume}</a>
+																							</c:when>
+																							<c:otherwise>
+																								<a style="color: red" href="#profileModal"
+																									class="btn btn-link" data-toggle="modal">${addprofile}</a>
+																							</c:otherwise>
+																						</c:choose>
 
-																			<td>
-																				<form action="controllerServlet" method="get">
-																					<input type="hidden" name="command"
-																						value="cb.respond_user"> <input
-																						type="hidden" name="userid" value="${user.userId}">
-																						<input type="hidden" name="vacancyId" value="${vacancy.idvacancy}">
-																					<button type="submit" class="btn btn-link"
-																						style="color: red;">${respond}</button>
-																				</form>
-																			</td>
+
+																					</c:otherwise>
+																				</c:choose></td>
+
 																		</tr>
 																	</c:forEach>
 																</tbody>
@@ -264,7 +301,7 @@
 																				<c:otherwise>
 																					<li class="page-item "><a class="page-link"
 																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}">${previous}</a></li>
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum - 1}&userid=${user.userId}">${previous}</a></li>
 																				</c:otherwise>
 																			</c:choose>
 
@@ -272,7 +309,7 @@
 																				varStatus="loop">
 																				<li class="page-item"><a class="page-link"
 																					href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}">${loop.index}</a></li>
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${loop.index}&userid=${user.userId}">${loop.index}</a></li>
 																			</c:forEach>
 
 																			<c:choose>
@@ -284,7 +321,7 @@
 																				<c:otherwise>
 																					<li class="page-item "><a class="page-link"
 																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																				&vacancy=vacancies&userid=${user.userId}&pagenum=${requestScope.pagenum + 1}&userid=${user.userId}">${next}</a></li>
 																				</c:otherwise>
 																			</c:choose>
 																		</ul>
@@ -298,7 +335,7 @@
 																					<li class="page-item disabled"><a
 																						class="page-link" href="#" tabindex="-1">${previous}</a></li>
 																					<li class="page-item "><a class="page-link"
-																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=5&pagenum=2&userid=${user.userId}">${next}</a>
 																					</li>
 																				</ul>
 																				</nav>
@@ -307,7 +344,7 @@
 																				<nav aria-label="Page navigation">
 																				<ul class="pagination justify-content-center">
 																					<li class="page-item"><a class="page-link"
-																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=0&pagenum=1"
+																						href="controllerServlet?command=cb.get_vacancy_for_job_seeker&limitLine=5&offsetline=0&pagenum=1&userid=${user.userId}"
 																						tabindex="-1">${previous}</a></li>
 																					<li class="page-item disabled"><a
 																						class="page-link" href="#">${next}</a></li>
@@ -961,37 +998,38 @@
 					</div>
 				</div>
 			</form>
-			
-			<div id="aboutrespond" class="modal fade" tabindex="-1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
-					<br>
-					<button class="close" type="button" data-dismiss="modal">
-						<i class="fa fa-close"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<c:choose>
-							<c:when test="${not empty param.respondadded}">
-								<h5 align="center" class="modal-title" style="color: green;">${sentapplication}</h5>
-							</c:when>
-							<c:otherwise>
-								<h5 align="center" class="modal-title" style="color: red;">${applicationnotsent}</h5>
-							</c:otherwise>
-						</c:choose>
 
+			<div id="aboutrespond" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+							<br>
+							<button class="close" type="button" data-dismiss="modal">
+								<i class="fa fa-close"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<c:choose>
+									<c:when test="${not empty param.respondadded}">
+										<h5 align="center" class="modal-title" style="color: green;">${sentapplication}</h5>
+									</c:when>
+									<c:otherwise>
+										<h5 align="center" class="modal-title" style="color: red;">${applicationnotsent}</h5>
+									</c:otherwise>
+								</c:choose>
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="hidden" name="command" value="cb.employee_page">
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
+						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<input type="hidden" name="command" value="cb.employee_page">
-					<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
-				</div>
 			</div>
-		</div>
-	</div>
 
 
 
@@ -1051,10 +1089,6 @@
 									document.getElementById('resumeid').value = idresume;
 								})
 			</script>
-			
-			
-
-
 
 			<c:if test="${not empty requestScope.profile_add_message}">
 				<script>

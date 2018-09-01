@@ -10,13 +10,14 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.service.service_factory.ServiceFactory;
 import by.htp.project.human_resource.service.service_interface.IServiceUtil;
 
-public class SendMessage implements ICommand{
-	
+public class SendMessage implements ICommand {
+
 	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 	private IServiceUtil serviceUtil = serviceFactory.getServiceUtil();
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		serviceUtil.writeMessage(request, response);		
+		serviceUtil.writeMessage(request, response);
+
 	}
 }

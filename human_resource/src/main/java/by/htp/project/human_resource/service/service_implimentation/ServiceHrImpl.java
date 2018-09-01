@@ -17,6 +17,7 @@ import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_factory.DaoFactory;
 import by.htp.project.human_resource.dao.dao_interface.IDaoHr;
 import by.htp.project.human_resource.entity.Resume;
+import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
@@ -59,7 +60,7 @@ public class ServiceHrImpl implements IServiceHr {
 			if (vacancy != null) {
 				request.setAttribute(ServiceParamConstant.VACANCY_ATTRIBUTE, vacancy);
 				request.setAttribute("vacancy_add_message", "1");
-				
+
 			} else {
 				request.setAttribute("vacancy_add_message", "0");
 			}
@@ -85,6 +86,7 @@ public class ServiceHrImpl implements IServiceHr {
 		List<Vacancy> allVacancy;
 		RequestDispatcher dispatcher = null;
 
+		List<String> allRespondedId = new ArrayList<>();
 		tableNameVacancy = request.getParameter(ServiceParamConstant.VACANCY_ATTRIBUTE);
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
@@ -95,10 +97,12 @@ public class ServiceHrImpl implements IServiceHr {
 			if (countAllVacancies != 0) {
 				allVacancy = daoHr.searchVacancyByParam(tableNameVacancy, limitLine, offsetLine, whoAddedId);
 				if (allVacancy != null) {
+					allRespondedId = daoHr.searchRespondedOnVacancy();
 					pageCount = countPaging(countAllVacancies, Integer.parseInt(limitLine));
 					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allVacancy);
+					request.setAttribute("allRespondedId", allRespondedId);
 
 				} else {
 					request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
@@ -118,11 +122,11 @@ public class ServiceHrImpl implements IServiceHr {
 			}
 		}
 	}
-	
+
 	@Override
 	public void getResume(HttpServletRequest request, HttpServletResponse response) {
 		String tableNameVacancy = null;
-		int pageNum = 0;		
+		int pageNum = 0;
 		int countAllResume = 0;
 		String limitLine = null;
 		String offsetLine = null;
@@ -134,11 +138,11 @@ public class ServiceHrImpl implements IServiceHr {
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
-		try {						
+		try {
 			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
 			if (countAllResume != 0) {
 				allResume = daoHr.searchResumeByParam(limitLine, offsetLine);
-				if (allResume != null) {	
+				if (allResume != null) {
 					pageCount = countPaging(countAllResume, Integer.parseInt(limitLine));
 					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
@@ -170,7 +174,7 @@ public class ServiceHrImpl implements IServiceHr {
 		idVacancy = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
 
 		try {
-			if (daoHr.deleteVacancy(Integer.parseInt(idVacancy))) {
+			if (daoHr.deleteVacancyById(Integer.parseInt(idVacancy))) {
 				request.setAttribute("vacancy_delete_message", "1");
 			} else {
 				request.setAttribute("vacancy_delete_message", "0");
@@ -225,7 +229,7 @@ public class ServiceHrImpl implements IServiceHr {
 		String whoAdded = null;
 		String professionByLocal = null;
 		List<String> paramsList = new ArrayList<>();
-		
+
 		companyName = request.getParameter(ServiceParamConstant.COMPANY_NAME_PARAM);
 		experience = request.getParameter(ServiceParamConstant.WORK_EXPIRIENCE_PARAM);
 		salary = request.getParameter(ServiceParamConstant.SALARY_PARAM);
@@ -247,4 +251,29 @@ public class ServiceHrImpl implements IServiceHr {
 		return result;
 	}
 
+	@Override
+	public void getAllVacancyResponded(HttpServletRequest request, HttpServletResponse response) {
+
+		String vacancyId = null;
+		List<User> allUsersWhoRespond = null;
+		RequestDispatcher dispatcher = null;
+
+		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
+
+		try {
+			allUsersWhoRespond = daoHr.searchRespondedUserByIdVacancy(Integer.parseInt(vacancyId));
+			if (allUsersWhoRespond != null) {
+				request.setAttribute("allUsersWhoRespond", allUsersWhoRespond);
+			}
+		} catch (NumberFormatException | DaoException e) {
+			logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
+		} finally {
+			try {
+				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
+			}
+		}
+	}
 }

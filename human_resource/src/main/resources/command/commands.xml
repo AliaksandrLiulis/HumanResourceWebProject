@@ -125,6 +125,14 @@
 	</command>
 	<command>
 		<key>cb.respond_user</key>
-		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.RespondVacancy</value>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.SetRespondOnVacancy</value>
+	</command>
+	<command>
+		<key>cb.deleterespond_user</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker.DeleteRespondVacancy</value>
+	</command>
+	<command>
+		<key>cb.get_all_responded</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.GetAllRespondedOnVacancy</value>
 	</command>
 </commands>

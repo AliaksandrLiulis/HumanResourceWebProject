@@ -6,4 +6,5 @@ public final class ParamConst {
 	}
 
 	public final static String COMMAND = "command";
+
 }

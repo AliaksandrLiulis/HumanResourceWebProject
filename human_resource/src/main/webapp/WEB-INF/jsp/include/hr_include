@@ -102,6 +102,9 @@
 <fmt:message bundle="${loc}" key="local.hr.vacancytableworkExpirience" var="vacancytableworkExpirience" />
 <fmt:message bundle="${loc}" key="local.hr.vacancytableeducation" var="vacancytableeducation" />
 <fmt:message bundle="${loc}" key="local.hr.vacancytableaboutUser" var="vacancytableaboutUser" />
+<fmt:message bundle="${loc}" key="local.hr.respond" var="respond" />
+<fmt:message bundle="${loc}" key="local.hr.showresponded" var="showresponded" />
+<fmt:message bundle="${loc}" key="local.login.nickname" var="nickname" />
 
 
 

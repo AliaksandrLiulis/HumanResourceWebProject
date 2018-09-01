@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IServiceUser {
 	
-	void logInUser(final HttpServletRequest request, final HttpServletResponse response);
-	void registerUser(final HttpServletRequest request, final HttpServletResponse response);
-	void logOutUser (final HttpServletRequest request, final HttpServletResponse response);	
+	void logInUser(HttpServletRequest request, HttpServletResponse response);
+	void registerUser(HttpServletRequest request, HttpServletResponse response);
+	void logOutUser (HttpServletRequest request, HttpServletResponse response);	
 	
 }

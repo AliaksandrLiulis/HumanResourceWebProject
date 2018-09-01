@@ -24,11 +24,11 @@ public class DaoUserImpl implements IDaoUser {
 	private ConnectionPool connectionPool = null;
 	private Map<String, Integer> allRolles = null;
 
-	private final String SEARCH_USER = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId where users.nickName = ? and users.password = ?";
-	private final String SEARCH_USER_NICKNAME = "SELECT nickName from users  where nickName = ?";
-	private final String ADD_USER = "INSERT into users (name,  surName, nickName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
-	private final String GET_EXIST_PROFILE = "SELECT * FROM profile where idUser = ?";
-	private final String ADD_MESSAGE = "INSERT into message (name, email, createdate, content) VALUES (?,?,?,?)";
+	private final String SEARCH_ALL_USERS = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE users.nickName = ? AND users.password = ?";
+	private final String SEARCH_USER_NICKNAME = "SELECT nickName FROM users  WHERE nickName = ?";
+	private final String ADD_USER = "INSERT INTO users (name,  surName, nickName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
+	private final String GET_EXIST_PROFILE = "SELECT * FROM profile WHERE idUser = ?";
+	private final String ADD_MESSAGE = "INSERT INTO message (name, email, createdate, content) VALUES (?,?,?,?)";
 
 	public DaoUserImpl() {
 		if (null == connectionPool) {
@@ -38,14 +38,17 @@ public class DaoUserImpl implements IDaoUser {
 
 	@Override
 	public User searchUser(final String nickName, final String password) throws DaoException {
+
+		User user = null;
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
-		User user = null;
 
 		try {
+
 			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SEARCH_USER);
+			preparedStatement = connection.prepareStatement(SEARCH_ALL_USERS);
 			preparedStatement.setString(1, nickName);
 			preparedStatement.setString(2, password);
 			result = preparedStatement.executeQuery();
@@ -57,6 +60,7 @@ public class DaoUserImpl implements IDaoUser {
 						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
 						.resumeId(result.getInt(8)).role(result.getString(9)).build();
 			}
+
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
 			throw new DaoException("searchUser" + e);
@@ -71,19 +75,24 @@ public class DaoUserImpl implements IDaoUser {
 
 	@Override
 	public boolean searchUserNickName(final String nickName) throws DaoException {
+
+		String existNick = null;
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
-		String nick = null;
+
 		try {
 
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(SEARCH_USER_NICKNAME);
 			preparedStatement.setString(1, nickName);
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
-				nick = result.getString(1);
+				existNick = result.getString(1);
 			}
+
 		} catch (InterruptedException e) {
 			logger.error("DaoUserImpl: searchUserNickName: Connection interrupted: " + e);
 			throw new DaoException("searchUserNickName" + e);
@@ -93,7 +102,8 @@ public class DaoUserImpl implements IDaoUser {
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchUserNickName");
 		}
-		if (null == nick) {
+
+		if (null == existNick) {
 			return true;
 		}
 		return false;
@@ -101,12 +111,17 @@ public class DaoUserImpl implements IDaoUser {
 
 	@Override
 	public User addUser(final String... userParams) throws DaoException {
+
 		String name = null;
 		String surname = null;
 		String nickName = null;
 		String password = null;
 		String email = null;
 		String role = null;
+		User user = null;
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
 		name = userParams[0];
 		surname = userParams[1];
@@ -118,10 +133,9 @@ public class DaoUserImpl implements IDaoUser {
 		if (null == allRolles) {
 			allRolles = setRoles();
 		}
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		User user = null;
+
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_USER);
 			preparedStatement.setString(1, name);
@@ -130,7 +144,7 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setString(4, password);
 			preparedStatement.setInt(5, 0);
 			preparedStatement.setString(6, email);
-			preparedStatement.setInt(7, getNumRoleForSQL(role));
+			preparedStatement.setInt(7, getNumRoleForSQLUsers(role));
 			preparedStatement.setInt(8, 0);
 			preparedStatement.setInt(9, 0);
 			preparedStatement.executeUpdate();
@@ -147,21 +161,28 @@ public class DaoUserImpl implements IDaoUser {
 		} finally {
 			closeResources(null, preparedStatement, connection, "addUser");
 		}
+
 		return user;
 	}
 
-	public Profile getProfile(int idUser) throws DaoException {
+	@Override
+	public Profile getProfile(final int idUser) throws DaoException {
+
+		Profile profile = null;
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
-		Profile profile = null;
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(GET_EXIST_PROFILE);
 			preparedStatement.setInt(1, idUser);
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
+
 				profile = new ProfileBuilder().profileId(result.getInt(1)).registrationDate(result.getDate(2))
 						.birthDayDate(result.getDate(3)).phone(result.getString(4)).residence(result.getString(5))
 						.workSpeciality(result.getString(6)).workExpirience(result.getString(7))
@@ -178,31 +199,12 @@ public class DaoUserImpl implements IDaoUser {
 		} finally {
 			closeResources(result, preparedStatement, connection, "getProfile");
 		}
+
 		return profile;
 	}
 
-	private int getNumRoleForSQL(final String role) {
-		Set<Map.Entry<String, Integer>> entrySet = allRolles.entrySet();
-		int numForSql = 0;
-		for (Map.Entry<String, Integer> pair : entrySet) {
-			if (role.equals(pair.getKey())) {
-				numForSql = pair.getValue();
-			}
-		}
-		return numForSql;
-	}
-
-	private Map<String, Integer> setRoles() {
-		allRolles = new HashMap<String, Integer>();
-		allRolles.put(AllRole.ADMINISTRATOR.getValue(), AllRole.ADMINISTRATOR.getIdNumber());
-		allRolles.put(AllRole.BOSS.getValue(), AllRole.BOSS.getIdNumber());
-		allRolles.put(AllRole.HR.getValue(), AllRole.HR.getIdNumber());
-		allRolles.put(AllRole.EMPLOYEE.getValue(), AllRole.EMPLOYEE.getIdNumber());
-		return allRolles;
-	}
-
 	@Override
-	public boolean createmessage(String... params) throws DaoException {
+	public boolean createMessage(final String... params) throws DaoException {
 
 		String name = null;
 		String email = null;
@@ -212,13 +214,14 @@ public class DaoUserImpl implements IDaoUser {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		name = params[0];
 		email = params[1];
 		createDate = params[2];
 		message = params[3];
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_MESSAGE);
 			preparedStatement.setString(1, name);
@@ -227,17 +230,46 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.setString(4, message);
 			preparedStatement.executeUpdate();
 			result = true;
+
 		} catch (InterruptedException | SQLException e) {
-			logger.error("DaoUserImpl: createmessage: Connection interrupted: " + e);
-			throw new DaoException("createmessage" + e);
+			logger.error("DaoUserImpl: createMessage: Connection interrupted: " + e);
+			throw new DaoException("createMessage" + e);
 		} finally {
-			closeResources(null, preparedStatement, connection, "createmessage");
+			closeResources(null, preparedStatement, connection, "createMessage");
 		}
+
 		return result;
+	}
+
+	private int getNumRoleForSQLUsers(final String role) {
+
+		Set<Map.Entry<String, Integer>> entrySet = allRolles.entrySet();
+		int numForSql = 0;
+
+		for (Map.Entry<String, Integer> pair : entrySet) {
+
+			if (role.equals(pair.getKey())) {
+				numForSql = pair.getValue();
+			}
+		}
+
+		return numForSql;
+	}
+
+	private Map<String, Integer> setRoles() {
+
+		allRolles = new HashMap<String, Integer>();
+		allRolles.put(AllRole.ADMINISTRATOR.getValue(), AllRole.ADMINISTRATOR.getIdNumber());
+		allRolles.put(AllRole.BOSS.getValue(), AllRole.BOSS.getIdNumber());
+		allRolles.put(AllRole.HR.getValue(), AllRole.HR.getIdNumber());
+		allRolles.put(AllRole.EMPLOYEE.getValue(), AllRole.EMPLOYEE.getIdNumber());
+
+		return allRolles;
 	}
 
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
+		
 		try {
 			if (resultSet != null) {
 				resultSet.close();

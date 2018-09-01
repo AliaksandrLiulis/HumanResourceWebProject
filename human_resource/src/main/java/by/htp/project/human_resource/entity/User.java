@@ -1,6 +1,7 @@
 package by.htp.project.human_resource.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -15,6 +16,7 @@ public class User implements Serializable {
 	private int avaliable;
 	private int profileId;
 	private int resumeId;
+	private List<Integer> responcedVacancyId;
 
 	User() {
 	}
@@ -101,6 +103,15 @@ public class User implements Serializable {
 
 	public void setResumeId(int resumeId) {
 		this.resumeId = resumeId;
+	}	
+
+	
+	public List<Integer> getResponcedVacancyId() {
+		return responcedVacancyId;
+	}
+
+	public void setResponcedVacancyId(List<Integer> responcedVacancyId) {
+		this.responcedVacancyId = responcedVacancyId;
 	}
 
 	@Override
@@ -112,6 +123,7 @@ public class User implements Serializable {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nickName == null) ? 0 : nickName.hashCode());
 		result = prime * result + profileId;
+		result = prime * result + ((responcedVacancyId == null) ? 0 : responcedVacancyId.hashCode());
 		result = prime * result + resumeId;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((surName == null) ? 0 : surName.hashCode());
@@ -147,6 +159,11 @@ public class User implements Serializable {
 			return false;
 		if (profileId != other.profileId)
 			return false;
+		if (responcedVacancyId == null) {
+			if (other.responcedVacancyId != null)
+				return false;
+		} else if (!responcedVacancyId.equals(other.responcedVacancyId))
+			return false;
 		if (resumeId != other.resumeId)
 			return false;
 		if (role == null) {
@@ -162,9 +179,5 @@ public class User implements Serializable {
 		if (userId != other.userId)
 			return false;
 		return true;
-	}
-
-	
-
-
+	}	
 }

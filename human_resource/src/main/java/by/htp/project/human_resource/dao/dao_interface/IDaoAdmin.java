@@ -7,9 +7,10 @@ import by.htp.project.human_resource.entity.User;
 
 public interface IDaoAdmin {
 	
-	List<User> searchAllRegisteredUserByParams(final String... params) throws DaoException;
-	List<User> searchAllUnregisteredUserByParams(final String... params) throws DaoException;
-	List<User> searchAllUserByParams(final String... params) throws DaoException;
-	int getCountAllRowsForTable(final String tableName, final int avaliable) throws DaoException;
-	boolean updateAvaliableFildForUser(final int idUser, final int value) throws DaoException;
+	List<User> searchAllRegisteredUserByParams(String... params) throws DaoException;
+	List<User> searchAllUnregisteredUserByParams(String... params) throws DaoException;
+	List<User> searchAllUserByParams(String... params) throws DaoException;
+	int getCountAllRowsForTable(String tableName, int avaliable) throws DaoException;
+	boolean updateAvaliableFildForUser(int idUser, int value) throws DaoException;
+	
 }

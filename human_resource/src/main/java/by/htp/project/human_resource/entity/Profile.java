@@ -18,8 +18,7 @@ public class Profile implements Serializable{
 	private String photoPath;
 	private String aboutUser;
 	
-	Profile() {
-		
+	Profile() {		
 	}
 
 	public int getProfileId() {

@@ -7,4 +7,5 @@ public final class CommandConst {
 
 	public final static String BEGIN_OF_THE_COMMAND_NAME = "cb";
 	public final static String COMMAND_FOR_ERROR = "cb.error_page";
+
 }

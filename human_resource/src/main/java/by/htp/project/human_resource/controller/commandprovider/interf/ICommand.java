@@ -9,5 +9,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface ICommand {
 	
 	void execute(final HttpServletRequest request, final HttpServletResponse response)throws ServletException, IOException;
-
+	
 }

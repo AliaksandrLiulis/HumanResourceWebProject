@@ -19,5 +19,6 @@ public class RegisterUser implements ICommand {
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 		serviceUser.registerUser(request, response);
+
 	}
 }

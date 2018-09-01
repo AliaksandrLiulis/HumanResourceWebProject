@@ -5,12 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IServiceJobSeeker {
 	
-	void addProfile(final HttpServletRequest request, final HttpServletResponse response);
-	void deleteProfile(final HttpServletRequest request, final HttpServletResponse response);
-	void updateProfile(final HttpServletRequest request, final HttpServletResponse response);
-	void addResume(final HttpServletRequest request, final HttpServletResponse response);
-	void deleteResume(final HttpServletRequest request, final HttpServletResponse response);
+	void addProfile(HttpServletRequest request, HttpServletResponse response);
+	void deleteProfile(HttpServletRequest request, HttpServletResponse response);
+	void updateProfile( HttpServletRequest request, HttpServletResponse response);
+	void addResume(HttpServletRequest request, HttpServletResponse response);
+	void deleteResume( HttpServletRequest request,  HttpServletResponse response);
 	void getVacancy(HttpServletRequest request, HttpServletResponse response);
 	void respondOnvacancy(HttpServletRequest request, HttpServletResponse response);
+	void deleteRespondOnVacancy(HttpServletRequest request, HttpServletResponse response);
 	
 }

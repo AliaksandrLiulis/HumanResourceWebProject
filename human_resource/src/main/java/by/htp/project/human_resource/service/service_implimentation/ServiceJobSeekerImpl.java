@@ -18,6 +18,7 @@ import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_factory.DaoFactory;
 import by.htp.project.human_resource.dao.dao_interface.IDAOJobSeeker;
 import by.htp.project.human_resource.entity.Profile;
+import by.htp.project.human_resource.entity.RespondVacancy;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath;
@@ -102,7 +103,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 		session = request.getSession();
 		try {
-			user = daoJobSeeker.removeProfile(Integer.parseInt(idUser));
+			user = daoJobSeeker.removeProfileByUserId(Integer.parseInt(idUser));
 			if (user != null) {
 				request.setAttribute("profile_delete_message", "1");
 				session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
@@ -154,7 +155,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		session = request.getSession();
 
 		try {
-			profile = daoJobSeeker.updateOldProfile(idUser, registrationDate, photoPath, phone, birthDayDate, residence,
+			profile = daoJobSeeker.updateOldProfileByParams(idUser, registrationDate, photoPath, phone, birthDayDate, residence,
 					workSpeciality, workExpirience, education, aboutUser);
 			if (profile != null) {
 				request.setAttribute("profile_update_message", "1");
@@ -211,7 +212,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		session = request.getSession();
 
 		try {
-			user = daoJobSeeker.addNewResume(name, surName, email, registrationDate, birthDayDate, phone, residence,
+			user = daoJobSeeker.addNewResumeByParams(name, surName, email, registrationDate, birthDayDate, phone, residence,
 					workSpeciality, workExpirience, education, photoPath, aboutUser, idUser);
 			if (user != null) {
 				request.setAttribute("resume_add_message", "1");
@@ -243,7 +244,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		session = request.getSession();
 		resumeId = request.getParameter(ServiceParamConstant.USER_RESUME_ID__PARAM);
 		try {
-			user = daoJobSeeker.deleteResume(Integer.parseInt(resumeId));
+			user = daoJobSeeker.deleteResumeByIdUser(Integer.parseInt(resumeId));
 			if (user != null) {
 				request.setAttribute("resume_delete_message", "1");
 				session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
@@ -272,18 +273,25 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		String limitLine = null;
 		String offsetLine = null;
 		int pageCount = 0;
+		int userId = 0;
 		List<Vacancy> allVacancy;
+		List<String> allRespondVacancyId;
 		RequestDispatcher dispatcher = null;
 
 		tableNameVacancy = ServiceParamConstant.VACANCIES_TABLE_NAME_PARAM;
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
+		userId = Integer.parseInt(request.getParameter(ServiceParamConstant.USER_ID_PARAM));
 		try {
 			countAllVacancies = daoJobSeeker.getCountAllRowsForTable(tableNameVacancy);
 			if (countAllVacancies != 0) {
 				allVacancy = daoJobSeeker.searchVacancyByParam(limitLine, offsetLine);
 				if (allVacancy != null) {
+					allRespondVacancyId = daoJobSeeker.searchRespondVacancyByUserId(userId);
+					if (allRespondVacancyId != null) {
+						request.setAttribute("allRespondVacancy", allRespondVacancyId);
+					}
 					pageCount = countPaging(countAllVacancies, Integer.parseInt(limitLine));
 					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
@@ -324,7 +332,8 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		userId = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
 		try {
-			result = daoJobSeeker.updateVacancyWhenRespond(Integer.parseInt(userId), Integer.parseInt(vacancyId));
+			result = daoJobSeeker.updateVacancyWhenRespondAndAddInTable(Integer.parseInt(userId),
+					Integer.parseInt(vacancyId));
 			if (result) {
 				try {
 					response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok&respondadded=yes");
@@ -344,6 +353,41 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 				logger.error("ServiceJobSeekerImpl: daoException: " + e);
 			} catch (IOException e1) {
 				logger.error("ServiceJobSeekerImpl: respondOnvacancy:sendRedirectError " + e1);
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void deleteRespondOnVacancy(HttpServletRequest request, HttpServletResponse response) {
+		String userId = null;
+		String vacancyId = null;
+		boolean result = false;
+
+		userId = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
+		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
+		try {
+			result = daoJobSeeker.updateVacancyWhenRespondAndDeleteInTable(Integer.parseInt(userId),
+					Integer.parseInt(vacancyId));
+			if (result) {
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok&respondadded=yes");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: deleteRespondOnVacancy:sendRedirectError " + e);
+				}
+			} else {
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok");
+				} catch (IOException e1) {
+					logger.error("ServiceJobSeekerImpl: deleteRespondOnVacancy :sendRedirectError " + e1);
+				}
+			}
+		} catch (DaoException e) {
+			try {
+				response.sendRedirect("controllerServlet?command=cb.employee_page&respond=ok");
+				logger.error("ServiceJobSeekerImpl: daoException: " + e);
+			} catch (IOException e1) {
+				logger.error("ServiceJobSeekerImpl: deleteRespondOnVacancy:sendRedirectError " + e1);
 				e1.printStackTrace();
 			}
 		}

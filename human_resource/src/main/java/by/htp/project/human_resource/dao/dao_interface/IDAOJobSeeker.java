@@ -9,13 +9,15 @@ import by.htp.project.human_resource.entity.Vacancy;
 
 public interface IDAOJobSeeker {	
 	
-	List<Object> addNewProfile(final String... profileParams) throws DaoException;
-	User removeProfile(final int userId) throws DaoException;
-	Profile updateOldProfile(final String...profileParams) throws DaoException;
-	User addNewResume(final String... resumeParams) throws DaoException;
-	User deleteResume(final int idUserResume) throws DaoException;
-	List<Vacancy> searchVacancyByParam(final String... params) throws DaoException;
-	int getCountAllRowsForTable(final String tableName) throws DaoException;
-	boolean updateVacancyWhenRespond(final int userId, final int vacancyId) throws DaoException;
+	List<Object> addNewProfile(String... profileParams) throws DaoException;
+	User removeProfileByUserId(int userId) throws DaoException;
+	Profile updateOldProfileByParams(String...profileParams) throws DaoException;
+	User addNewResumeByParams(String... resumeParams) throws DaoException;
+	User deleteResumeByIdUser(int idUserResume) throws DaoException;
+	List<Vacancy> searchVacancyByParam(String... params) throws DaoException;
+	List<String> searchRespondVacancyByUserId(int userId) throws DaoException;
+	int getCountAllRowsForTable(String tableName) throws DaoException;
+	boolean updateVacancyWhenRespondAndAddInTable(int userId, int vacancyId) throws DaoException;
+	boolean updateVacancyWhenRespondAndDeleteInTable(int userId, int vacancyId) throws DaoException;
 
 }

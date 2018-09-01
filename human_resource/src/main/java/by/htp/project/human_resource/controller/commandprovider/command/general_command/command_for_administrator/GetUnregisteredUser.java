@@ -22,5 +22,4 @@ public class GetUnregisteredUser implements ICommand {
 		serviceAdmin.getUnRegisteredUserByParam(request, response);
 
 	}
-
 }

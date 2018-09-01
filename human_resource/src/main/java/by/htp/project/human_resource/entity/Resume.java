@@ -6,6 +6,7 @@ import java.util.Date;
 public class Resume implements Serializable {
 	
 	private static final long serialVersionUID = 4031613634272073009L;
+	
 	private int id;
 	private String name;
 	private String surName;
@@ -19,11 +20,9 @@ public class Resume implements Serializable {
 	private String education;
 	private String photoPath;
 	private String aboutUser;
-	private int idUser;
-	
+	private int idUser;	
 
-	Resume() {
-	
+	Resume() {	
 	}
 
 	public int getId() {
@@ -234,9 +233,4 @@ public class Resume implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-
 }

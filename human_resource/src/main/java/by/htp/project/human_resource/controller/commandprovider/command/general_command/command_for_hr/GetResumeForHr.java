@@ -19,5 +19,6 @@ public class GetResumeForHr implements ICommand{
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 		serviceHr.getResume(request,response);
+		
 	}
 }

@@ -20,6 +20,6 @@ public class GetVacancyForJobSeeker implements ICommand{
 			throws ServletException, IOException {
 		
 		serviceJobSeeker.getVacancy(request,response);
+		
 	}
-
 }

@@ -81,7 +81,6 @@ public class ProfileBuilder {
 		profile.setEducation(education);
 		profile.setPhotoPath(photoPath);
 		profile.setAboutUser(aboutUser);
-
 		return profile;
 	}
 }

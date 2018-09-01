@@ -4,9 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface IServiceHr {
-	void addVacancy(final HttpServletRequest request, final HttpServletResponse response);
-	void getVacancy(final HttpServletRequest request, final HttpServletResponse response);
-	void deleteVacancyById(final HttpServletRequest request, final HttpServletResponse response);
+	void addVacancy(HttpServletRequest request, HttpServletResponse response);
+	void getVacancy(HttpServletRequest request, HttpServletResponse response);
+	void deleteVacancyById(HttpServletRequest request, HttpServletResponse response);
 	void getResume(HttpServletRequest request, HttpServletResponse response);
+	void getAllVacancyResponded(HttpServletRequest request, HttpServletResponse response);
 
 }

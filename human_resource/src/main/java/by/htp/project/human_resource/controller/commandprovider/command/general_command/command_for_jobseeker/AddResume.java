@@ -19,5 +19,6 @@ public class AddResume implements ICommand {
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 
 		jobSeeker.addResume(request, response);
+		
 	}
 }

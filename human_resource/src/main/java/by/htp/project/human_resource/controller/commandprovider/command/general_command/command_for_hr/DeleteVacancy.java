@@ -19,5 +19,6 @@ public class DeleteVacancy implements ICommand {
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 
 		serviceHr.deleteVacancyById(request, response);
+		
 	}
 }

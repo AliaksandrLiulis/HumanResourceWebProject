@@ -137,6 +137,7 @@
 <fmt:message bundle="${loc}" key="local.employee.respond" var="respond" />
 <fmt:message bundle="${loc}" key="local.employee.sentapplication" var="sentapplication" />
 <fmt:message bundle="${loc}" key="local.employee.applicationnotsent" var="applicationnotsent" />
+<fmt:message bundle="${loc}" key="local.employee.deleterespond" var="deleterespond" />
 
 
 

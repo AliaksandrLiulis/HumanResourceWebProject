@@ -81,7 +81,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 		createDate = dateFormat.format(new Date());
 
 		try {
-			if (daoUser.createmessage(name, email, createDate, message)) {				
+			if (daoUser.createMessage(name, email, createDate, message)) {				
 				try {
 					response.sendRedirect("controllerServlet?command=cb.main_page&sendmess=ok&lettersent=yes");
 				} catch (IOException e) {

@@ -15,19 +15,25 @@ import by.htp.project.human_resource.dao.dao_interface.IDaoHr;
 import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.Resume;
 import by.htp.project.human_resource.entity.ResumeBuilder;
+import by.htp.project.human_resource.entity.User;
+import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
 
 public class DaoHrImpl implements IDaoHr {
 
-	private Logger logger = LoggerFactory.getLogger(DaoUserImpl.class);
+	private Logger logger = LoggerFactory.getLogger(DaoHrImpl.class);
 	private ConnectionPool connectionPool = null;
 
-	private final String ADD_DRIVER_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
-	private final String ADD_ACCOUNTANT_VACANCY = "INSERT into vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
-	private final String SEARCH_BY_PARAM_FOR_VACANCY = "SELECT * from vacancies where whoAddedId = ? LIMIT ?, ?";
-	private final String SEARCH_BY_PARAM_FOR_RESUME = "SELECT * from resume LIMIT ?, ?";
-	private final String DELETE_VACANCY_BY_ID = "DELETE from vacancies where idvacancies = ?";
+	private final String ADD_DRIVER_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
+	private final String ADD_ACCOUNTANT_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
+	private final String SEARCH_LIMIT_COUNT_VACANCY_BY_USER_ID = "SELECT * FROM vacancies WHERE whoAddedId = ? LIMIT ?, ?";
+	private final String SEARCH_LIMIT_COUNT_RESUME = "SELECT * FROM resume LIMIT ?, ?";
+	private final String SEARCH_ALL_RESPONDED_ON_VACANCY = "SELECT * FROM vacancyresponded";
+	private final String DELETE_VACANCY_BY_ID_VACANCY = "DELETE FROM vacancies WHERE idvacancies = ?";
+	private final String DELETE_RESPONDED_BY_ID_VACANCY = "DELETE FROM vacancyresponded WHERE idVacancy = ?";
+	private final String SEARCH_RESPONDED_BY_ID_VACANCY = "SELECT * FROM vacancyresponded WHERE idVacancy = ?";
+	private final String SEARCH_ALL_USERS_BY_ID_USER = "SELECT * FROM users  WHERE userId = ?";
 
 	public DaoHrImpl() {
 		if (null == connectionPool) {
@@ -60,6 +66,7 @@ public class DaoHrImpl implements IDaoHr {
 		whoAddedId = params.get(6);
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_DRIVER_VACANCY);
 			preparedStatement.setString(1, professionByLocal);
@@ -76,19 +83,21 @@ public class DaoHrImpl implements IDaoHr {
 					.whoAddedId(Integer.parseInt(whoAddedId)).build();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: addDriverVacancy: Connection interrupted: " + e);
+			logger.error("DaoHrImpl: addDriverVacancy: Connection interrupted: " + e);
 			throw new DaoException("addDriverVacancy" + e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: addDriverVacancy: SQL error: " + e);
-			throw new DaoException("getProfile" + e);
+			logger.error("DaoHrImpl: addDriverVacancy: SQL error: " + e);
+			throw new DaoException("addDriverVacancy" + e);
 		} finally {
-			closeResources(result, preparedStatement, connection, "getPraddDriverVacancyofile");
+			closeResources(result, preparedStatement, connection, "addDriverVacancy");
 		}
+
 		return vacancy;
 	}
 
 	@Override
 	public Vacancy addAccountantVacancy(final List<String> params) throws DaoException {
+
 		String professionByLocal = null;
 		String companyName = null;
 		String experience = null;
@@ -107,6 +116,7 @@ public class DaoHrImpl implements IDaoHr {
 		whoAddedId = params.get(4);
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(ADD_ACCOUNTANT_VACANCY);
 			preparedStatement.setString(1, professionByLocal);
@@ -121,19 +131,21 @@ public class DaoHrImpl implements IDaoHr {
 					.build();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: addAccountantVacancy: Connection interrupted: " + e);
+			logger.error("DaoHrImpl: addAccountantVacancy: Connection interrupted: " + e);
 			throw new DaoException("addAccountantVacancy" + e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: addAccountantVacancy: SQL error: " + e);
+			logger.error("DaoHrImpl: addAccountantVacancy: SQL error: " + e);
 			throw new DaoException("addAccountantVacancy" + e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "addAccountantVacancy");
 		}
+
 		return vacancy;
 	}
 
 	@Override
-	public int getCountAllRowsForTable(String tableName) throws DaoException {
+	public int getCountAllRowsForTable(final String tableName) throws DaoException {
+
 		int count = 0;
 
 		Connection connection = null;
@@ -141,17 +153,20 @@ public class DaoHrImpl implements IDaoHr {
 		ResultSet result = null;
 
 		try {
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName);
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
 				count = result.getInt(1);
 			}
+
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: getCountAllRowsForTable: Connection interrupted: " + e);
+			logger.error("DaoHrImpl: getCountAllRowsForTable: Connection interrupted: " + e);
 			throw new DaoException("getCountAllRowsForTable" + e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: getCountAllRowsForTable: SQL error: " + e);
+			logger.error("DaoHrImpl: getCountAllRowsForTable: SQL error: " + e);
 			throw new DaoException("getCountAllRowsForTable" + e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "getCountAllRowsForTable");
@@ -161,7 +176,8 @@ public class DaoHrImpl implements IDaoHr {
 	}
 
 	@Override
-	public List<Vacancy> searchVacancyByParam(String... params) throws DaoException {
+	public List<Vacancy> searchVacancyByParam(final String... params) throws DaoException {
+
 		String limiLine = null;
 		String offsetLine = null;
 		String whoAddedId = null;
@@ -178,13 +194,14 @@ public class DaoHrImpl implements IDaoHr {
 		allVacancy = new ArrayList<>();
 
 		try {
-			connection = connectionPool.takeConnection();
 
-			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_VACANCY);
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_LIMIT_COUNT_VACANCY_BY_USER_ID);
 			preparedStatement.setInt(1, Integer.parseInt(whoAddedId));
 			preparedStatement.setInt(2, Integer.parseInt(offsetLine));
 			preparedStatement.setInt(3, Integer.parseInt(limiLine));
 			result = preparedStatement.executeQuery();
+
 			while (result.next()) {
 				vacancy = new VacancyBuilder().idvacancy(result.getInt(1)).professionName(result.getString(2))
 						.companyName(result.getString(3)).experience(result.getString(4)).salary(result.getInt(5))
@@ -192,46 +209,192 @@ public class DaoHrImpl implements IDaoHr {
 						.build();
 				allVacancy.add(vacancy);
 			}
+
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: searchVacancyByParam: Connection interrupted: " + e);
+			logger.error("DaoHrImpl: searchVacancyByParam: Connection interrupted: " + e);
 			throw new DaoException("searchVacancyByParam" + e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchVacancyByParam: SQL error: " + e);
+			logger.error("DaoHrImpl: searchVacancyByParam: SQL error: " + e);
 			throw new DaoException("searchVacancyByParam" + e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchVacancyByParam");
 		}
-		
+
 		return allVacancy;
 	}
 
 	@Override
-	public boolean deleteVacancy(int id) throws DaoException {
-		boolean resultDeleted = false;
+	public boolean deleteVacancyById(final int id) throws DaoException {
+
+		boolean result = false;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			connection = connectionPool.takeConnection();
 
-			preparedStatement = connection.prepareStatement(DELETE_VACANCY_BY_ID);
+			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
+
+			preparedStatement = connection.prepareStatement(DELETE_VACANCY_BY_ID_VACANCY);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
-			resultDeleted = true;
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: deleteVacancy: Connection interrupted: " + e);
-			throw new DaoException("deleteVacancy" + e);
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchVacancyByParam: SQL error: " + e);
-			throw new DaoException("searchVacancyByParam" + e);
+			closePreparedStatement(preparedStatement, "deleteVacancyById");
+
+			preparedStatement = connection.prepareStatement(DELETE_RESPONDED_BY_ID_VACANCY);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+
+			connection.commit();
+			result = true;
+		} catch (InterruptedException | SQLException e) {
+			try {
+				logger.error("DaoHrImpl: deleteVacancyById: transaction error" + e);
+				connection.rollback();
+				throw new DaoException("deleteVacancyById: transaction error " + e);
+			} catch (SQLException e1) {
+				logger.error("DaoHrImpl: deleteVacancyById: rollback error: " + e);
+				throw new DaoException("deleteVacancyById:rollback error: " + e1);
+			}
 		} finally {
-			closeResources(null, preparedStatement, connection, "deleteVacancy");
+			closeResources(null, preparedStatement, connection, "deleteVacancyById");
 		}
-		return resultDeleted;
+
+		return result;
+	}
+
+	@Override
+	public List<Resume> searchResumeByParam(final String... params) throws DaoException {
+
+		String limiLine = null;
+		String offsetLine = null;
+		List<Resume> allResume = null;
+		Resume resume = null;
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		limiLine = params[0];
+		offsetLine = params[1];
+		allResume = new ArrayList<>();
+
+		try {
+
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_LIMIT_COUNT_RESUME);
+			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
+			preparedStatement.setInt(2, Integer.parseInt(limiLine));
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				resume = new ResumeBuilder().id(result.getInt(1)).name(result.getString(2)).surName(result.getString(3))
+						.email(result.getString(4)).registrationDate(result.getDate(5)).birthDayDate(result.getDate(6))
+						.phone(result.getString(7)).residence(result.getString(8)).workSpeciality(result.getString(9))
+						.workExpirience(result.getString(10)).education(result.getString(11))
+						.photoPath(result.getString(12)).aboutUser(result.getString(13)).idUser(result.getInt(14))
+						.build();
+				allResume.add(resume);
+			}
+
+		} catch (InterruptedException e) {
+			logger.error("DaoHrImpl: searchResumeByParam: Connection interrupted: " + e);
+			throw new DaoException("searchResumeByParam" + e);
+		} catch (SQLException e) {
+			logger.error("DaoHrImpl: searchResumeByParam: SQL error: " + e);
+			throw new DaoException("searchResumeByParam" + e);
+		} finally {
+			closeResources(result, preparedStatement, connection, "searchResumeByParam");
+		}
+
+		return allResume;
+	}
+
+	@Override
+	public List<User> searchRespondedUserByIdVacancy(final int idVacancy) throws DaoException {
+
+		User user = null;
+		List<User> allUsers = new ArrayList<>();
+		List<Integer> allUsersID = new ArrayList<>();
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		try {
+
+			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(SEARCH_RESPONDED_BY_ID_VACANCY);
+			preparedStatement.setInt(1, idVacancy);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				allUsersID.add(result.getInt(3));
+			}
+			closePreparedStatement(preparedStatement, "searchRespondedUserByIdVacancy");
+
+			for (Integer integer : allUsersID) {
+				preparedStatement = connection.prepareStatement(SEARCH_ALL_USERS_BY_ID_USER);
+				preparedStatement.setInt(1, integer);
+				result = preparedStatement.executeQuery();
+
+				while (result.next()) {
+					user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
+							.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
+							.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
+							.resumeId(result.getInt(8)).role(result.getString(9)).build();
+					allUsers.add(user);
+				}
+			}
+
+			connection.commit();
+		} catch (InterruptedException | SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: rollback error: " + e);
+			}
+			logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: " + e);
+			throw new DaoException("searchRespondedUserByIdVacancy" + e);
+		} finally {
+			closeResources(result, preparedStatement, connection, "searchRespondedUserByIdVacancy");
+		}
+		return allUsers;
+	}
+
+	@Override
+	public List<String> searchRespondedOnVacancy() throws DaoException {
+		List<String> allRespondedId = new ArrayList<>();
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_ALL_RESPONDED_ON_VACANCY);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				allRespondedId.add(result.getString(2));
+			}
+
+		} catch (InterruptedException e) {
+			logger.error("DaoHrImpl: searchRespondedOnVacancy: Connection interrupted: " + e);
+			throw new DaoException("searchRespondedOnVacancy" + e);
+		} catch (SQLException e) {
+			logger.error("DaoHrImpl: searchRespondedOnVacancy: SQL error: " + e);
+			throw new DaoException("searchRespondedOnVacancy" + e);
+		} finally {
+			closeResources(result, preparedStatement, connection, "searchRespondedOnVacancy");
+		}
+
+		return allRespondedId;
 	}
 
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
+
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -247,48 +410,13 @@ public class DaoHrImpl implements IDaoHr {
 		}
 	}
 
-	@Override
-	public List<Resume> searchResumeByParam(String... params) throws DaoException {
-		String limiLine = null;
-		String offsetLine = null;
-		List<Resume> allResume = null;
-		Resume resume;
-
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet result = null;
-
-		limiLine = params[0];
-		offsetLine = params[1];
-		allResume = new ArrayList<>();
-
+	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName) {
 		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SEARCH_BY_PARAM_FOR_RESUME);
-			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
-			preparedStatement.setInt(2, Integer.parseInt(limiLine));
-
-			result = preparedStatement.executeQuery();
-			while (result.next()) {
-				resume = new ResumeBuilder().id(result.getInt(1)).name(result.getString(2)).surName(result.getString(3))
-						.email(result.getString(4)).registrationDate(result.getDate(5)).birthDayDate(result.getDate(6))
-						.phone(result.getString(7)).residence(result.getString(8)).workSpeciality(result.getString(9))
-						.workExpirience(result.getString(10)).education(result.getString(11))
-						.photoPath(result.getString(12)).aboutUser(result.getString(13)).idUser(result.getInt(14))
-						.build();
-				allResume.add(resume);
+			if (preparedStatement != null) {
+				preparedStatement.close();
 			}
-		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: searchVacancyByParam: Connection interrupted: " + e);
-			throw new DaoException("searchVacancyByParam" + e);
-		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchVacancyByParam: SQL error: " + e);
-			throw new DaoException("searchVacancyByParam" + e);
-		} finally {
-			closeResources(result, preparedStatement, connection, "searchVacancyByParam");
+		} catch (Exception e) {
+			logger.error("DaoHrImpl: " + methodName + ": " + e);
 		}
-
-		return allResume;
 	}
-
 }

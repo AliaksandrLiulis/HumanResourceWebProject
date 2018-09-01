@@ -2,11 +2,10 @@ package by.htp.project.human_resource.entity;
 
 import java.io.Serializable;
 
-public class Vacancy implements Serializable{
-	
-	
+public class Vacancy implements Serializable {
+
 	private static final long serialVersionUID = 7071430179529416965L;
-	
+
 	private int idvacancy;
 	private String professionName;
 	private String companyName;
@@ -15,60 +14,83 @@ public class Vacancy implements Serializable{
 	private String goods;
 	private String dlCategory;
 	private int whoAddedId;
-	
-		
+	private int whoRespondId;
+
 	Vacancy() {
-		
 	}
+
 	public int getIdvacancy() {
 		return idvacancy;
 	}
+
 	public void setIdvacancy(int idvacancy) {
 		this.idvacancy = idvacancy;
 	}
+
 	public String getProfessionName() {
 		return professionName;
 	}
+
 	public void setProfessionName(String professionName) {
 		this.professionName = professionName;
 	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
 	public String getExperience() {
 		return experience;
 	}
+
 	public void setExperience(String experience) {
 		this.experience = experience;
 	}
+
 	public int getSalary() {
 		return salary;
 	}
+
 	public void setSalary(int salary) {
 		this.salary = salary;
 	}
+
 	public String getGoods() {
 		return goods;
 	}
+
 	public void setGoods(String goods) {
 		this.goods = goods;
 	}
+
 	public String getDlCategory() {
 		return dlCategory;
 	}
+
 	public void setDlCategory(String dlCategory) {
 		this.dlCategory = dlCategory;
 	}
-	
-	public int getWhodded() {
+
+	public int getWhoAddedId() {
 		return whoAddedId;
 	}
-	public void setWhodded(int whodded) {
-		this.whoAddedId = whodded;
+
+	public void setWhoAddedId(int whoAddedId) {
+		this.whoAddedId = whoAddedId;
 	}
+
+	public int getRespond() {
+		return whoRespondId;
+	}
+
+	public void setRespond(int respond) {
+		this.whoRespondId = respond;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -79,10 +101,12 @@ public class Vacancy implements Serializable{
 		result = prime * result + ((goods == null) ? 0 : goods.hashCode());
 		result = prime * result + idvacancy;
 		result = prime * result + ((professionName == null) ? 0 : professionName.hashCode());
+		result = prime * result + whoRespondId;
 		result = prime * result + salary;
 		result = prime * result + whoAddedId;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -119,13 +143,12 @@ public class Vacancy implements Serializable{
 				return false;
 		} else if (!professionName.equals(other.professionName))
 			return false;
+		if (whoRespondId != other.whoRespondId)
+			return false;
 		if (salary != other.salary)
 			return false;
 		if (whoAddedId != other.whoAddedId)
 			return false;
 		return true;
 	}
-	
-	
-	
 }

@@ -10,15 +10,16 @@ import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 import by.htp.project.human_resource.service.service_factory.ServiceFactory;
 import by.htp.project.human_resource.service.service_interface.IServiceJobSeeker;
 
+public class DeleteProfile implements ICommand {
 
-public class DeleteProfile implements ICommand{
-	
 	private ServiceFactory serviceFactory = ServiceFactory.getServiceFactory();
 	private IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+
+		jobSeeker.deleteProfile(request, response);
 		
-		jobSeeker.deleteProfile(request, response);		
 	}
 }

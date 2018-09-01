@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
 
@@ -176,6 +177,7 @@
 																	<th style="color: orange;" scope="col">${salary}</th>
 																	<th style="color: orange;" scope="col">${showvacancy}</th>
 																	<th style="color: orange;" scope="col">${deletevacancy}</th>
+																	<th style="color: orange;" scope="col">${respond}</th>
 																</tr>
 															</thead>
 															<tbody>
@@ -190,7 +192,8 @@
 																		<td style="color: black;">${vacancy.experience}</td>
 																		<td style="color: black;">${vacancy.salary}</td>
 																		<td><c:set var="count" value="${count + 1}"
-																				scope="page" /> <c:choose>
+																				scope="page" />
+																		 <c:choose>
 																				<c:when
 																					test="${vacancy.professionName eq 'Водитель' || vacancy.professionName eq 'Driver'}">
 																					<button href="#vocancywievdrivermodal"
@@ -218,6 +221,18 @@
 																				data-toggle="modal" data-target="#deleteVacancy"
 																				data-idvacancy="${vacancy.idvacancy}">${deletebutton}</button>
 																		</td>
+																		<td><c:choose>
+																				<c:when test="${fn:contains(requestScope.allRespondedId,vacancy.idvacancy)}">
+																					<form action="controllerServlet" method="get">
+																						<input type="hidden" name="command"
+																							value="cb.get_all_responded"> <input
+																							type="hidden" name="vacancyId"
+																							value="${vacancy.idvacancy}">
+																						<button type="submit" class="btn btn-warning">${showresponded}</button>
+																					</form>
+
+																				</c:when>
+																			</c:choose></td>
 																	</tr>
 
 																</c:forEach>
@@ -849,6 +864,56 @@
 				</div>
 			</div>
 
+			<div id="alluserswhorespondmodal" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<br>
+							<h3 align="center" class="modal-title" style="color: Blue;">Users</h3>
+							<br>
+							<button class="close" type="button" data-dismiss="modal">
+								<i class="fa fa-close"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<table class="table table-bordered table-hover table-sm">
+									<thead>
+										<tr>
+											<th style="color: orange;" scope="col">${vacancytablename}</th>
+											<th style="color: orange;" scope="col">${vacancytablesurName}</th>
+											<th style="color: orange;" scope="col">${nickname}</th>
+											<th style="color: orange;" scope="col">${vacancytableemail}</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:set var="count" value="${(requestScope.pagenum * 5)-4}"
+											scope="page" />
+										<c:forEach var="user"
+											items="${requestScope.allUsersWhoRespond}">
+											<tr>
+												<td style="color: black;">${user.name}</td>
+												<td style="color: black;">${user.surName}</td>
+												<td style="color: black;">${user.nickName}</td>
+												<td style="color: black;">${user.email}</td>
+
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<form action="controllerServlet" method="get">
+								<input type="hidden" name="command" value="cb.hr_page">
+								<button class="btn btn-success" type="submit">${okbutton}</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
 
 
 
@@ -944,6 +1009,14 @@
 			<c:redirect url="/controllerServlet?command=cb.main_page" />
 		</c:otherwise>
 	</c:choose>
+
+	<c:if test="${not empty allUsersWhoRespond}">
+		<script>
+			$(document).ready(function() {
+				$("#alluserswhorespondmodal").modal('show');
+			});
+		</script>
+	</c:if>
 
 
 </body>

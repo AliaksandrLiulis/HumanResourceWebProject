@@ -20,5 +20,6 @@ public class AddVacancy implements ICommand {
 			throws ServletException, IOException {
 		
 		serviceHr.addVacancy(request,response);
+		
 	}
 }

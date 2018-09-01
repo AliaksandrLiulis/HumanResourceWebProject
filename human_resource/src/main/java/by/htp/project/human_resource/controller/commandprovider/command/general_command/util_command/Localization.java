@@ -17,6 +17,8 @@ public class Localization implements ICommand {
 
 	public void execute(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		serviceUtil.changeLocal(request, response);
+		
 	}
 }

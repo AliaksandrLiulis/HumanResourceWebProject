@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IServiceAdmin {
 	
-	void getRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response);
-	void getUnRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response);
-	void getALLUserByParam(final HttpServletRequest request, final HttpServletResponse response);
-	void deleteUser(final HttpServletRequest request, final HttpServletResponse response);
-	void addUser(final HttpServletRequest request, final HttpServletResponse response);
+	void getRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response);
+	void getUnRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response);
+	void getALLUserByParam(HttpServletRequest request, HttpServletResponse response);
+	void deleteUser(HttpServletRequest request, HttpServletResponse response);
+	void addUser(HttpServletRequest request, HttpServletResponse response);
 
 }

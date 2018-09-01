@@ -16,7 +16,8 @@ public class BackOnUserPage implements ICommand {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			serviceUtil.backOnPageByUserRole(request, response);
-	}
+		
+		serviceUtil.backOnPageByUserRole(request, response);
 
+	}
 }

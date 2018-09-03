@@ -138,7 +138,8 @@
 <fmt:message bundle="${loc}" key="local.employee.sentapplication" var="sentapplication" />
 <fmt:message bundle="${loc}" key="local.employee.applicationnotsent" var="applicationnotsent" />
 <fmt:message bundle="${loc}" key="local.employee.deleterespond" var="deleterespond" />
-
+<fmt:message bundle="${loc}" key="local.employee.donthavevacancyforview" var="donthavevacancyforview" />
+<fmt:message bundle="${loc}" key="local.login.receipterrorvacancy" var="receipterrorvacancy" />
 
 
 

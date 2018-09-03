@@ -30,8 +30,6 @@
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 
-	<div id="preloader"></div>
-
 	<!-- 	Start NuvBar Area  -->
 
 	<c:if test="${sessionScope.user.role == 'hr'}">

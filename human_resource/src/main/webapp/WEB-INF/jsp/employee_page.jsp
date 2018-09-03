@@ -153,7 +153,7 @@
 
 								<c:if test="${user != null}">
 									<li><br>
-										<form action="controllerServlet" method="post">
+										<form action="controllerServlet" method="get">
 											<input type="hidden" name="command" value="cb.logout_user">
 											<h6 align="center" style="color: orange;">${sessionScope.user.name}</h6>
 											<button class="btn  btn-xs btn-success" type="submit">${Logout}</button>
@@ -187,6 +187,7 @@
 		</div>
 		</header>
 
+		<!-- 	Start Table with all vacancy -->
 
 		<div id="login_area" class="slider-area">
 			<div>
@@ -235,7 +236,8 @@
 																		<td style="color: black;">${vacancy.professionName}</td>
 																		<td style="color: black;">${vacancy.companyName}</td>
 																		<td><c:set var="count" value="${count + 1}"
-																				scope="page" /> <c:choose>
+																				scope="page" /> <!-- 	Start Chosen show vacancy driver or accountant -->
+																			<c:choose>
 																				<c:when
 																					test="${vacancy.professionName eq 'Водитель' || vacancy.professionName eq 'Driver'}">
 																					<a href="#vocancywievdrivermodal"
@@ -252,15 +254,17 @@
 																						data-vacancycompanynamebutton="${vacancy.companyName}"
 																						data-vacancyexperiencebutton="${vacancy.experience}"
 																						data-vacancysalarybutton="${vacancy.salary}">${showbutton}</a>
-
 																				</c:when>
 																			</c:choose></td>
-																		<td><c:choose>
+																		<td>
+																			<!-- 	Start Choose area if user.idVacancy respond -->
+
+																			<c:choose>
 																				<c:when test="${user.resumeId!=0}">
 																					<c:choose>
 																						<c:when
 																							test="${fn:contains(requestScope.allRespondVacancy,vacancy.idvacancy)}">
-																							<form action="controllerServlet" method="get">
+																							<form action="controllerServlet" method="post">
 																								<input type="hidden" name="command"
 																									value="cb.deleterespond_user"> <input
 																									type="hidden" name="userid"
@@ -272,7 +276,7 @@
 																							</form>
 																						</c:when>
 																						<c:otherwise>
-																							<form action="controllerServlet" method="get">
+																							<form action="controllerServlet" method="post">
 																								<input type="hidden" name="command"
 																									value="cb.respond_user"> <input
 																									type="hidden" name="userid"
@@ -296,15 +300,17 @@
 																								class="btn btn-link" data-toggle="modal">${addprofile}</a>
 																						</c:otherwise>
 																					</c:choose>
-
-
 																				</c:otherwise>
-																			</c:choose></td>
+																			</c:choose>
+																		</td>
 
 																	</tr>
 																</c:forEach>
 															</tbody>
 														</table>
+
+														<!-- 	Start Pagination  -->
+
 														<c:if test="${requestScope.pagecount > 1}">
 															<c:choose>
 																<c:when test="${requestScope.pagecount > 2}">
@@ -372,6 +378,9 @@
 																</c:otherwise>
 															</c:choose>
 														</c:if>
+
+														<!-- 	End Pagination  -->
+
 													</div>
 												</div>
 											</div>
@@ -407,7 +416,9 @@
 			</div>
 		</div>
 
-		<form action="controllerServlet" method="get">
+		<!-- 	Start Modal windows for create profile, update, delete -->
+
+		<form action="controllerServlet" method="post">
 			<div id="profileModal" class="modal fade" tabindex="-1">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content ">
@@ -588,7 +599,6 @@
 										<button class="btn btn-success" type="submit">${applybutton}</button>
 									</c:otherwise>
 								</c:choose>
-
 							</div>
 						</div>
 					</div>
@@ -596,8 +606,12 @@
 			</div>
 		</form>
 
+		<!-- 	End Modal windows for create profile, update, delete -->
 
-		<form action="controllerServlet" method="get">
+
+		<!-- 	Start Modal windows for create resume, delete -->
+
+		<form action="controllerServlet" method="post">
 			<div id="resumeModal" class="modal fade" tabindex="-1">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
@@ -643,8 +657,6 @@
 									value="${profile.photoPath}">
 
 							</div>
-
-
 						</div>
 						<div class="modal-footer">
 							<c:choose>
@@ -669,6 +681,9 @@
 			</div>
 		</form>
 
+		<!-- 	End Modal windows for create resume, delete -->
+
+		<!-- 	Start Modal windows for create profile -->
 
 		<form action="controllerServlet" method="get">
 			<div id="profilemodaladd" class="modal fade" tabindex="-1">
@@ -684,7 +699,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${requestScope.profile_add_message == 1}">
+									<c:when test="${param.profile_add_message == 1}">
 										<h5 align="center" class="modal-title" style="color: green;">${profileadded}</h5>
 									</c:when>
 									<c:otherwise>
@@ -696,14 +711,18 @@
 						</div>
 
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.employee_page">
-							<button class="btn btn-success" type="submit">${okbutton}</button>
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
 						</div>
 
 					</div>
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows for create profile -->
+
+		<!-- 	Start Modal windows for delete profile -->
 
 		<form action="controllerServlet" method="get">
 			<div id="profilemodaldelete" class="modal fade" tabindex="-1">
@@ -719,7 +738,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${requestScope.profile_delete_message == 1}">
+									<c:when test="${param.profile_delete_message == 1}">
 										<h5 align="center" class="modal-title" style="color: green;">${profiledeleted}</h5>
 									</c:when>
 									<c:otherwise>
@@ -730,13 +749,17 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.employee_page">
-							<button class="btn btn-success" type="submit">${okbutton}</button>
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows for delete profile -->
+
+		<!-- 	Start Modal windows for update profile -->
 
 		<form action="controllerServlet" method="get">
 			<div id="profilemodalupdate" class="modal fade" tabindex="-1">
@@ -752,7 +775,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${requestScope.profile_update_message == 1}">
+									<c:when test="${param.profile_update_message == 1}">
 										<h5 align="center" class="modal-title" style="color: green;">${profileupdate}</h5>
 									</c:when>
 									<c:otherwise>
@@ -763,13 +786,17 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.employee_page">
-							<button class="btn btn-success" type="submit">${okbutton}</button>
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows for update profile -->
+
+		<!-- 	Start Modal windows for add resume -->
 
 		<form action="controllerServlet" method="get">
 			<div id="resumemodaladd" class="modal fade" tabindex="-1">
@@ -785,7 +812,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${requestScope.resume_add_message == 1}">
+									<c:when test="${param.resume_add_message == 1}">
 										<h5 align="center" class="modal-title" style="color: green;">${resumeadded}</h5>
 									</c:when>
 									<c:otherwise>
@@ -796,13 +823,17 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.employee_page">
-							<button class="btn btn-success" type="submit">${okbutton}</button>
+						<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows for add resume -->
+
+		<!-- 	Start Modal windows for delete resume -->
 
 		<form action="controllerServlet" method="get">
 			<div id="resumemodaldelete" class="modal fade" tabindex="-1">
@@ -818,7 +849,7 @@
 						<div class="modal-body">
 							<div class="form-group">
 								<c:choose>
-									<c:when test="${requestScope.resume_delete_message == 1}">
+									<c:when test="${param.resume_delete_message == 1}">
 										<h5 align="center" class="modal-title" style="color: green;">${resumedeleted}</h5>
 									</c:when>
 									<c:otherwise>
@@ -829,13 +860,17 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<input type="hidden" name="command" value="cb.employee_page">
-							<button class="btn btn-success" type="submit">${okbutton}</button>
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${okbutton}</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows for delete resume -->
+
+		<!-- 	Start Modal windows with information about delete profile -->
 
 		<form action="controllerServlet" method="get">
 			<div id="profilewilbedeletedmodal" class="modal fade" tabindex="-1">
@@ -866,6 +901,10 @@
 				</div>
 			</div>
 		</form>
+
+		<!-- 	End Modal windows with information about delete profile -->
+
+		<!-- 	Start Modal windows which show driver vacancy -->
 
 		<div id="vocancywievdrivermodal" class="modal fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -918,12 +957,15 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-
 						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- 	End Modal windows which show driver vacancy -->
+
+		<!-- 	Start Modal windows which show accountant vacancy -->
 
 		<div id="vocancywievaccountantmodal" class="modal fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -973,15 +1015,15 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-
 						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<!-- 	End Modal windows which show accountant vacancy -->
 
-
+		<!-- 	Start Modal windows with information about delete resume -->
 
 		<form action="controllerServlet" method="get">
 			<div id="resumewilbedeletedmodal" class="modal fade" tabindex="-1">
@@ -1014,6 +1056,10 @@
 			</div>
 		</form>
 
+		<!-- 	End Modal windows with information about delete resume -->
+
+		<!-- 	Start Modal windows with information about respond on vacancy -->
+
 		<div id="aboutrespond" class="modal fade" tabindex="-1">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -1045,10 +1091,42 @@
 			</div>
 		</div>
 
+		<!-- 	End Modal windows with information about respond on vacancy -->
+		
+		
+		<div id="aboutvacancymessage" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<b><i> <c:if test="${not empty requestScope.no_vacancies}">
+									<h5 align="center" class="modal-title" style="color: green;">${donthavevacancyforview}</h5>
 
+								</c:if> <c:if test="${not empty requestScope.error_get_vacancy}">
+									<h5 align="center" class="modal-title" style="color: green;">${receipterrorvacancy}</h5>
+								</c:if>
+						</i> </b>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<!-- 	Start footer Area  -->
 
 		<%@ include file="include/footer_include"%>
+
+		<!-- 	End footer Area  -->
+
+		<!-- Transfer data in modal window "vocancywievdrivermodal" -->
 
 		<script>
 			$('#vocancywievdrivermodal')
@@ -1067,6 +1145,8 @@
 							})
 		</script>
 
+		<!-- Transfer data in modal window "vocancywievaccountantmodal" -->
+
 		<script>
 			$('#vocancywievaccountantmodal')
 					.on(
@@ -1084,6 +1164,7 @@
 							})
 		</script>
 
+		<!-- Transfer data in modal window "profilewilbedeletedmodal" -->
 
 		<script>
 			$('#profilewilbedeletedmodal').on('show.bs.modal', function(e) {
@@ -1091,6 +1172,8 @@
 				document.getElementById('userid').value = id;
 			})
 		</script>
+
+		<!-- Transfer data in modal window "resumewilbedeletedmodal" -->
 
 		<script>
 			$('#resumewilbedeletedmodal')
@@ -1102,7 +1185,9 @@
 							})
 		</script>
 
-		<c:if test="${not empty requestScope.profile_add_message}">
+		<!-- Show message in modal window id="profilemodaladd", about add profile -->
+
+		<c:if test="${not empty param.profile_add_message}">
 			<script>
 				$(document).ready(function() {
 					$("#profilemodaladd").modal('show');
@@ -1110,7 +1195,9 @@
 			</script>
 		</c:if>
 
-		<c:if test="${not empty profile_delete_message}">
+		<!-- Show message in modal window id="profilemodaldelete", about delete profile -->
+
+		<c:if test="${not empty param.profile_delete_message}">
 			<script>
 				$(document).ready(function() {
 					$("#profilemodaldelete").modal('show');
@@ -1118,7 +1205,9 @@
 			</script>
 		</c:if>
 
-		<c:if test="${not empty profile_update_message}">
+		<!-- Show message in modal window id="profilemodalupdate", about update profile -->
+
+		<c:if test="${not empty param.profile_update_message}">
 			<script>
 				$(document).ready(function() {
 					$("#profilemodalupdate").modal('show');
@@ -1126,20 +1215,27 @@
 			</script>
 		</c:if>
 
-		<c:if test="${not empty resume_add_message}">
+		<!-- Show message in modal window id="resumemodaladd", about add resume -->
+
+		<c:if test="${not empty param.resume_add_message}">
 			<script>
 				$(document).ready(function() {
 					$("#resumemodaladd").modal('show');
 				});
 			</script>
 		</c:if>
-		<c:if test="${not empty resume_delete_message}">
+
+		<!-- Show message in modal window id="resumemodaldelete", about delete resume -->
+
+		<c:if test="${not empty param.resume_delete_message}">
 			<script>
 				$(document).ready(function() {
 					$("#resumemodaldelete").modal('show');
 				});
 			</script>
 		</c:if>
+
+		<!-- Show message in modal window id="aboutrespond", about respond on vacancy -->
 
 		<c:if test="${param.respond != ok}">
 			<script>
@@ -1148,6 +1244,18 @@
 				});
 			</script>
 		</c:if>
+		
+		<!-- Open modal window  message id="aboutvacancymessage" -->
+
+		<c:if test="${not empty requestScope.messageaboutvacancy}">
+			<script>
+				$(document).ready(function() {
+					$("#aboutvacancymessage").modal('show');
+				});
+			</script>
+		</c:if>
+
+		<!-- Transfer data in modal with ElementById -->
 
 		<script type="text/javascript">
 			document.getElementById("phone").value = "${profile.phone}";
@@ -1155,6 +1263,7 @@
 			document.getElementById("dateOfBirthDay").value = "${profile.birthDayDate}";
 		</script>
 
+		<!-- Transfer data in modal with ElementById -->
 
 		<script type="text/javascript">
 			document.getElementById("name").value = "${user.name}";
@@ -1174,8 +1283,6 @@
 	<c:if test="${sessionScope.user.role != 'employee'}">
 		<c:redirect url="/controllerServlet?command=cb.main_page" />
 	</c:if>
-
-
 
 </body>
 </html>

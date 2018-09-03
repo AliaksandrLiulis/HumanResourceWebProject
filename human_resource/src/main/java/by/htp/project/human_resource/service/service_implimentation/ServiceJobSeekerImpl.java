@@ -34,6 +34,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 
 	@Override
 	public void addProfile(final HttpServletRequest request, final HttpServletResponse response) {
+
 		String registrationDate = null;
 		String birthDayDate = null;
 		String phone = null;
@@ -47,7 +48,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		User user = null;
 		List<Object> objectsList = null;
 		Profile profile = null;
-		RequestDispatcher dispatcher = null;
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(ServiceParamConstant.SIMPLE_DATE_FORMATE);
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
@@ -74,20 +74,26 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 				if (objectsList.get(1) instanceof Profile) {
 					profile = (Profile) objectsList.get(1);
 					session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
-					request.setAttribute("profile_add_message", "1");
+
+				}
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_add_message=1");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addProfile: SendRedirectError " + e);
 				}
 			} else {
-				request.setAttribute("profile_add_message", "0");
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_add_message=0");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addProfile: SendRedirectError " + e);
+				}
 			}
-		} catch (DaoException e1) {
-			logger.error("ServiceJobSeekerImpl: addProfile: " + e1);
-			request.setAttribute("profile_add_message", "0");
-		} finally {
+		} catch (DaoException e) {
+			logger.error("ServiceJobSeekerImpl: addProfile: daoException" + e);
 			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceJobSeekerImpl: addProfile: " + e);
+				response.sendRedirect("controllerServlet?command=cb.employee_page&profile_add_message=0");
+			} catch (IOException e1) {
+				logger.error("ServiceJobSeekerImpl: addProfile: SendRedirectError " + e1);
 			}
 		}
 	}
@@ -97,29 +103,34 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 
 		String idUser = null;
 		User user = null;
-		RequestDispatcher dispatcher = null;
 
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 		session = request.getSession();
+
 		try {
 			user = daoJobSeeker.removeProfileByUserId(Integer.parseInt(idUser));
 			if (user != null) {
-				request.setAttribute("profile_delete_message", "1");
 				session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 				session.setAttribute(ServiceParamConstant.USER_ATTRIBUTE, user);
 				session.removeAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_delete_message=1");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: deleteProfile: SendRedirectError " + e);
+				}
 			} else {
-				request.setAttribute("profile_delete_message", "0");
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_delete_message=0");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: deleteProfile: SendRedirectError " + e);
+				}
 			}
-		} catch (NumberFormatException | DaoException e1) {
-			logger.error("ServiceJobSeekerImpl: deleteProfile: " + e1);
-			request.setAttribute("profile_delete_message", "0");
-		} finally {
+		} catch (DaoException e1) {
+			logger.error("ServiceJobSeekerImpl: deleteProfile: daoException" + e1);
 			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceJobSeekerImpl: deleteProfile: " + e);
+				response.sendRedirect("controllerServlet?command=cb.employee_page&profile_delete_message=0");
+			} catch (IOException e) {
+				logger.error("ServiceJobSeekerImpl: addProfile: SendRedirectError " + e1);
 			}
 		}
 	}
@@ -138,7 +149,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		String aboutUser = null;
 		String idUser = null;
 		Profile profile = null;
-		RequestDispatcher dispatcher = null;
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(ServiceParamConstant.SIMPLE_DATE_FORMATE);
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
@@ -154,24 +164,29 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		session = request.getSession();
 
 		try {
-			profile = daoJobSeeker.updateOldProfileByParams(idUser, registrationDate, photoPath, phone, birthDayDate, residence,
-					workSpeciality, workExpirience, education, aboutUser);
+			profile = daoJobSeeker.updateOldProfileByParams(idUser, registrationDate, photoPath, phone, birthDayDate,
+					residence, workSpeciality, workExpirience, education, aboutUser);
 			if (profile != null) {
-				request.setAttribute("profile_update_message", "1");
 				session.removeAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE);
 				session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_update_message=1");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: updateProfile: SendRedirectError " + e);
+				}
 			} else {
-				request.setAttribute("profile_update_message", "0");
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&profile_update_message=0");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: updateProfile: SendRedirectError " + e);
+				}
 			}
 		} catch (DaoException e1) {
-			logger.error("ServiceJobSeekerImpl: updateProfile: " + e1);
-			request.setAttribute("profile_update_message", "0");
-		} finally {
-			dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
+			logger.error("ServiceJobSeekerImpl: updateProfile:daoException " + e1);
 			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceJobSeekerImpl: updateProfile: " + e);
+				response.sendRedirect("controllerServlet?command=cb.employee_page&profile_update_message=0");
+			} catch (IOException e) {
+				logger.error("ServiceJobSeekerImpl: updateProfile: SendRedirectError " + e1);
 			}
 		}
 	}
@@ -193,7 +208,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		String aboutUser = null;
 		String idUser = null;
 		User user = null;
-		RequestDispatcher dispatcher = null;
 
 		name = request.getParameter(ServiceParamConstant.NAME_PARAM);
 		surName = request.getParameter(ServiceParamConstant.SURNAME_PARAM);
@@ -211,25 +225,31 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		session = request.getSession();
 
 		try {
-			user = daoJobSeeker.addNewResumeByParams(name, surName, email, registrationDate, birthDayDate, phone, residence,
-					workSpeciality, workExpirience, education, photoPath, aboutUser, idUser);
+			user = daoJobSeeker.addNewResumeByParams(name, surName, email, registrationDate, birthDayDate, phone,
+					residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser);
 			if (user != null) {
-				request.setAttribute("resume_add_message", "1");
 				session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 				session.setAttribute(ServiceParamConstant.USER_ATTRIBUTE, user);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&resume_add_message=1");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e);
+				}
 			} else {
-				request.setAttribute("resume_add_message", "0");
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&resume_add_message=0");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e);
+				}
 			}
-		} catch (DaoException e1) {
-			logger.error("ServiceJobSeekerImpl: addResume: " + e1);
-			request.setAttribute("resume_add_message", "0");
-		} finally {
+		} catch (DaoException e) {
+			logger.error("ServiceJobSeekerImpl: addResume:daoException " + e);
 			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceJobSeekerImpl: addResume: " + e);
+				response.sendRedirect("controllerServlet?command=cb.employee_page&resume_add_message=0");
+			} catch (IOException e1) {
+				logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e1);
 			}
+
 		}
 	}
 
@@ -238,34 +258,40 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 
 		String resumeId = null;
 		User user = null;
-		RequestDispatcher dispatcher = null;
 
 		session = request.getSession();
 		resumeId = request.getParameter(ServiceParamConstant.USER_RESUME_ID__PARAM);
 		try {
 			user = daoJobSeeker.deleteResumeByIdUser(Integer.parseInt(resumeId));
 			if (user != null) {
-				request.setAttribute("resume_delete_message", "1");
 				session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 				session.setAttribute(ServiceParamConstant.USER_ATTRIBUTE, user);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&resume_delete_message=1");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e);
+				}
 			} else {
-				request.setAttribute("resume_delete_message", "0");
+				try {
+					response.sendRedirect("controllerServlet?command=cb.employee_page&resume_delete_message=0");
+				} catch (IOException e) {
+					logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e);
+				}
 			}
-		} catch (NumberFormatException | DaoException e1) {
-			logger.error("ServiceJobSeekerImpl: deleteResume: " + e1);
-			request.setAttribute("resume_delete_message", "0");
-		} finally {
+		} catch (DaoException e) {
+			logger.error("ServiceJobSeekerImpl: deleteResume: addResume:daoException " + e);
 			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceJobSeekerImpl: deleteResume: " + e);
+				response.sendRedirect("controllerServlet?command=cb.employee_page&resume_delete_message=0");
+			} catch (IOException e1) {
+				logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError " + e1);
 			}
+
 		}
 	}
 
 	@Override
 	public void getVacancy(final HttpServletRequest request, final HttpServletResponse response) {
+
 		int pageNum = 0;
 		String tableNameVacancy;
 		int countAllVacancies = 0;
@@ -290,20 +316,22 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 					allRespondVacancyId = daoJobSeeker.searchRespondVacancyByUserId(userId);
 					if (allRespondVacancyId != null) {
 						request.setAttribute("allRespondVacancy", allRespondVacancyId);
+						pageCount = countPaging(countAllVacancies, Integer.parseInt(limitLine));
+						request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
+						request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
+						request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allVacancy);
 					}
-					pageCount = countPaging(countAllVacancies, Integer.parseInt(limitLine));
-					request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
-					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
-					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allVacancy);
-
 				} else {
+					request.setAttribute("messageaboutvacancy", "message_about_empty_list_vacancy");
 					request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
 				}
 			} else {
+				request.setAttribute("messageaboutvacancy", "message_about_empty_list_vacancy");
 				request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
 			}
 		} catch (DaoException e) {
 			logger.error("ServiceJobSeekerImpl: getVacancy: " + e);
+			request.setAttribute("messageaboutvacancy", "vacancy receipt error");
 			request.setAttribute("error_get_vacancy", "vacancy receipt error");
 		} finally {
 			try {
@@ -313,12 +341,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 				logger.error("ServiceJobSeekerImpl: getVacancy: " + e);
 			}
 		}
-	}
-
-	private int countPaging(final int commonCount, final int offsetLine) {
-		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
-				: Math.floorDiv(commonCount, offsetLine);
-		return result;
 	}
 
 	@Override
@@ -390,5 +412,11 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	private int countPaging(final int commonCount, final int offsetLine) {
+		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
+				: Math.floorDiv(commonCount, offsetLine);
+		return result;
 	}
 }

@@ -21,7 +21,7 @@ import by.htp.project.human_resource.entity.UserBuilder;
 public class DaoUserImpl implements IDaoUser {
 
 	private Logger logger = LoggerFactory.getLogger(DaoUserImpl.class);
-	private ConnectionPool connectionPool = null;
+	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 	private Map<String, Integer> allRolles = null;
 
 	private final String SEARCH_ALL_USERS = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE users.nickName = ? AND users.password = ?";
@@ -30,10 +30,7 @@ public class DaoUserImpl implements IDaoUser {
 	private final String GET_EXIST_PROFILE = "SELECT * FROM profile WHERE idUser = ?";
 	private final String ADD_MESSAGE = "INSERT INTO message (name, email, createdate, content) VALUES (?,?,?,?)";
 
-	public DaoUserImpl() {
-		if (null == connectionPool) {
-			connectionPool = ConnectionPool.getInstance();
-		}
+	public DaoUserImpl() {		
 	}
 
 	@Override

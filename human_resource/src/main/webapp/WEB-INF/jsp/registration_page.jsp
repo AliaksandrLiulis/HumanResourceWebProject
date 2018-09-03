@@ -186,7 +186,6 @@
 													for="role">${yourspecialitymessage}</label> <select
 													name="role" style="color: black">
 													<option value="admin">${roleadmin}</option>
-													<option value="boss">${roleboss}</option>
 													<option value="hr">${rolehr}</option>
 													<option value="employee">${roleemployee}</option>
 												</select>
@@ -208,8 +207,7 @@
 										<h3 align="center" style="color: orange;">
 
 											<!-- 	Start Message area for different situation  -->
-											<b><i> <c:if
-														<%-- 	Message when params aren't correct --%>
+											<b><i> <c:if														
 											
 													test="${requestScope.incorrect_params_message != null}">
 														<c:out value="${incorrectmessage}"></c:out>

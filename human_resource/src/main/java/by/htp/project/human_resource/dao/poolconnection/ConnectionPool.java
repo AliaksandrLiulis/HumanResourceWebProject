@@ -38,10 +38,10 @@ public class ConnectionPool {
 			instance.initPoolData();
 		} catch (ClassNotFoundException e) {
 			logger.error("ConnectionPool: Can't create conection pool: Class not found " + e);
-			new RuntimeException(e);
+			throw new RuntimeException(e);
 		} catch (SQLException e) {
 			logger.error("ConnectionPool: Can't create conection pool: SQL exception " + e);
-			new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ConnectionPool {
 		try {
 			this.poolSize = Integer.parseInt(dbResourceManager.getValue(DBParametr.DB_POOLSIZE));
 		} catch (NumberFormatException e) {
-			this.poolSize = 5;
+			this.poolSize = 40;
 		}
 	}
 
@@ -150,7 +150,6 @@ public class ConnectionPool {
 			if (!connectionQueue.offer(this)) {
 				throw new SQLException("Error allocating connection");
 			}
-
 		}
 
 		@Override

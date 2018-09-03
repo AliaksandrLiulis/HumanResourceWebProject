@@ -23,12 +23,9 @@ import by.htp.project.human_resource.entity.VacancyBuilder;
 public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	private Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
-	private ConnectionPool connectionPool = null;
+	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-	public DaoJobSeekerImpl() {
-		if (null == connectionPool) {
-			connectionPool = ConnectionPool.getInstance();
-		}
+	public DaoJobSeekerImpl() {	
 	}
 
 	private final String ADD_NEW_PROFILE = "INSERT INTO profile (registrationDate ,birthDayDate, phone, residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser ) VALUES (?,?,?,?,?,?,?,?,?,?)";

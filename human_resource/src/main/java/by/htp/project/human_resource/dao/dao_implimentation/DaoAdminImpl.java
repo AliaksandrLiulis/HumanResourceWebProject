@@ -19,17 +19,14 @@ import by.htp.project.human_resource.entity.UserBuilder;
 public class DaoAdminImpl implements IDaoAdmin {
 
 	private Logger logger = LoggerFactory.getLogger(DaoAdminImpl.class);
-	private ConnectionPool connectionPool = null;
+	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
 	private final String SEARCH_REGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 1 LIMIT ?, ?";
 	private final String SEARCH_UNREGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 0 LIMIT ?, ?";
 	private final String SEARCH_ALL_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
 	private final String SET_AVALIABLE_FILD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
 
-	public DaoAdminImpl() {
-		if (null == connectionPool) {
-			connectionPool = ConnectionPool.getInstance();
-		}
+	public DaoAdminImpl() {		
 	}
 
 	@Override

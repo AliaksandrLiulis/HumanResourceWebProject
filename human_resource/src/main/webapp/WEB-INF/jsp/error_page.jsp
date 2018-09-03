@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page isErrorPage="true" language="java"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <html>
 <head>
 
@@ -21,6 +22,10 @@
 <link href="css/nivo-slider-theme.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <link href="css/responsive.css" rel="stylesheet">
+
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="localization.local" var="loc" />
+<%@ include file="include/login_include"%>
 
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
@@ -42,27 +47,21 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<!-- Brand -->
 						<a class="navbar-brand page-scroll sticky-logo" href="index.jsp">
 							<h1>
 								<span>H</span>uman <span>R</span>esources
 							</h1>
 						</a>
 					</div>
-					<div
-						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
-						id="navbar-example"></div>
-					</nav>
 				</div>
 			</div>
 		</div>
-	</div>
 	</header>
-	
+
 	<!-- 	End NuvBar Area  -->
-	
+
 	<!-- 	Start error Area  -->
-	
+
 	<div id="error_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
@@ -71,7 +70,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 	error error Area  -->
 
 	<!-- 	Start footer Area  -->

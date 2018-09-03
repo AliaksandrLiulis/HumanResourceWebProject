@@ -23,7 +23,7 @@ import by.htp.project.human_resource.entity.VacancyBuilder;
 public class DaoHrImpl implements IDaoHr {
 
 	private Logger logger = LoggerFactory.getLogger(DaoHrImpl.class);
-	private ConnectionPool connectionPool = null;
+	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
 	private final String ADD_DRIVER_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
 	private final String ADD_ACCOUNTANT_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
@@ -35,10 +35,7 @@ public class DaoHrImpl implements IDaoHr {
 	private final String SEARCH_RESPONDED_BY_ID_VACANCY = "SELECT * FROM vacancyresponded WHERE idVacancy = ?";
 	private final String SEARCH_ALL_USERS_BY_ID_USER = "SELECT * FROM users  WHERE userId = ?";
 
-	public DaoHrImpl() {
-		if (null == connectionPool) {
-			connectionPool = ConnectionPool.getInstance();
-		}
+	public DaoHrImpl() {		
 	}
 
 	@Override

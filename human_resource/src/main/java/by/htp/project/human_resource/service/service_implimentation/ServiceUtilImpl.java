@@ -19,24 +19,25 @@ import by.htp.project.human_resource.dao.dao_interface.IDaoUser;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.service.impl.checker.CheckCommand;
 import by.htp.project.human_resource.service.service_constant.ServiceCommandConstant;
-import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath;
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceUtil;
 
 public class ServiceUtilImpl implements IServiceUtil {
 
 	private Logger logger = LoggerFactory.getLogger(ServiceUtilImpl.class);
-	private CheckCommand checkCommand = new CheckCommand();
+	private CheckCommand checkCommand = CheckCommand.getInstance();
+
 	private HttpSession session = null;
 	private RequestDispatcher dispatcher = null;
+
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
-	String goToPage = ServiceJspPagePath.PATH_MAIN_PAGE;
 
 	@Override
 	public void backOnPageByUserRole(final HttpServletRequest request, final HttpServletResponse response) {
 
 		User user = null;
+
 		session = request.getSession();
 		user = (User) session.getAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 
@@ -45,7 +46,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceUtilImpl: backOnPageByUserRole:" + e);
+			logger.error("ServiceUtilImpl: backOnPageByUserRole:requestDispatcherError" + e);
 		}
 	}
 
@@ -53,12 +54,17 @@ public class ServiceUtilImpl implements IServiceUtil {
 	public void changeLocal(final HttpServletRequest request, final HttpServletResponse response) {
 
 		String goToPage = null;
+
 		String local = request.getParameter(ServiceParamConstant.LOCALE);
+
 		goToPage = (String) request.getSession().getAttribute(ServiceCommandConstant.PREVIOUS_PATH_FOR_LOCALIZATION);
+
 		if (goToPage == null) {
 			goToPage = request.getContextPath();
 		}
-		request.getSession(true).setAttribute(ServiceParamConstant.LOCALE, local);
+
+		request.getSession().setAttribute(ServiceParamConstant.LOCALE, local);
+
 		try {
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
@@ -67,7 +73,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 	}
 
 	@Override
-	public void writeMessage(HttpServletRequest request, HttpServletResponse response) {
+	public void writeMessage(final HttpServletRequest request, final HttpServletResponse response) {
 
 		String name = null;
 		String email = null;
@@ -81,26 +87,26 @@ public class ServiceUtilImpl implements IServiceUtil {
 		createDate = dateFormat.format(new Date());
 
 		try {
-			if (daoUser.createMessage(name, email, createDate, message)) {				
+
+			if (daoUser.createMessage(name, email, createDate, message)) {
 				try {
 					response.sendRedirect("controllerServlet?command=cb.main_page&sendmess=ok&lettersent=yes");
 				} catch (IOException e) {
-					logger.error("ServiceUtilImpl: writeMessage:sendRedirectError " + e);
+					logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: " + e);
 				}
-			}else {
+			} else {
 				try {
 					response.sendRedirect("controllerServlet?command=cb.main_page&sendmess=ok");
 				} catch (IOException e1) {
-					logger.error("ServiceUtilImpl: writeMessage:sendRedirectError " + e1);
+					logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: " + e1);
 				}
 			}
 		} catch (DaoException e) {
 			try {
-				response.sendRedirect("controllerServlet?command=cb.main_page&sendmess=ok");
 				logger.error("ServiceUtilImpl: daoException: " + e);
+				response.sendRedirect("controllerServlet?command=cb.main_page&sendmess=ok");
 			} catch (IOException e1) {
-				logger.error("ServiceUtilImpl: writeMessage:sendRedirectError " + e1);
-				e1.printStackTrace();
+				logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: " + e1);
 			}
 		}
 	}

@@ -29,6 +29,9 @@
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
+
+	<!-- 	Start NuvBar Area  -->
+
 	<header>
 	<div id="sticker" class="header-area">
 		<div class="container-fluid">
@@ -49,6 +52,9 @@
 							</h1>
 						</a>
 					</div>
+
+					<!-- 	Start Navigation by NavBur area -->
+
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
@@ -70,14 +76,22 @@
 										</button>
 									</form>
 							</a></li>
+
+							<!-- 	Start area mypage button if user login -->
+
 							<c:if test="${user != null}">
 								<li><br>
-									<form action="controllerServlet" method="post">
+									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.logout_user">
 										<h6 align="center" style="color: orange;">${sessionScope.user.nickName}</h6>
 										<button class="btn  btn-xs btn-success" type="submit">${logout}</button>
 									</form></li>
 							</c:if>
+
+							<!-- 	End area mypage button if user login -->
+
+							<!-- 	Start Buttons for Localization -->
+
 							<li><a>
 									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.localization">
@@ -90,15 +104,23 @@
 										<button class="btn btn-link btn-xs" type="submit">${en_button}</button>
 									</form>
 							</a></li>
+
+							<!-- 	End Buttons for Localization -->
+
 						</ul>
 					</div>
-					</nav>
 
+					<!-- 	End Navigation by NavBur area --> </nav>
 				</div>
 			</div>
 		</div>
 	</div>
 	</header>
+
+	<!-- 	End NuvBar Area  -->
+
+	<!-- 	Start login Area  -->
+
 	<div id="login_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
@@ -137,19 +159,18 @@
 											<div class="layer-1-1 hidden-xs wow slideInDown"
 												data-wow-duration="1s" data-wow-delay=".2s">
 												<h3 align="center" style="color: orange;">
-													<b><i> <c:if
+													<b><i> <%-- 	Message if nickName or Password aren't correct --%>
+
+															<c:if
 																test="${requestScope.incorrect_params_message != null}">
 																<c:out value="${incorrectmessage}"></c:out>
 
-															</c:if>
-															<c:if
+															</c:if> <%-- 	Message if nickName or Password not found --%> <c:if
 																test="${requestScope.user_doesnt_exist != null}">
 																<c:out value="${notexistusertmessage}"></c:out>
-															</c:if>
-															<c:if
+															</c:if> <%-- 	Message when have error --%> <c:if
 																test="${requestScope.login_error != null}">
 																<c:out value="Error login User"></c:out>
-
 															</c:if>
 													</i> </b>
 												</h3>
@@ -164,6 +185,14 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 	End login Area  -->
+
+	<!-- 	Start footer Area  -->
+
 	<%@ include file="include/footer_include"%>
+
+	<!-- 	End footer Area  -->
+
 </body>
 </html>

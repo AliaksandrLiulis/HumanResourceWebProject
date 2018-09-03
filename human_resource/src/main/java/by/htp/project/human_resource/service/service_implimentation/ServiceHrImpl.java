@@ -8,7 +8,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,6 @@ import by.htp.project.human_resource.service.service_interface.IServiceHr;
 public class ServiceHrImpl implements IServiceHr {
 
 	private Logger logger = LoggerFactory.getLogger(ServiceHrImpl.class);
-	private HttpSession session = null;
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoHr daoHr = daoFactory.getDaoHr();
 	private final String GO_TO_PAGE = ServiceJspPagePath.PATH_HR_PAGE;
@@ -36,46 +34,51 @@ public class ServiceHrImpl implements IServiceHr {
 
 		Vacancy vacancy = null;
 		List<String> paramsList = null;
-		RequestDispatcher dispatcher = null;
-		try {
-			if (request.getParameter(ServiceParamConstant.PROFESSION_PARAM).equals(ServiceParamConstant.DRIVER_NAME)) {
-				paramsList = addDriverVacancy(request);
-				try {
-					vacancy = daoHr.addDriverVacancy(paramsList);
-				} catch (DaoException e) {
-					logger.error("ServiceHrImpl: addVacancyDriver: " + e);
-					request.setAttribute("vacancy_add_message", "0");
-				}
-			}
-			if (request.getParameter(ServiceParamConstant.PROFESSION_PARAM)
-					.equals(ServiceParamConstant.ACCOUNTANT_NAME)) {
-				paramsList = addAccountantVacancy(request);
-				try {
-					vacancy = daoHr.addAccountantVacancy(paramsList);
-				} catch (DaoException e) {
-					logger.error("ServiceHrImpl: addVacancyAccountant: " + e);
-					request.setAttribute("vacancy_add_message", "0");
-				}
-			}
-			if (vacancy != null) {
-				request.setAttribute(ServiceParamConstant.VACANCY_ATTRIBUTE, vacancy);
-				request.setAttribute("vacancy_add_message", "1");
 
-			} else {
-				request.setAttribute("vacancy_add_message", "0");
-			}
-		} finally {
+		if (request.getParameter(ServiceParamConstant.PROFESSION_PARAM).equals(ServiceParamConstant.DRIVER_NAME)) {
+			paramsList = addDriverVacancy(request);
 			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceHrImpl: addVacancy: " + e);
+				vacancy = daoHr.addDriverVacancy(paramsList);
+			} catch (DaoException e) {
+				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError" + e);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.hr_page&vacancy_add_message=1");
+				} catch (IOException e1) {
+					logger.error("ServiceHrImpl: addVacancyAccountant: SendRedirectError " + e1);
+				}
+			}
+		}
+		if (request.getParameter(ServiceParamConstant.PROFESSION_PARAM).equals(ServiceParamConstant.ACCOUNTANT_NAME)) {
+			paramsList = addAccountantVacancy(request);
+			try {
+				vacancy = daoHr.addAccountantVacancy(paramsList);
+			} catch (DaoException e) {
+				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError" + e);
+				try {
+					response.sendRedirect("controllerServlet?command=cb.hr_page&vacancy_add_message=1");
+				} catch (IOException e1) {
+					logger.error("ServiceHrImpl: addVacancyAccountant: SendRedirectError " + e1);
+				}
+			}
+		}
+		if (vacancy != null) {
+			try {
+				response.sendRedirect("controllerServlet?command=cb.hr_page&vacancy_add_message=1&vacancy_added=yes");
+			} catch (IOException e) {
+				logger.error("ServiceHrImpl: addVacancyAccountant: SendRedirectError " + e);
+			}
+		} else {
+			try {
+				response.sendRedirect("controllerServlet?command=cb.hr_page&vacancy_add_message=1");
+			} catch (IOException e) {
+				logger.error("ServiceHrImpl: addVacancyAccountant: SendRedirectError " + e);
 			}
 		}
 	}
 
 	@Override
-	public void getVacancy(HttpServletRequest request, HttpServletResponse response) {
+	public void getVacancy(final HttpServletRequest request, final HttpServletResponse response) {
+
 		int pageNum = 0;
 		String tableNameVacancy;
 		int countAllVacancies = 0;
@@ -92,8 +95,11 @@ public class ServiceHrImpl implements IServiceHr {
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
 		whoAddedId = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
+
 		try {
+
 			countAllVacancies = daoHr.getCountAllRowsForTable(tableNameVacancy);
+
 			if (countAllVacancies != 0) {
 				allVacancy = daoHr.searchVacancyByParam(tableNameVacancy, limitLine, offsetLine, whoAddedId);
 				if (allVacancy != null) {
@@ -103,28 +109,31 @@ public class ServiceHrImpl implements IServiceHr {
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 					request.setAttribute(ServiceParamConstant.ALL_VACANCY_ATTRIBUTE, allVacancy);
 					request.setAttribute("allRespondedId", allRespondedId);
-
 				} else {
+					request.setAttribute("messageaboutvacancy", "message_about_empty_list_vacancy");
 					request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
 				}
 			} else {
+				request.setAttribute("messageaboutvacancy", "message_about_empty_list_vacancy");
 				request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
 			}
 		} catch (DaoException e) {
-			logger.error("ServiceHrImpl: getVacancy: " + e);
+			logger.error("ServiceHrImpl: getVacancy: daoExceptionError " + e);
+			request.setAttribute("messageaboutvacancy", "vacancy receipt error");
 			request.setAttribute("error_get_vacancy", "vacancy receipt error");
 		} finally {
 			try {
 				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {
-				logger.error("ServiceHrImpl: getVacancy: " + e);
+				logger.error("ServiceHrImpl: getVacancy: RequestDispatherError " + e);
 			}
 		}
 	}
 
 	@Override
-	public void getResume(HttpServletRequest request, HttpServletResponse response) {
+	public void getResume(final HttpServletRequest request, final HttpServletResponse response) {
+
 		String tableNameVacancy = null;
 		int pageNum = 0;
 		int countAllResume = 0;
@@ -138,6 +147,7 @@ public class ServiceHrImpl implements IServiceHr {
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
 		offsetLine = request.getParameter(ServiceParamConstant.OFFSET_LINE_NUMBER);
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
+
 		try {
 			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
 			if (countAllResume != 0) {
@@ -148,26 +158,29 @@ public class ServiceHrImpl implements IServiceHr {
 					request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 					request.setAttribute(ServiceParamConstant.ALL_RESUME_ATTRIBUTE, allResume);
 				} else {
+					request.setAttribute("messageaboutresume", "message_about_empty_list_resume");
 					request.setAttribute("no_resume", "message_about_empty_list_resume");
 				}
 			} else {
+				request.setAttribute("messageaboutresume", "message_about_empty_list_resume");
 				request.setAttribute("no_resume", "message_about_empty_list_resume");
 			}
 		} catch (DaoException e) {
 			logger.error("ServiceHrImpl: getVacancy: " + e);
+			request.setAttribute("messageaboutresume", "resume receipt error");
 			request.setAttribute("error_get_resume", "resume receipt error");
 		} finally {
 			try {
 				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
 				dispatcher.forward(request, response);
 			} catch (ServletException | IOException e) {
-				logger.error("ServiceHrImpl: getResume: " + e);
+				logger.error("ServiceHrImpl: getResume: RequestDispatherError " + e);
 			}
 		}
 	}
 
 	@Override
-	public void deleteVacancyById(HttpServletRequest request, HttpServletResponse response) {
+	public void deleteVacancyById(final HttpServletRequest request, final HttpServletResponse response) {
 		String idVacancy = null;
 		RequestDispatcher dispatcher = null;
 
@@ -193,7 +206,34 @@ public class ServiceHrImpl implements IServiceHr {
 
 	}
 
+	@Override
+	public void getAllVacancyResponded(final HttpServletRequest request, final HttpServletResponse response) {
+
+		String vacancyId = null;
+		List<User> allUsersWhoRespond = null;
+		RequestDispatcher dispatcher = null;
+
+		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
+
+		try {
+			allUsersWhoRespond = daoHr.searchRespondedUserByIdVacancy(Integer.parseInt(vacancyId));
+			if (allUsersWhoRespond != null) {
+				request.setAttribute("allUsersWhoRespond", allUsersWhoRespond);
+			}
+		} catch (NumberFormatException | DaoException e) {
+			logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
+		} finally {
+			try {
+				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
+				dispatcher.forward(request, response);
+			} catch (ServletException | IOException e) {
+				logger.error("ServiceHrImpl: getAllVacancyResponded: RequestDispatcherError " + e);
+			}
+		}
+	}
+
 	private List<String> addDriverVacancy(final HttpServletRequest request) {
+
 		String companyName = null;
 		String goods = null;
 		String experience = null;
@@ -223,6 +263,7 @@ public class ServiceHrImpl implements IServiceHr {
 	}
 
 	private List<String> addAccountantVacancy(final HttpServletRequest request) {
+
 		String companyName = null;
 		String experience = null;
 		String salary = null;
@@ -249,31 +290,5 @@ public class ServiceHrImpl implements IServiceHr {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);
 		return result;
-	}
-
-	@Override
-	public void getAllVacancyResponded(HttpServletRequest request, HttpServletResponse response) {
-
-		String vacancyId = null;
-		List<User> allUsersWhoRespond = null;
-		RequestDispatcher dispatcher = null;
-
-		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
-
-		try {
-			allUsersWhoRespond = daoHr.searchRespondedUserByIdVacancy(Integer.parseInt(vacancyId));
-			if (allUsersWhoRespond != null) {
-				request.setAttribute("allUsersWhoRespond", allUsersWhoRespond);
-			}
-		} catch (NumberFormatException | DaoException e) {
-			logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
-		} finally {
-			try {
-				dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
-			}
-		}
 	}
 }

@@ -1,10 +1,10 @@
 package by.htp.project.human_resource.service.impl.checker;
 
 public class CheckRegisterParam {
+
 	private final static CheckRegisterParam instance = new CheckRegisterParam();
 
-	public CheckRegisterParam() {
-		super();
+	private CheckRegisterParam() {
 	}
 
 	public static CheckRegisterParam getCheckParam() {
@@ -17,7 +17,7 @@ public class CheckRegisterParam {
 			if (param.equals(null) || param.length() <= 0 || param.length() > 30) {
 				return false;
 			}
-		}		
+		}
 		return true;
 	}
 }

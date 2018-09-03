@@ -34,3 +34,5 @@
 <fmt:message bundle="${loc}" key="local.adminpage.usernotdeleted" var="usernotdeleted" />
 <fmt:message bundle="${loc}" key="local.adminpage.useradded" var="useradded" />
 <fmt:message bundle="${loc}" key="local.adminpage.usernotadded" var="usernotadded" />
+<fmt:message bundle="${loc}" key="local.adminpage.nousers" var="nousers" />
+<fmt:message bundle="${loc}" key="local.adminpage.errorgetting" var="errorgetting" />

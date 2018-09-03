@@ -29,6 +29,9 @@
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
+
+	<!-- 	Start NuvBar Area  -->
+
 	<header>
 	<div id="sticker" class="header-area">
 		<div class="container-fluid">
@@ -52,12 +55,18 @@
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
+
+						<!-- 	Start Navigation by NavBur area -->
+
 						<ul class="nav navbar-nav navbar-right">
 							<li class="active"><a class="page-scroll" href="#home">${home}</a></li>
 							<li><a class="page-scroll" href="#about">${aboutHR}</a></li>
 							<li><a class="page-scroll" href="#services">${service}</a></li>
 							<li><a class="page-scroll" href="#team">${team}</a></li>
 							<li><a class="page-scroll" href="#contact">${contact}</a></li>
+
+							<!-- 	Start area mypage button if user login -->
+
 							<c:choose>
 								<c:when test="${user != null}">
 									<li><br>
@@ -72,14 +81,19 @@
 											<button class="btn  btn-xs btn-success" type="submit">${Logout}</button>
 										</form></li>
 								</c:when>
+
 								<c:otherwise>
 									<li><br>
-										<form action="controllerServlet" method="post">
+										<form action="controllerServlet" method="get">
 											<input type="hidden" name="command" value="cb.login_page">
 											<button class="btn  btn-xs btn-success" type="submit">${login}</button>
 										</form></li>
 								</c:otherwise>
+
 							</c:choose>
+
+							<!-- 	Start Buttons for Localization -->
+
 							<li><a>
 									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.localization">
@@ -92,7 +106,13 @@
 										<button class="btn btn-link btn-xs" type="submit">${en_button}</button>
 									</form>
 							</a></li>
+
+							<!-- 	End Buttons for Localization -->
+
 						</ul>
+
+						<!-- 	End Navigation by NavBur area -->
+
 					</div>
 					</nav>
 
@@ -101,6 +121,10 @@
 		</div>
 	</div>
 	</header>
+
+	<!-- 	Start NuvBar Area  -->
+
+	<!-- 	Start Slides Area with message -->
 
 	<div id="home" class="slider-area">
 		<div>
@@ -114,7 +138,6 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="slider-content">
-
 								<div class="layer-1-1 hidden-xs wow slideInDown"
 									data-wow-duration="2s" data-wow-delay=".2s">
 									<h2 class="title1">${message1}</h2>
@@ -124,7 +147,6 @@
 									data-wow-delay=".1s">
 									<h1 class="title2">${message2}</h1>
 								</div>
-
 								<c:if test="${user == null}">
 									<div class="form-group">
 										<div class="layer-1-3 hidden-xs wow slideInUp"
@@ -143,7 +165,6 @@
 										</div>
 									</div>
 								</c:if>
-
 							</div>
 						</div>
 					</div>
@@ -226,6 +247,10 @@
 		</div>
 	</div>
 
+	<!-- 	End Slides Area with message -->
+
+	<!-- 	Start about us Area -->
+
 	<div id="about" class="about-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -264,6 +289,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 	End about us Area -->
+
+	<!-- 	Start our-service Area -->
+
 	<div id="services" class="services-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -317,12 +347,15 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 	End our-service Area -->
+
+	<!-- 	Start our-skills Area -->
+
 	<div class="our-skill-area fix hidden-sm">
 		<div class="test-overly"></div>
 		<div class="skill-bg area-padding-2">
 			<div class="container">
-				<!-- section-heading end -->
-
 				<div class="row">
 					<div class="skill-text">
 						<div class="col-xs-12 col-sm-4 col-md-4 text-center">
@@ -363,6 +396,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 	End our-skills Area -->
+
+	<!-- 	Start about our team Area -->
+
 	<div id="team" class="our-team-area area-padding">
 		<div class="container">
 			<div class="row">
@@ -424,6 +462,10 @@
 		</div>
 	</div>
 
+	<!-- 	End about our team Area -->
+
+	<!-- 	Start contact Area -->
+
 	<div id="contact" class="contact-area">
 		<div class="contact-inner area-padding">
 			<div class="contact-overly"></div>
@@ -472,28 +514,26 @@
 						</div>
 					</div>
 				</div>
+
+				<!--Start send message form -->
+
 				<div class="row">
-					<!-- Start  contact -->
 					<div class="col-md-3 col-sm-3 col-xs-12"></div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form contact-form">
 							<div id="errormessage"></div>
-							<form action="controllerServlet" method="post" role="form"
+							<form action="controllerServlet" method="post"
 								class="contactForm">
 								<div class="form-group">
 									<input type="text" name="name" oninvalid="InvalidMsg(this);"
 										oninput="InvalidMsg(this);" class="form-control" id="name"
 										placeholder="${name}" data-rule="minlen:4" required="required" />
 									<div class="validation"></div>
-
-
 									<input type="email" class="form-control"
 										oninvalid="InvalidMailMsg(this);"
 										oninput="InvalidMailMsg(this);" name="email" id="email"
 										placeholder="${email}" data-rule="email" required="required" />
 									<div class="validation"></div>
-
-
 									<textarea class="form-control" name="message" rows="5"
 										data-rule="required" oninvalid="InvalidforText(this);"
 										oninput="InvalidforText(this);" placeholder="${message}"
@@ -508,12 +548,16 @@
 						</div>
 					</div>
 				</div>
+
+				<!--End send message form -->
+
 			</div>
 		</div>
 	</div>
 
+	<!-- 	End contact Area -->
 
-
+	<!-- 	Modal window with information about send messages -->
 
 	<div id="aboutmessage" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
@@ -535,7 +579,6 @@
 								<h5 align="center" class="modal-title" style="color: red;">${messagenotsent}</h5>
 							</c:otherwise>
 						</c:choose>
-
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -545,16 +588,24 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 	Start footer Area  -->
 
 	<%@ include file="include/footer_include"%>
+	
+	<!-- 	End footer Area  -->
 
-	<c:if test="${param.sendmess != ok}">
+	<!-- Show message in modal window id="aboutmessage", about SENT if param.sendmess isn't EMPTY -->
+
+	<c:if test="${not empty param.sendmess}">
 		<script>
 			$(document).ready(function() {
 				$("#aboutmessage").modal('show');
 			});
 		</script>
 	</c:if>
+
+	<!-- Check params on form "send message"  and show validation message in this form -->
 
 	<script type="text/javascript">
 		function InvalidMsg(textbox) {
@@ -587,5 +638,6 @@
 			return true;
 		}
 	</script>
+
 </body>
 </html>

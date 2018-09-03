@@ -1,13 +1,12 @@
 package by.htp.project.human_resource.service.impl.checker;
 
 public class CheckLoginParam {
-	
+
 	private final static CheckLoginParam instance = new CheckLoginParam();
-		
-	public CheckLoginParam() {
-		super();
+
+	private CheckLoginParam() {
 	}
-	
+
 	public static CheckLoginParam getCheckParam() {
 		return instance;
 	}

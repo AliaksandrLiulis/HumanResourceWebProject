@@ -29,6 +29,9 @@
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
+
+	<!-- 	Start NuvBar Area  -->
+
 	<header>
 	<div id="sticker" class="header-area">
 		<div class="container-fluid">
@@ -50,6 +53,9 @@
 							</h1>
 						</a>
 					</div>
+
+					<!-- 	Start Navigation by NavBur area -->
+
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
 						id="navbar-example">
@@ -79,6 +85,9 @@
 										</button>
 									</form>
 							</a></li>
+
+							<!-- 	Start Buttons for Localization -->
+
 							<li><a>
 									<form action="controllerServlet" method="get">
 										<input type="hidden" name="command" value="cb.localization">
@@ -91,27 +100,34 @@
 										<button class="btn btn-link btn-xs" type="submit">${en_button}</button>
 									</form>
 							</a></li>
+
+							<!-- 	End Buttons for Localization -->
+
 						</ul>
 					</div>
-					</nav>
+
+					<!-- 	End Navigation by NavBur area --> </nav>
 				</div>
 			</div>
 		</div>
 	</div>
 	</header>
-	<div id="login_area" class="slider-area">
+
+	<!-- 	End NuvBar Area  -->
+
+	<!-- 	Start expect Area  -->
+
+	<div id="expect_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
 				<img src="img/slider/expect_page.jpg" alt=""
 					title="#slider-direction-1" />
 			</div>
-			<!-- direction 1 -->
 			<div id="slider-direction-1" class="slider-direction slider-one">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="slider-content">
-								<!-- layer 1 -->
 								<div class="row">
 									<div class="col-md-12 col-sm-12 col-xs-12">
 										<div class="layer-1-1 hidden-xs wow slideInDown"
@@ -130,6 +146,14 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 	End expect Area  -->
+
+	<!-- 	Start footer Area  -->
+
 	<%@ include file="include/footer_include"%>
+
+	<!-- 	End footer Area  -->
+
 </body>
 </html>

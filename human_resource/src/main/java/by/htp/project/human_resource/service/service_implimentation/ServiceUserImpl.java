@@ -28,22 +28,25 @@ public class ServiceUserImpl implements IServiceUser {
 
 	private Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
 	private HttpSession session = null;
+
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
 
 	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
+
 		String nickName = null;
 		String password = null;
 		String goToPage = null;
 		User user = null;
 		Profile profile = null;
+
 		RequestDispatcher dispatcher = null;
 		CheckCommand checkCommand = null;
 
 		nickName = request.getParameter(ServiceParamConstant.NICKNAME_PARAM);
 		password = request.getParameter(ServiceParamConstant.PASSWORD_PARAM);
-
 		CheckLoginParam checkParam = CheckLoginParam.getCheckParam();
+
 		if (checkParam.check(nickName, password)) {
 			try {
 				user = daoUser.searchUser(nickName, password);
@@ -67,7 +70,7 @@ public class ServiceUserImpl implements IServiceUser {
 							goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
-							logger.error("ServiceUserImpl: logInUser: " + e);
+							logger.error("ServiceUserImpl: logInUser: SendRedirectError" + e);
 						}
 					}
 				} else {
@@ -77,7 +80,7 @@ public class ServiceUserImpl implements IServiceUser {
 						dispatcher = request.getRequestDispatcher(goToPage);
 						dispatcher.forward(request, response);
 					} catch (ServletException | IOException e) {
-						logger.error("ServiceUserImpl: logInUser: " + e);
+						logger.error("ServiceUserImpl: logInUser: RequestDispatherError " + e);
 					}
 				}
 			} catch (DaoException e) {
@@ -88,7 +91,7 @@ public class ServiceUserImpl implements IServiceUser {
 					dispatcher = request.getRequestDispatcher(goToPage);
 					dispatcher.forward(request, response);
 				} catch (IOException | ServletException e1) {
-					logger.error("ServiceUserImpl: logInUser: " + e1);
+					logger.error("ServiceUserImpl: logInUser: RequestDispatherError" + e1);
 				}
 			}
 		} else {
@@ -105,6 +108,7 @@ public class ServiceUserImpl implements IServiceUser {
 
 	@Override
 	public void registerUser(final HttpServletRequest request, final HttpServletResponse response) {
+
 		String name = null;
 		String surname = null;
 		String nickName = null;
@@ -121,7 +125,6 @@ public class ServiceUserImpl implements IServiceUser {
 		password = request.getParameter(ServiceParamConstant.PASSWORD_PARAM);
 		email = request.getParameter(ServiceParamConstant.EMAIL_PARAM);
 		role = request.getParameter(ServiceParamConstant.ROLE_PARAM);
-
 		CheckRegisterParam checkRegisterParam = CheckRegisterParam.getCheckParam();
 
 		if (checkRegisterParam.check(name, surname, nickName, password, email, role)) {
@@ -133,13 +136,17 @@ public class ServiceUserImpl implements IServiceUser {
 						try {
 							response.sendRedirect(goToPage);
 						} catch (IOException e) {
-							logger.error("ServiceUserImpl: registerUser: " + e);
-							e.printStackTrace();
+							logger.error("ServiceUserImpl: registerUser: sendRedirectError " + e);
 						}
 					} else {
-						goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-						request.setAttribute("user_exist", "exist user");
-						dispatcher = request.getRequestDispatcher(goToPage);
+						try {
+							goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
+							request.setAttribute("user_exist", "exist user");
+							dispatcher = request.getRequestDispatcher(goToPage);
+							dispatcher.forward(request, response);
+						} catch (ServletException | IOException e) {
+							logger.error("ServiceUserImpl: registerUser: RequestDispatcherError" + e);
+						}
 					}
 				} else {
 					try {
@@ -148,18 +155,18 @@ public class ServiceUserImpl implements IServiceUser {
 						dispatcher = request.getRequestDispatcher(goToPage);
 						dispatcher.forward(request, response);
 					} catch (ServletException | IOException e) {
-						logger.error("ServiceUserImpl: registerUser: " + e);
+						logger.error("ServiceUserImpl: registerUser: RequestDispatcherError" + e);
 					}
 				}
 			} catch (DaoException e) {
-				logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
 				try {
+					logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
 					goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
 					request.setAttribute("user_not_registered", "error user registration");
 					dispatcher = request.getRequestDispatcher(goToPage);
 					dispatcher.forward(request, response);
 				} catch (IOException | ServletException e1) {
-					logger.error("ServiceUserImpl: logInUser: " + e1);
+					logger.error("ServiceUserImpl: logInUser: RequestDispatcherError" + e1);
 				}
 			}
 		} else
@@ -175,16 +182,20 @@ public class ServiceUserImpl implements IServiceUser {
 	}
 
 	@Override
-	public void logOutUser(HttpServletRequest request, HttpServletResponse response) {
+	public void logOutUser(final HttpServletRequest request, final HttpServletResponse response) {
+
 		String goToPage = null;
+
 		session = request.getSession();
 		session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
 		session.removeAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE);
+
 		try {
 			goToPage = request.getRequestURI() + ServiceCommandConstant.PATH_MAIN_PAGE_COMMAND;
 			response.sendRedirect(goToPage);
+
 		} catch (IOException e) {
-			logger.error("ServiceUserImpl: logOutUser: " + e);
+			logger.error("ServiceUserImpl: logOutUser: sendRedirectError" + e);
 		}
 	}
 }

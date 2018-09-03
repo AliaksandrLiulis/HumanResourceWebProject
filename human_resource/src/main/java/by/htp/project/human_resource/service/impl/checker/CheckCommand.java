@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constant_for_jsp_page.JSPPagePath;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.CommandConst;
-import by.htp.project.human_resource.controller.commandprovider.command.general_command.constant_for_command.ParamConst;
 import by.htp.project.human_resource.service.service_constant.ServiceCommandConstant;
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 
@@ -16,7 +14,8 @@ public class CheckCommand {
 	private Map<String, String> allRollesForCommand = null;
 	private Map<String, String> allRollesForPath = null;
 
-	public CheckCommand() {
+	private CheckCommand() {
+		
 		if (allRollesForCommand == null) {
 			setRolesForCommand();
 		}
@@ -25,6 +24,10 @@ public class CheckCommand {
 		}
 	}
 
+	public static CheckCommand getInstance() {
+		return instance;
+	}
+	
 	public String checkRoleForCommand(final String role) {
 		Set<Map.Entry<String, String>> entrySet = allRollesForCommand.entrySet();
 		String chooseRole = null;
@@ -35,22 +38,18 @@ public class CheckCommand {
 		}
 		return chooseRole;
 	}
-	
+
 	public String checkRoleForPath(final String role) {
 		Set<Map.Entry<String, String>> entrySet = allRollesForPath.entrySet();
 		String chooseRole = null;
-		
+
 		for (Map.Entry<String, String> pair : entrySet) {
 			if (role.equals(pair.getKey())) {
 				chooseRole = pair.getValue();
 			}
 		}
 		return chooseRole;
-	}
-
-	public static CheckCommand getInstance() {
-		return instance;
-	}
+	}	
 
 	private Map<String, String> setRolesForCommand() {
 		allRollesForCommand = new HashMap<String, String>();
@@ -60,7 +59,7 @@ public class CheckCommand {
 		allRollesForCommand.put(ServiceParamConstant.EMPLOYEE_ROLE, ServiceCommandConstant.EMPLOYEE_COMMAND);
 		return allRollesForCommand;
 	}
-	
+
 	private Map<String, String> setRolesForPath() {
 		allRollesForPath = new HashMap<String, String>();
 		allRollesForPath.put(ServiceParamConstant.ADMIN_ROLE, JSPPagePath.PATH_ADMIN_PAGE);

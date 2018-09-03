@@ -18,7 +18,6 @@ import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_factory.DaoFactory;
 import by.htp.project.human_resource.dao.dao_interface.IDAOJobSeeker;
 import by.htp.project.human_resource.entity.Profile;
-import by.htp.project.human_resource.entity.RespondVacancy;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath;
@@ -266,7 +265,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 	}
 
 	@Override
-	public void getVacancy(HttpServletRequest request, HttpServletResponse response) {
+	public void getVacancy(final HttpServletRequest request, final HttpServletResponse response) {
 		int pageNum = 0;
 		String tableNameVacancy;
 		int countAllVacancies = 0;
@@ -323,7 +322,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 	}
 
 	@Override
-	public void respondOnvacancy(HttpServletRequest request, HttpServletResponse response) {
+	public void respondOnvacancy(final HttpServletRequest request, final HttpServletResponse response) {
 
 		String userId = null;
 		String vacancyId = null;
@@ -359,7 +358,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 	}
 
 	@Override
-	public void deleteRespondOnVacancy(HttpServletRequest request, HttpServletResponse response) {
+	public void deleteRespondOnVacancy(final HttpServletRequest request, final HttpServletResponse response) {
 		String userId = null;
 		String vacancyId = null;
 		boolean result = false;

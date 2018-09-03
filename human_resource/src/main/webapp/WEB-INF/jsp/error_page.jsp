@@ -25,6 +25,9 @@
 </head>
 <body data-spy="scroll" data-target="#navbar-example">
 	<div id="preloader"></div>
+
+	<!-- 	Start NuvBar Area  -->
+
 	<header>
 	<div id="sticker" class="header-area">
 		<div class="container-fluid">
@@ -48,16 +51,19 @@
 					</div>
 					<div
 						class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1"
-						id="navbar-example">
-						
-					</div>
+						id="navbar-example"></div>
 					</nav>
 				</div>
 			</div>
 		</div>
 	</div>
 	</header>
-	<div id="login_area" class="slider-area">
+	
+	<!-- 	End NuvBar Area  -->
+	
+	<!-- 	Start error Area  -->
+	
+	<div id="error_area" class="slider-area">
 		<div>
 			<div id="ensign-nivoslider" class="slides">
 				<img src="img/slider/error_page.jpg" alt=""
@@ -65,6 +71,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 	error error Area  -->
+
+	<!-- 	Start footer Area  -->
+
 	<%@ include file="include/footer_include"%>
+
+	<!-- 	End footer Area  -->
+
 </body>
 </html>

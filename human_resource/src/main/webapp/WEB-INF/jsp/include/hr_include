@@ -105,6 +105,12 @@
 <fmt:message bundle="${loc}" key="local.hr.respond" var="respond" />
 <fmt:message bundle="${loc}" key="local.hr.showresponded" var="showresponded" />
 <fmt:message bundle="${loc}" key="local.login.nickname" var="nickname" />
+<fmt:message bundle="${loc}" key="local.login.donthavevacancy" var="donthavevacancy" />
+<fmt:message bundle="${loc}" key="local.login.receipterrorvacancy" var="receipterrorvacancy" />
+<fmt:message bundle="${loc}" key="local.login.donthaveresume" var="donthaveresume" />
+<fmt:message bundle="${loc}" key="local.login.errorgettingresume" var="errorgettingresume" />
+<fmt:message bundle="${loc}" key="local.employee.closebutton" var="closebutton" />
+<fmt:message bundle="${loc}" key="local.employee.addbutton" var="addbutton" />
 
 
 

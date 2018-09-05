@@ -3,136 +3,296 @@ package by.htp.project.human_resource.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Resume implements Serializable {
-	
-	private static final long serialVersionUID = 4031613634272073009L;
-	
-	private int id;
-	private String name;
-	private String surName;
-	private String email;
-	private Date registrationDate;
-	private Date birthDayDate;
-	private String phone;
-	private String residence;
-	private String workSpeciality;
-	private String workExpirience;
-	private String education;
-	private String photoPath;
-	private String aboutUser;
-	private int idUser;	
+/**
+ * Class Resume with fields
+ * <b>id</b>,<b>name</b>,<b>surName</b>,<b>email</b>,<b>registrationDate</b>,<b>birthDayDate</b>,<b>phone</b>,
+ * <b>residence</b>,<b>workSpeciality</b>,<b>workExpirience</b>,<b>education</b>,<b>photoPath</b>,<b>aboutUser</b>,<b>idUser</b>.
+ */
 
-	Resume() {	
+public class Resume implements Serializable {
+
+	private static final long serialVersionUID = 4031613634272073009L;
+
+	/** field int id. */
+	private int id;
+	/** field String name. */
+	private String name;
+	/** field String surName. */
+	private String surName;
+	/** field String email. */
+	private String email;
+	/** field Date registrationDate. */
+	private Date registrationDate;
+	/** field Date birthDayDate. */
+	private Date birthDayDate;
+	/** field String phone. */
+	private String phone;
+	/** field String residence. */
+	private String residence;
+	/** field String workSpeciality. */
+	private String workSpeciality;
+	/** field String workExpirience. */
+	private String workExpirience;
+	/** field String education. */
+	private String education;
+	/** field String photoPath. */
+	private String photoPath;
+	/** field String aboutUser. */
+	private String aboutUser;
+	/** field int idUser. */
+	private int idUser;
+
+	Resume() {
 	}
 
+	/**
+	 * method gets value field {@link Resume#id}.
+	 * 
+	 * @return {@link Resume#id}.
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#id}.
+	 * 
+	 * @param
+	 */
 	public void setId(int id) {
 		this.id = id;
-	}	
+	}
 
+	/**
+	 * method gets value field {@link Resume#name}.
+	 * 
+	 * @return {@link Resume#name}.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#name}.
+	 * 
+	 * @param
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * method gets value field {@link Resume#surName}.
+	 * 
+	 * @return {@link Resume#surName}.
+	 */
 	public String getSurName() {
 		return surName;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#surName}.
+	 * 
+	 * @param
+	 */
 	public void setSurName(String surName) {
 		this.surName = surName;
 	}
 
+	/**
+	 * method gets value field {@link Resume#email}.
+	 * 
+	 * @return {@link Resume#email}.
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#email}.
+	 * 
+	 * @param
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	/**
+	 * method gets value field {@link Resume#registrationDate}.
+	 * 
+	 * @return {@link Resume#registrationDate}.
+	 */
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#registrationDate}.
+	 * 
+	 * @param
+	 */
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
+	/**
+	 * method gets value field {@link Resume#birthDayDate}.
+	 * 
+	 * @return {@link Resume#birthDayDate}.
+	 */
 	public Date getBirthDayDate() {
 		return birthDayDate;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#birthDayDate}.
+	 * 
+	 * @param
+	 */
 	public void setBirthDayDate(Date birthDayDate) {
 		this.birthDayDate = birthDayDate;
 	}
 
+	/**
+	 * method gets value field {@link Resume#phone}.
+	 * 
+	 * @return {@link Resume#phone}.
+	 */
 	public String getPhone() {
 		return phone;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#phone}.
+	 * 
+	 * @param
+	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
+	/**
+	 * method gets value field {@link Resume#residence}.
+	 * 
+	 * @return {@link Resume#residence}.
+	 */
 	public String getResidence() {
 		return residence;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#residence}.
+	 * 
+	 * @param
+	 */
 	public void setResidence(String residence) {
 		this.residence = residence;
 	}
 
+	/**
+	 * method gets value field {@link Resume#workSpeciality}.
+	 * 
+	 * @return {@link Resume#workSpeciality}.
+	 */
 	public String getWorkSpeciality() {
 		return workSpeciality;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#workSpeciality}.
+	 * 
+	 * @param
+	 */
 	public void setWorkSpeciality(String workSpeciality) {
 		this.workSpeciality = workSpeciality;
 	}
 
+	/**
+	 * method gets value field {@link Resume#workExpirience}.
+	 * 
+	 * @return {@link Resume#workExpirience}.
+	 */
 	public String getWorkExpirience() {
 		return workExpirience;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#workExpirience}.
+	 * 
+	 * @param
+	 */
 	public void setWorkExpirience(String workExpirience) {
 		this.workExpirience = workExpirience;
 	}
 
+	/**
+	 * method gets value field {@link Resume#education}.
+	 * 
+	 * @return {@link Resume#education}.
+	 */
 	public String getEducation() {
 		return education;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#education}.
+	 * 
+	 * @param
+	 */
 	public void setEducation(String education) {
 		this.education = education;
 	}
 
+	/**
+	 * method gets value field {@link Resume#photoPath}.
+	 * 
+	 * @return {@link Resume#photoPath}.
+	 */
 	public String getPhotoPath() {
 		return photoPath;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#photoPath}.
+	 * 
+	 * @param
+	 */
 	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
 	}
 
+	/**
+	 * method gets value field {@link Resume#aboutUser}.
+	 * 
+	 * @return {@link Resume#aboutUser}.
+	 */
 	public String getAboutUser() {
 		return aboutUser;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#aboutUser}.
+	 * 
+	 * @param
+	 */
 	public void setAboutUser(String aboutUser) {
 		this.aboutUser = aboutUser;
 	}
 
+	/**
+	 * method gets value field {@link Resume#idUser}.
+	 * 
+	 * @return {@link Resume#idUser}.
+	 */
 	public int getIdUser() {
 		return idUser;
 	}
 
+	/**
+	 * method sets value in field {@link Hr#idUser}.
+	 * 
+	 * @param
+	 */
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}

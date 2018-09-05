@@ -3,105 +3,221 @@ package by.htp.project.human_resource.entity;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Profile implements Serializable{
-	
+/**
+ * Class Profile with fields
+ * <b>profileId</b>,<b>registrationDate</b>,<b>birthDayDate</b>,<b>phone</b>,<b>residence</b>,<b>workSpeciality</b>,<b>workExpirience</b>,
+ * <b>education</b>,<b>photoPath</b>,<b>aboutUser</b>.
+ */
+
+public class Profile implements Serializable {
+
 	private static final long serialVersionUID = -859500360106064849L;
-	
+
+	/** field int profileId. */
 	private int profileId;
+	/** field Date registrationDate. */
 	private Date registrationDate;
+	/** field Date birthDayDate. */
 	private Date birthDayDate;
+	/** field String phone. */
 	private String phone;
+	/** field String residence. */
 	private String residence;
+	/** field String workSpeciality. */
 	private String workSpeciality;
+	/** field String workExpirience. */
 	private String workExpirience;
+	/** field String education. */
 	private String education;
+	/** field String photoPath. */
 	private String photoPath;
+	/** field String aboutUser. */
 	private String aboutUser;
-	
-	Profile() {		
+
+	Profile() {
 	}
 
+	/**
+	 * method gets value field {@link Profile#profileId}.
+	 * 
+	 * @return {@link Profile#profileId}.
+	 */
 	public int getProfileId() {
 		return profileId;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#profileId}.
+	 * 
+	 * @param
+	 */
 	public void setProfileId(int profileId) {
 		this.profileId = profileId;
 	}
 
+	/**
+	 * method gets value field {@link Profile#registrationDate}.
+	 * 
+	 * @return {@link Profile#registrationDate}.
+	 */
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#registrationDate}.
+	 * 
+	 * @param
+	 */
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
+	/**
+	 * method gets value field {@link Profile#birthDayDate}.
+	 * 
+	 * @return {@link Profile#birthDayDate}.
+	 */
 	public Date getBirthDayDate() {
 		return birthDayDate;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#birthDayDate}.
+	 * 
+	 * @param
+	 */
 	public void setBirthDayDate(Date birthDayDate) {
 		this.birthDayDate = birthDayDate;
 	}
 
+	/**
+	 * method gets value field {@link Profile#phone}.
+	 * 
+	 * @return {@link Profile#phone}.
+	 */
 	public String getPhone() {
 		return phone;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#phone}.
+	 * 
+	 * @param
+	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
+	/**
+	 * method gets value field {@link Profile#residence}.
+	 * 
+	 * @return {@link Profile#residence}.
+	 */
 	public String getResidence() {
 		return residence;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#residence}.
+	 * 
+	 * @param
+	 */
 	public void setResidence(String residence) {
 		this.residence = residence;
 	}
 
+	/**
+	 * method gets value field {@link Profile#workSpeciality}.
+	 * 
+	 * @return {@link Profile#workSpeciality}.
+	 */
 	public String getWorkSpeciality() {
 		return workSpeciality;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#workSpeciality}.
+	 * 
+	 * @param
+	 */
 	public void setWorkSpeciality(String workSpeciality) {
 		this.workSpeciality = workSpeciality;
 	}
 
+	/**
+	 * method gets value field {@link Profile#workExpirience}.
+	 * 
+	 * @return {@link Profile#workExpirience}.
+	 */
 	public String getWorkExpirience() {
 		return workExpirience;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#workExpirience}.
+	 * 
+	 * @param
+	 */
 	public void setWorkExpirience(String workExpirience) {
 		this.workExpirience = workExpirience;
 	}
 
+	/**
+	 * method gets value field {@link Profile#education}.
+	 * 
+	 * @return {@link Profile#education}.
+	 */
 	public String getEducation() {
 		return education;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#education}.
+	 * 
+	 * @param
+	 */
 	public void setEducation(String education) {
 		this.education = education;
 	}
 
+	/**
+	 * method gets value field {@link Profile#photoPath}.
+	 * 
+	 * @return {@link Profile#photoPath}.
+	 */
 	public String getPhotoPath() {
 		return photoPath;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#photoPath}.
+	 * 
+	 * @param
+	 */
 	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
 	}
 
-	
+	/**
+	 * method gets value field {@link Profile#aboutUser}.
+	 * 
+	 * @return {@link Profile#aboutUser}.
+	 */
 	public String getAboutUser() {
 		return aboutUser;
 	}
 
+	/**
+	 * method sets value in field {@link Profile#aboutUser}.
+	 * 
+	 * @param
+	 */
 	public void setAboutUser(String aboutUser) {
 		this.aboutUser = aboutUser;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

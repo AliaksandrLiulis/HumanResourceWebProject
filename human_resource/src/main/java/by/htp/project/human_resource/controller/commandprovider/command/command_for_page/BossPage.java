@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import by.htp.project.human_resource.controller.commandprovider.command.command_for_page.constant_for_jsp_page.JSPPagePath;
 import by.htp.project.human_resource.controller.commandprovider.interf.ICommand;
 
+/**
+ * The Class forwards users to the BossPage
+ */
+
 public class BossPage implements ICommand{
 	
 	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {

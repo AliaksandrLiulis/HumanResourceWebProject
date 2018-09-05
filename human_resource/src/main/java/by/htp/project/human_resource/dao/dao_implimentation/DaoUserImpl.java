@@ -18,19 +18,31 @@ import by.htp.project.human_resource.entity.ProfileBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 
+/**
+ * Class which has methods for work with Users
+ */
+
 public class DaoUserImpl implements IDaoUser {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(DaoUserImpl.class);
+	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
+	/** field witch has Map with all roles for Users */
 	private Map<String, Integer> allRolles = null;
 
+	/** Field for searching all {@link User} by {@link User.nickName} and password*/
 	private final String SEARCH_ALL_USERS = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE users.nickName = ? AND users.password = ?";
+	/** Field for searching all nickName by  {@link User.nickName}*/
 	private final String SEARCH_USER_NICKNAME = "SELECT nickName FROM users  WHERE nickName = ?";
+	/** Field for adding {@link User}*/
 	private final String ADD_USER = "INSERT INTO users (name,  surName, nickName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
+	/** Field for getting exist {@link Profile} by {@link User#userId}*/
 	private final String GET_EXIST_PROFILE = "SELECT * FROM profile WHERE idUser = ?";
+	/** Field for adding message*/
 	private final String ADD_MESSAGE = "INSERT INTO message (name, email, createdate, content) VALUES (?,?,?,?)";
 
-	public DaoUserImpl() {		
+	public DaoUserImpl() {
 	}
 
 	@Override
@@ -238,6 +250,11 @@ public class DaoUserImpl implements IDaoUser {
 		return result;
 	}
 
+	/**
+	 * method which returne number role from {@link AllRole} by input role}
+	 * 
+	 * @return {@link AllRole#idNumber}
+	 */
 	private int getNumRoleForSQLUsers(final String role) {
 
 		Set<Map.Entry<String, Integer>> entrySet = allRolles.entrySet();
@@ -253,20 +270,29 @@ public class DaoUserImpl implements IDaoUser {
 		return numForSql;
 	}
 
+	/**
+	 * method which set roles all Users for {@link DaoUserImpl#allRolles} from
+	 * {@link AllRole}
+	 * 
+	 * @return {@link Map}
+	 */
 	private Map<String, Integer> setRoles() {
+		Map<String, Integer> roles = new HashMap<String, Integer>();
 
-		allRolles = new HashMap<String, Integer>();
-		allRolles.put(AllRole.ADMINISTRATOR.getValue(), AllRole.ADMINISTRATOR.getIdNumber());
-		allRolles.put(AllRole.BOSS.getValue(), AllRole.BOSS.getIdNumber());
-		allRolles.put(AllRole.HR.getValue(), AllRole.HR.getIdNumber());
-		allRolles.put(AllRole.EMPLOYEE.getValue(), AllRole.EMPLOYEE.getIdNumber());
+		roles.put(AllRole.ADMINISTRATOR.getValue(), AllRole.ADMINISTRATOR.getIdNumber());
+		roles.put(AllRole.BOSS.getValue(), AllRole.BOSS.getIdNumber());
+		roles.put(AllRole.HR.getValue(), AllRole.HR.getIdNumber());
+		roles.put(AllRole.EMPLOYEE.getValue(), AllRole.EMPLOYEE.getIdNumber());
 
-		return allRolles;
+		return roles;
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
-		
+
 		try {
 			if (resultSet != null) {
 				resultSet.close();

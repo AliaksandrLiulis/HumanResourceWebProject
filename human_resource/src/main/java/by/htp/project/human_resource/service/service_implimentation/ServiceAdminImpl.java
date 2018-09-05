@@ -192,7 +192,6 @@ public class ServiceAdminImpl implements IServiceAdmin {
 	public void addUser(final HttpServletRequest request, final HttpServletResponse response) {
 
 		String idUser = null;
-		RequestDispatcher dispatcher = null;
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 
 		try {

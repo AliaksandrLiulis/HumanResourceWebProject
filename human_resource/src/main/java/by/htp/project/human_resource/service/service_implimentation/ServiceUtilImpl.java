@@ -33,6 +33,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
 
+	
 	@Override
 	public void backOnPageByUserRole(final HttpServletRequest request, final HttpServletResponse response) {
 

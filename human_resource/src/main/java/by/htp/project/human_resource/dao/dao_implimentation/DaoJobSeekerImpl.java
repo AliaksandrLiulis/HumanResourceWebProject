@@ -1,6 +1,7 @@
 package by.htp.project.human_resource.dao.dao_implimentation;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,31 +21,61 @@ import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
 
+/**
+ * Class which has methods for work with Users which have role JobSeeker
+ */
+
 public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
+	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-	public DaoJobSeekerImpl() {	
+	public DaoJobSeekerImpl() {
 	}
 
+	/** Field for adds new {@link Profile} */
 	private final String ADD_NEW_PROFILE = "INSERT INTO profile (registrationDate ,birthDayDate, phone, residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser ) VALUES (?,?,?,?,?,?,?,?,?,?)";
+	/** Field for adds new {@link Profile#profileId} by {@link User#userId} */
 	private final String SEARCH_ID_PROFILE_BY_ID_USER = "SELECT idprofile FROM profile WHERE profile.idUser = ?";
+	/** Field for sets {@link Profile#profileId} by {@link User#userId} */
 	private final String SET_ID_PROFILE_FOR_USER = "UPDATE users SET profileId=? WHERE userId=?";
+	/** Field for searches {@link User} by {@link User#userId} */
 	private final String SEARCH_USER_BY_ID_USER = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles ON users.roleId = userroles.rolesId WHERE users.userId = ?";
+	/** Field for searches {@link Profile} by {@link User#userId} */
 	private final String SEARCH_EXIST_PROFILE_BY_ID_USER = "SELECT * FROM profile WHERE idUser = ?";
+	/** Field for delete {@link Profile} by {@link User#userId} */
 	private final String DELETE_PROFILE_BY_ID_USER = "DELETE FROM profile WHERE idUser = ?";
+	/**
+	 * Field for update {@link Profile#profileId} and {@link Resume#id} in Users by
+	 * {@link User#userId}
+	 */
 	private final String UPDATE_ID_PROFILE_AND_ID_RESUME_FOR_USER_BY_USER_ID = "UPDATE users  SET profileId=? , resumeId=? WHERE userId=?";
+	/** Field for update {@link Profile} by {@link User#userId} */
 	private final String UPDATE_OLD_PROFILE_BY_ID_USER = "UPDATE profile SET registrationDate = ?, birthDayDate = ?,phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? WHERE idUser = ?";
+	/** Field for adds new {@link Resume} */
 	private final String ADD_NEW_RESUME = "INSERT INTO resume (name, surName, email, registrationDate, birthDayDate, phone,residence, workSpeciality, workExpirience, education, photoPath, aboutUser, idUser) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	/** Field for searches {@link Resume.id} by {@link User#userId} */
 	private final String SEARCH_ID_RESUME_BY_ID_USER = "SELECT idresume FROM resume WHERE resume.idUser = ?";
+	/** Field for searches {@link Resume.id} for Users table */
 	private final String SET_ID_RESUME_FOR_USER = "UPDATE users SET resumeId=? WHERE userId=?";
+	/** Field for delete {@link Resume} by {@link User#userId} */
 	private final String DELETE_RESUME_BY_ID_USER = "DELETE FROM resume WHERE idUser = ?";
+	/** Field for update {@link Resume#id} for users by {@link User#userId} */
 	private final String UPDATE_ID_RESUME_FOR_USER_BY_ID_USER = "UPDATE users  SET resumeId=? WHERE userId=?";
+	/** Field for update {@link Resume} by {@link User#userId} */
 	private final String UPDATE_OLD_RESUME_BY_ID_USER = "UPDATE resume SET birthDayDate = ?, phone = ?, residence = ?, workSpeciality = ?, workExpirience = ?, education = ?, photoPath = ?, aboutUser = ? WHERE idUser = ?";
+	/** Field for search all count {@link Vacancy} */
 	private final String SEARCH_LIMIT_COUNT_VACANCY = "SELECT * FROM vacancies LIMIT ?, ?";
+	/** Field for searches all {@link RespondVacancy} by {@link User#userId} */
 	private final String SEARCH_RESPONDED_ON_VACANCY_BY_ID_USER = "SELECT * FROM vacancyresponded WHERE idResponded = ?";
+	/** Field for inserts into {@link RespondVacancy} */
 	private final String ADD_RESPONDED_ON_VACANCY = "INSERT INTO vacancyresponded (idVacancy, idResponded ) VALUES (?,?)";
+	/**
+	 * Field for delete all {@link RespondVacancy} by
+	 * {@link RespondVacancy#idVacancy} and {@link RespondVacancy#idResponded}
+	 */
 	private final String DELETE_RESPONDED_VACANCY_BY_ID_VACANCY_AND_ID_USER = "DELETE FROM vacancyresponded WHERE idVacancy = ? AND idResponded = ?";
 
 	@Override
@@ -483,7 +514,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(UPDATE_ID_PROFILE_AND_ID_RESUME_FOR_USER_BY_USER_ID);
 			preparedStatement.setInt(1, 0);
@@ -491,7 +522,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(3, idUser);
 			preparedStatement.executeUpdate();
 
-		}catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			logger.error("DaoJobSeekerImpl: updateFieldUserByIdUser: Connection interrupted: " + e);
 			throw new DaoException("updateFieldUserByIdUser" + e);
 		} catch (SQLException e) {
@@ -504,7 +535,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	@Override
 	public List<Vacancy> searchVacancyByParam(final String... params) throws DaoException {
-		
+
 		String limiLine = null;
 		String offsetLine = null;
 		List<Vacancy> allVacancy = null;
@@ -519,7 +550,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		allVacancy = new ArrayList<>();
 
 		try {
-			
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(SEARCH_LIMIT_COUNT_VACANCY);
 			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
@@ -531,11 +562,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 						.companyName(result.getString(3)).experience(result.getString(4)).salary(result.getInt(5))
 						.goods(result.getString(6)).dlCategory(result.getString(7)).whoAddedId(result.getInt(8))
 						.build();
-				
+
 				allVacancy.add(vacancy);
-				
+
 			}
-		}catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			logger.error("DaoJobSeekerImpl: searchVacancyByParam: Connection interrupted: " + e);
 			throw new DaoException("searchVacancyByParam" + e);
 		} catch (SQLException e) {
@@ -549,7 +580,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	@Override
 	public int getCountAllRowsForTable(String tableName) throws DaoException {
-		
+
 		int count = 0;
 
 		Connection connection = null;
@@ -560,7 +591,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName);
 			result = preparedStatement.executeQuery();
-			
+
 			while (result.next()) {
 				count = result.getInt(1);
 			}
@@ -579,9 +610,9 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	@Override
 	public boolean updateVacancyWhenRespondAndAddInTable(int userId, int vacancyId) throws DaoException {
-		
+
 		boolean result = false;
-		
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -592,10 +623,10 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.setInt(1, vacancyId);
 			preparedStatement.setInt(2, userId);
 			preparedStatement.executeUpdate();
-			
+
 			result = true;
-			
-		}  catch (InterruptedException e) {
+
+		} catch (InterruptedException e) {
 			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndAddInTable: Connection interrupted: " + e);
 			throw new DaoException("updateVacancyWhenRespondAndAddInTable" + e);
 		} catch (SQLException e) {
@@ -610,23 +641,23 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	@Override
 	public boolean updateVacancyWhenRespondAndDeleteInTable(int userId, int vacancyId) throws DaoException {
-		
+
 		boolean result = false;
-		
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		try {
-			
+
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(DELETE_RESPONDED_VACANCY_BY_ID_VACANCY_AND_ID_USER);
 			preparedStatement.setInt(1, vacancyId);
 			preparedStatement.setInt(2, userId);
 			preparedStatement.executeUpdate();
-			
+
 			result = true;
-			
-		}  catch (InterruptedException e) {
+
+		} catch (InterruptedException e) {
 			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndDeleteInTable: Connection interrupted: " + e);
 			throw new DaoException("updateVacancyWhenRespondAndDeleteInTable" + e);
 		} catch (SQLException e) {
@@ -659,7 +690,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 				respondVacancies.add(resultSet.getString(2));
 			}
 
-		}  catch (InterruptedException e) {
+		} catch (InterruptedException e) {
 			logger.error("DaoJobSeekerImpl: searchRespondVacancyByUserId: Connection interrupted: " + e);
 			throw new DaoException("searchRespondVacancyByUserId" + e);
 		} catch (SQLException e) {
@@ -672,9 +703,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		return respondVacancies;
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
-		
+
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -690,8 +724,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 		}
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName) {
-		
+
 		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
@@ -703,7 +740,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	private void closePreparedStatementAndResultSet(final PreparedStatement preparedStatement,
 			final ResultSet resultSet, final String methodName) {
-		
+
 		try {
 			if (resultSet != null) {
 				resultSet.close();

@@ -54,7 +54,7 @@ public class ConnectionPool {
 	private String password;
 	private int poolSize;
 
-	private ConnectionPool() {
+	private ConnectionPool() {		
 		DBResourceManager dbResourceManager = DBResourceManager.getInstance();
 		this.driverName = dbResourceManager.getValue(DBParametr.DB_DRIVER);
 		this.url = dbResourceManager.getValue(DBParametr.DB_URL);

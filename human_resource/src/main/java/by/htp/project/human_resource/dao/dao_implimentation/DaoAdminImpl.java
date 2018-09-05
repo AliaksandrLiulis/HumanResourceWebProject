@@ -16,15 +16,25 @@ import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 
+/**
+ * Class which has methods for work with Users which have role Administrator
+ */ 
+
 public class DaoAdminImpl implements IDaoAdmin {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(DaoAdminImpl.class);
+	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+	/** Field for searching registered {@link User}*/
 	private final String SEARCH_REGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 1 LIMIT ?, ?";
+	/** Field for searching unregistered {@link User}*/
 	private final String SEARCH_UNREGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 0 LIMIT ?, ?";
+	/** Field for searching All {@link User}*/
 	private final String SEARCH_ALL_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
-	private final String SET_AVALIABLE_FILD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
+	/** Field for set {@link User#avaliable}*/
+	private final String SET_AVALIABLE_FIELD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
 
 	public DaoAdminImpl() {		
 	}
@@ -210,7 +220,7 @@ public class DaoAdminImpl implements IDaoAdmin {
 		try {
 
 			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(SET_AVALIABLE_FILD_FOR_USER);
+			preparedStatement = connection.prepareStatement(SET_AVALIABLE_FIELD_FOR_USER);
 			preparedStatement.setInt(1, value);
 			preparedStatement.setInt(2, idUser);
 			preparedStatement.executeUpdate();
@@ -229,6 +239,9 @@ public class DaoAdminImpl implements IDaoAdmin {
 		return result;
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
 		try {

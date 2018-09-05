@@ -19,23 +19,47 @@ import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
+import by.htp.project.human_resource.entity.RespondVacancy;
+
+/**
+ * Class which has methods for work with Users which have role Hr
+ */
 
 public class DaoHrImpl implements IDaoHr {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(DaoHrImpl.class);
+	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+	/** Field for adds driver vacancy into {@link Vacancy} */
 	private final String ADD_DRIVER_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary , goods, dlCategory, whoAddedId) VALUES (?,?,?,?,?,?,?)";
+	/** Field for adds accountant vacancy into {@link Vacancy} */
 	private final String ADD_ACCOUNTANT_VACANCY = "INSERT INTO vacancies (professionName,  companyName, experience, salary, whoAddedId ) VALUES (?,?,?,?,?)";
+	/**
+	 * Field for searches limit count {@link Vacancy} by {@link Vacancy#whoAddedId}
+	 */
 	private final String SEARCH_LIMIT_COUNT_VACANCY_BY_USER_ID = "SELECT * FROM vacancies WHERE whoAddedId = ? LIMIT ?, ?";
+	/** Field for searches limit count {@link Resume} */
 	private final String SEARCH_LIMIT_COUNT_RESUME = "SELECT * FROM resume LIMIT ?, ?";
+	/** Field for searches All from {@link RespondVacancy} */
 	private final String SEARCH_ALL_RESPONDED_ON_VACANCY = "SELECT * FROM vacancyresponded";
+	/** Field for delete all from {@link Vacancy} by {@link Vacancy#idvacancy} */
 	private final String DELETE_VACANCY_BY_ID_VACANCY = "DELETE FROM vacancies WHERE idvacancies = ?";
+	/**
+	 * Field for delete all from {@link RespondVacancy} by
+	 * {@link RespondVacancy#idVacancy}
+	 */
 	private final String DELETE_RESPONDED_BY_ID_VACANCY = "DELETE FROM vacancyresponded WHERE idVacancy = ?";
+	/**
+	 * Field for search all from {@link RespondVacancy} by
+	 * {@link RespondVacancy#idVacancy}
+	 */
 	private final String SEARCH_RESPONDED_BY_ID_VACANCY = "SELECT * FROM vacancyresponded WHERE idVacancy = ?";
+	/** Field for delete all from {@link User} by {@link User#userId} */
 	private final String SEARCH_ALL_USERS_BY_ID_USER = "SELECT * FROM users  WHERE userId = ?";
 
-	public DaoHrImpl() {		
+	public DaoHrImpl() {
 	}
 
 	@Override
@@ -389,6 +413,9 @@ public class DaoHrImpl implements IDaoHr {
 		return allRespondedId;
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
 			final Connection connection, String methodName) {
 
@@ -407,6 +434,9 @@ public class DaoHrImpl implements IDaoHr {
 		}
 	}
 
+	/**
+	 * method which close all got resources
+	 */
 	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName) {
 		try {
 			if (preparedStatement != null) {

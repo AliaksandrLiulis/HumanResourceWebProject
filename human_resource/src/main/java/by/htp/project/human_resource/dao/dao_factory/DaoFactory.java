@@ -21,7 +21,7 @@ public class DaoFactory {
 
 	private DaoFactory() {
 	}
-
+	
 	/** new instance for {@link DaoUserImpl} */
 	private IDaoUser daoUser = new DaoUserImpl();
 	/** new instance for {@link DaoJobSeekerImpl} */

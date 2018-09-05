@@ -1,6 +1,7 @@
 package by.htp.project.human_resource.service.service_implimentation;
 
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +25,21 @@ import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceJobSeeker;
 
+/**
+ * Class which has methods for work with Users which have role JobSeeker
+ */
+
 public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceJobSeekerImpl.class);
+	/** Field for {@link HttpSession} */
 	private HttpSession session = null;
+	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
+	/** Field for daoJobSeeker implimentation */
 	private final IDAOJobSeeker daoJobSeeker = daoFactory.getDaoJodSeeker();
+	/** Field wich has path on the JobSeeker page */
 	private final String GO_TO_PAGE = ServiceJspPagePath.PATH_EMPLOYEE_PAGE;
 
 	@Override
@@ -414,6 +424,11 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		}
 	}
 
+	/**
+	 * method for getting count of page
+	 * 
+	 * @return int
+	 */
 	private int countPaging(final int commonCount, final int offsetLine) {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);

@@ -22,18 +22,24 @@ import by.htp.project.human_resource.service.service_constant.ServiceCommandCons
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceUtil;
 
+/**
+ * Class which has methods for work with Utils
+ */
+
 public class ServiceUtilImpl implements IServiceUtil {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceUtilImpl.class);
 	private CheckCommand checkCommand = CheckCommand.getInstance();
-
+	/** Field for {@link HttpSession} */
 	private HttpSession session = null;
+	/** Field for {@link RequestDispatcher} */
 	private RequestDispatcher dispatcher = null;
-
+	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
+	/** Field for daoUser implimentation */
 	private final IDaoUser daoUser = daoFactory.getDaoUser();
 
-	
 	@Override
 	public void backOnPageByUserRole(final HttpServletRequest request, final HttpServletResponse response) {
 

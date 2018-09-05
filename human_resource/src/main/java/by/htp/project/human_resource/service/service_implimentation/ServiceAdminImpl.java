@@ -20,11 +20,19 @@ import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceAdmin;
 
+/**
+ * Class which has methods for work with Users which have role Administrator
+ */ 
+
 public class ServiceAdminImpl implements IServiceAdmin {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceAdminImpl.class);
+	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
+	/** Field for daoAdmin implimentation  */
 	private final IDaoAdmin daoAdmin = daoFactory.getDaoAdmin();
+	/** Field wich has path on the admin page  */
 	private final String GO_TO_PAGE = ServiceJspPagePath.PATH_ADMIN_PAGE;
 
 	@Override
@@ -214,6 +222,10 @@ public class ServiceAdminImpl implements IServiceAdmin {
 
 	}
 
+	/**
+	 * method for getting count of page
+	 * @return int
+	 */
 	private int countPaging(final int commonCount, final int offsetLine) {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);

@@ -22,11 +22,19 @@ import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceHr;
 
+/**
+ * Class which has methods for work with Users which have role Hr
+ */
+
 public class ServiceHrImpl implements IServiceHr {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceHrImpl.class);
+	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
+	/** Field for daoHr implimentation */
 	private final IDaoHr daoHr = daoFactory.getDaoHr();
+	/** Field wich has path on the Hr page */
 	private final String GO_TO_PAGE = ServiceJspPagePath.PATH_HR_PAGE;
 
 	@Override
@@ -232,6 +240,11 @@ public class ServiceHrImpl implements IServiceHr {
 		}
 	}
 
+	/**
+	 * method for create driver {@link Vacancy}
+	 * @param request  is HTTPRequest
+	 * @return {@link List} {@link String}
+	 */
 	private List<String> addDriverVacancy(final HttpServletRequest request) {
 
 		String companyName = null;
@@ -262,6 +275,12 @@ public class ServiceHrImpl implements IServiceHr {
 		return paramsList;
 	}
 
+	
+	/**
+	 * method for create accountant {@link Vacancy}
+	 * @param request  is HTTPRequest
+	 * @return {@link List} {@link String}
+	 */
 	private List<String> addAccountantVacancy(final HttpServletRequest request) {
 
 		String companyName = null;
@@ -286,6 +305,11 @@ public class ServiceHrImpl implements IServiceHr {
 		return paramsList;
 	}
 
+	/**
+	 * method for getting count of page
+	 * 
+	 * @return int
+	 */
 	private int countPaging(final int commonCount, final int offsetLine) {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);

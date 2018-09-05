@@ -54,15 +54,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * method sets value in field {@link User#profile}.
-	 * 
-	 * @param
-	 */
-	public void setProfile(int profile) {
-		this.profileId = profile;
-	}
-
-	/**
 	 * method gets value field {@link User#name}.
 	 * 
 	 * @return {@link User#name}.
@@ -76,7 +67,7 @@ public class User implements Serializable {
 	 * 
 	 * @param
 	 */
-	public void setName(final String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -85,7 +76,8 @@ public class User implements Serializable {
 	 * 
 	 * @return {@link User#surName}.
 	 */
-	public String getSurname() {
+
+	public String getSurName() {
 		return surName;
 	}
 

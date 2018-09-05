@@ -24,13 +24,29 @@ import by.htp.project.human_resource.service.service_constant.ServiceJspPagePath
 import by.htp.project.human_resource.service.service_constant.ServiceParamConstant;
 import by.htp.project.human_resource.service.service_interface.IServiceUser;
 
+/**
+ * Class which has methods for work with Users
+ */
+
 public class ServiceUserImpl implements IServiceUser {
 
+	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
+	/** Field for {@link HttpSession} */
 	private HttpSession session = null;
-
+	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
-	private final IDaoUser daoUser = daoFactory.getDaoUser();
+	/** Field for daoUser implimentation */
+	private final IDaoUser daoUser;
+
+	public ServiceUserImpl() {
+		this.daoUser = daoFactory.getDaoUser();
+	}
+
+	/** Constructor for test */
+	public ServiceUserImpl(IDaoUser daoUser) {
+		this.daoUser = daoUser;
+	}
 
 	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
 

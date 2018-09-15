@@ -27,6 +27,8 @@ public final class JSPPagePath {
 	public final static String PATH_EMPLOYEE_PAGE = "/WEB-INF/jsp/employee_page.jsp";
 	/** Path to error_page.jsp */
 	public final static String PATH_ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
+	/** Path to error_page.jsp */
+	public final static String PATH_ERROR_PAGE_500 = "/WEB-INF/jsp/error_page_500.jsp";
 	/** Path to expect_page.jsp */
 	public final static String PATH_EXPECT_PAGE = "/WEB-INF/jsp/expect_page.jsp";
 	/** Path to main_page use command cb.main_page */

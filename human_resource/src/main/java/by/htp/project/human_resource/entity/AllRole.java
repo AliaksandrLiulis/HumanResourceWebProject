@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.dao.dao_implimentation;
+package by.htp.project.human_resource.entity;
 
 /** Class with has objects for alll roles with filds value, idNumber */
 

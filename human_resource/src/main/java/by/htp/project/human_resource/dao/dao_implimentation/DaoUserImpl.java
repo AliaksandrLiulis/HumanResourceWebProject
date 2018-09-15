@@ -12,11 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_interface.IDaoUser;
-import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
+import by.htp.project.human_resource.entity.AllRole;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.ProfileBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
+import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 
 /**
  * Class which has methods for work with Users
@@ -31,15 +32,17 @@ public class DaoUserImpl implements IDaoUser {
 	/** field witch has Map with all roles for Users */
 	private Map<String, Integer> allRolles = null;
 
-	/** Field for searching all {@link User} by {@link User.nickName} and password*/
+	/**
+	 * Field for searching all {@link User} by {@link User.nickName} and password
+	 */
 	private final String SEARCH_ALL_USERS = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE users.nickName = ? AND users.password = ?";
-	/** Field for searching all nickName by  {@link User.nickName}*/
+	/** Field for searching all nickName by {@link User.nickName} */
 	private final String SEARCH_USER_NICKNAME = "SELECT nickName FROM users  WHERE nickName = ?";
-	/** Field for adding {@link User}*/
+	/** Field for adding {@link User} */
 	private final String ADD_USER = "INSERT INTO users (name,  surName, nickName, password , avaliable, email, roleId, profileId, resumeId ) VALUES (?,?,?,?,?,?,?,?,?)";
-	/** Field for getting exist {@link Profile} by {@link User#userId}*/
+	/** Field for getting exist {@link Profile} by {@link User#userId} */
 	private final String GET_EXIST_PROFILE = "SELECT * FROM profile WHERE idUser = ?";
-	/** Field for adding message*/
+	/** Field for adding message */
 	private final String ADD_MESSAGE = "INSERT INTO message (name, email, createdate, content) VALUES (?,?,?,?)";
 
 	public DaoUserImpl() {
@@ -300,9 +303,8 @@ public class DaoUserImpl implements IDaoUser {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			if (connection != null) {
-				connection.close();
-			}
+			connection.close();
+
 		} catch (Exception e) {
 			logger.error("DaoUserImpl: " + methodName + ": " + e);
 		}

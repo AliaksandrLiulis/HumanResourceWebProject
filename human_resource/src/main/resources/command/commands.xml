@@ -52,6 +52,10 @@
 		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ErrorPage</value>
 	</command>
 	<command>
+		<key>cb.error_page_500</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.command_for_page.ErrorPage500</value>
+	</command>
+	<command>
 		<key>cb.logout_user</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_user.LogOut</value>
 	</command>

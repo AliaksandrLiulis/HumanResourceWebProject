@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_interface.IDaoAdmin;
-import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
+import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 
 /**
  * Class which has methods for work with Users which have role Administrator
- */ 
+ */
 
 public class DaoAdminImpl implements IDaoAdmin {
 
@@ -27,16 +27,16 @@ public class DaoAdminImpl implements IDaoAdmin {
 	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-	/** Field for searching registered {@link User}*/
+	/** Field for searching registered {@link User} */
 	private final String SEARCH_REGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 1 LIMIT ?, ?";
-	/** Field for searching unregistered {@link User}*/
+	/** Field for searching unregistered {@link User} */
 	private final String SEARCH_UNREGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 0 LIMIT ?, ?";
-	/** Field for searching All {@link User}*/
+	/** Field for searching All {@link User} */
 	private final String SEARCH_ALL_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
-	/** Field for set {@link User#avaliable}*/
+	/** Field for set {@link User#avaliable} */
 	private final String SET_AVALIABLE_FIELD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
 
-	public DaoAdminImpl() {		
+	public DaoAdminImpl() {
 	}
 
 	@Override
@@ -251,9 +251,8 @@ public class DaoAdminImpl implements IDaoAdmin {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			if (connection != null) {
-				connection.close();
-			}
+			connection.close();
+
 		} catch (Exception e) {
 			logger.error("DaoAdminImpl: " + methodName + ": " + e);
 		}

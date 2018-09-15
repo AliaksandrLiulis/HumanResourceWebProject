@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.dao.poolconnection;
+package by.htp.project.human_resource.util.poolconnection;
 
 public final class DBParametr {
 

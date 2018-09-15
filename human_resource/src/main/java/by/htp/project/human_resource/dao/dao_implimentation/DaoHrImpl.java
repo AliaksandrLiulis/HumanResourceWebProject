@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_interface.IDaoHr;
-import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.Resume;
 import by.htp.project.human_resource.entity.ResumeBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
+import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.RespondVacancy;
 
 /**
@@ -426,9 +426,8 @@ public class DaoHrImpl implements IDaoHr {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			if (connection != null) {
-				connection.close();
-			}
+			connection.close();
+
 		} catch (Exception e) {
 			logger.error("DaoHrImpl: " + methodName + ": " + e);
 		}

@@ -7,7 +7,6 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-
 	<servlet>
 		<servlet-name>ControllerServlet</servlet-name>
 		<servlet-class>by.htp.project.human_resource.controller.Controller</servlet-class>
@@ -16,10 +15,9 @@
 		<servlet-name>ControllerServlet</servlet-name>
 		<url-pattern>/controllerServlet</url-pattern>
 	</servlet-mapping>
-
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
-		<filter-class>by.htp.project.human_resource.filter.EncodingFilter</filter-class>
+		<filter-class>by.htp.project.human_resource.util.filter.EncodingFilter</filter-class>
 		<init-param>
 			<param-name>request_encoding</param-name>
 			<param-value>UTF-8</param-value>
@@ -33,29 +31,24 @@
 		<filter-name>EncodingFilter</filter-name>
 		<servlet-name>ControllerServlet</servlet-name>
 	</filter-mapping>
-
 	<filter>
 		<filter-name>LocalizationFilter</filter-name>
-		<filter-class>by.htp.project.human_resource.filter.LocalizationFilter</filter-class>
+		<filter-class>by.htp.project.human_resource.util.filter.LocalizationFilter</filter-class>
 	</filter>
+	<listener>
+		<listener-class>by.htp.project.human_resource.util.listener.ContextListener</listener-class>
+	</listener>
 	<filter-mapping>
 		<filter-name>LocalizationFilter</filter-name>
 		<servlet-name>ControllerServlet</servlet-name>
 	</filter-mapping>
-		
-
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/jsp/error_page.jsp</location>
+		<location>/WEB-INF/jsp/error_page_500.jsp</location>
 	</error-page>
-	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/jsp/error_page.jsp</location>
 	</error-page>
-<!-- 	<error-page> -->
-<!-- 		<exception-type>java.lang.RuntimeException</exception-type> -->
-<!-- 		<location>/WEB-INF/jsp/error_page.jsp</location> -->
-<!-- 	</error-page> -->
-	
+
 </web-app>

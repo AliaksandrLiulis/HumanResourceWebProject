@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.filter;
+package by.htp.project.human_resource.util.filter;
 
 import java.io.IOException;
 import java.util.Map;

@@ -13,13 +13,13 @@ import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_interface.IDAOJobSeeker;
-import by.htp.project.human_resource.dao.poolconnection.ConnectionPool;
 import by.htp.project.human_resource.entity.Profile;
 import by.htp.project.human_resource.entity.ProfileBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.entity.Vacancy;
 import by.htp.project.human_resource.entity.VacancyBuilder;
+import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 
 /**
  * Class which has methods for work with Users which have role JobSeeker
@@ -716,9 +716,8 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			if (connection != null) {
-				connection.close();
-			}
+			connection.close();
+
 		} catch (Exception e) {
 			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
 		}

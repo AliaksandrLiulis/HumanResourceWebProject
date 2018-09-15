@@ -1,4 +1,4 @@
-package by.htp.project.human_resource.dao.poolconnection;
+package by.htp.project.human_resource.util.poolconnection;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -54,7 +54,7 @@ public class ConnectionPool {
 	private String password;
 	private int poolSize;
 
-	private ConnectionPool() {		
+	private ConnectionPool() {
 		DBResourceManager dbResourceManager = DBResourceManager.getInstance();
 		this.driverName = dbResourceManager.getValue(DBParametr.DB_DRIVER);
 		this.url = dbResourceManager.getValue(DBParametr.DB_URL);
@@ -64,8 +64,12 @@ public class ConnectionPool {
 		try {
 			this.poolSize = Integer.parseInt(dbResourceManager.getValue(DBParametr.DB_POOLSIZE));
 		} catch (NumberFormatException e) {
-			this.poolSize = 40;
+			this.poolSize = 10;
 		}
+	}
+
+	public static ConnectionPool getInstance() {
+		return instance;
 	}
 
 	public void initPoolData() throws SQLException, ClassNotFoundException {
@@ -115,10 +119,6 @@ public class ConnectionPool {
 		}
 	}
 
-	public static ConnectionPool getInstance() {
-		return instance;
-	}
-
 	public class PoolConnection implements Connection {
 
 		private Connection connection;
@@ -153,7 +153,6 @@ public class ConnectionPool {
 		}
 
 		@Override
-
 		public <T> T unwrap(Class<T> iface) throws SQLException {
 			return connection.unwrap(iface);
 		}

@@ -64,7 +64,7 @@
 							id="navbar-example">
 							<ul class="nav navbar-nav navbar-right">
 								<li><a>
-										<form "controllerServlet" method="get">
+										<form action="controllerServlet" method="get">
 											<input type="hidden" name="command" value="cb.main_page">
 											<button class="btn btn-link btn-lg" type="submit">
 												<h6>${home}</h6>
@@ -201,8 +201,7 @@
 							<div class="container">
 								<div class="row">
 									<br> <br> <br> <br> <br> <br>
-									<div class="layer-1-1 hidden-xs wow slideInDown"
-										data-wow-duration="1s" data-wow-delay=".2s">
+									
 										<div class="row">
 											<div class="col-md-5 col-sm-6 col-xs-6">
 												<div class="section section-breadcrumbs">

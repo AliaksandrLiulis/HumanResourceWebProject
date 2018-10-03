@@ -29,7 +29,7 @@ public interface IDaoHr {
 	 * method which gets count all rows for tables by tableName and fild avaliable 
 	 * @return int value
 	 */
-	int getCountAllRowsForTable(String tableName) throws DaoException;
+	int getCountAllRowsForTable(String tableName, int whoAddedId) throws DaoException;
 	
 	/**
 	 * method which searches {@link Vacancy} by incoming params

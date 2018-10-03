@@ -3,6 +3,7 @@ package by.htp.project.human_resource.dao.dao_interface;
 import java.util.List;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
+import by.htp.project.human_resource.entity.Message;
 import by.htp.project.human_resource.entity.User;
 
 /**
@@ -40,5 +41,17 @@ public interface IDaoAdmin {
 	 * @return boolean value
 	 */
 	boolean updateAvaliableFildForUser(int idUser, int value) throws DaoException;
+	/**
+	 * method which delete {@link Message} by {@link Message#idmessage}
+	 * @return boolean value
+	 */
+	boolean deleteMessage(int idMessage) throws DaoException;
+	
+	/**
+	 * method which search All message
+	 * @return List<Message>
+	 */
+	
+	List<Message> searchAllMessage() throws DaoException;
 	
 }

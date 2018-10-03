@@ -12,10 +12,10 @@
 							</div>
 							<div class="footer-icons">
 								<ul>
-									<li><a><i class="fa fa-facebook"></i></a></li>
-									<li><a><i class="fa fa-twitter"></i></a></li>
-									<li><a><i class="fa fa-google"></i></a></li>
-									<li><a><i class="fa fa-pinterest"></i></a></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
 								</ul>
 							</div>
 						</div>
@@ -30,7 +30,7 @@
 									<span>${phone}:</span> +123 456 789
 								</p>
 								<p>
-									<span>Email:</span> contact@example.com
+									<span>Email:</span> hr@hr.com
 								</p>
 								<p>
 									<span>${weakday}:</span> 9am-5pm

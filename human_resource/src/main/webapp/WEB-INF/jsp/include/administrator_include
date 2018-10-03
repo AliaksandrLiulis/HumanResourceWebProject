@@ -36,3 +36,29 @@
 <fmt:message bundle="${loc}" key="local.adminpage.usernotadded" var="usernotadded" />
 <fmt:message bundle="${loc}" key="local.adminpage.nousers" var="nousers" />
 <fmt:message bundle="${loc}" key="local.adminpage.errorgetting" var="errorgetting" />
+
+<fmt:message bundle="${loc}" key="local.adminpage.errorgettingmessage" var="errorgettingmessage" />
+<fmt:message bundle="${loc}" key="local.adminpage.messages" var="messages" />
+<fmt:message bundle="${loc}" key="local.adminpage.nomessage" var="nomessage" />
+<fmt:message bundle="${loc}" key="local.adminpage.respondedname" var="respondedname" />
+<fmt:message bundle="${loc}" key="local.adminpage.respondedemail" var="respondedemail" />
+<fmt:message bundle="${loc}" key="local.adminpage.respondeddate" var="respondeddate" />
+<fmt:message bundle="${loc}" key="local.adminpage.content" var="content" />
+<fmt:message bundle="${loc}" key="local.employee.messagewillbedelete" var="messagewillbedelete" />
+<fmt:message bundle="${loc}" key="local.employee.messagedeleted" var="messagedeleted" />
+<fmt:message bundle="${loc}" key="local.employee.messagenotdeleted" var="messagenotdeleted" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

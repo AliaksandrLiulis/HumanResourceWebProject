@@ -106,7 +106,7 @@ public class ServiceHrImpl implements IServiceHr {
 
 		try {
 
-			countAllVacancies = daoHr.getCountAllRowsForTable(tableNameVacancy);
+			countAllVacancies = daoHr.getCountAllRowsForTable(tableNameVacancy, Integer.parseInt(whoAddedId));
 
 			if (countAllVacancies != 0) {
 				allVacancy = daoHr.searchVacancyByParam(tableNameVacancy, limitLine, offsetLine, whoAddedId);
@@ -157,7 +157,7 @@ public class ServiceHrImpl implements IServiceHr {
 		pageNum = Integer.parseInt(request.getParameter(ServiceParamConstant.PAGE_NUM));
 
 		try {
-			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy);
+			countAllResume = daoHr.getCountAllRowsForTable(tableNameVacancy, 0);
 			if (countAllResume != 0) {
 				allResume = daoHr.searchResumeByParam(limitLine, offsetLine);
 				if (allResume != null) {

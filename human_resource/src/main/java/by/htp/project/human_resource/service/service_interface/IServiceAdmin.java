@@ -50,5 +50,22 @@ public interface IServiceAdmin {
 	 * @return void
 	 */
 	void addUser(HttpServletRequest request, HttpServletResponse response);
+	
+	
+	/**
+	 * method which gets {@link Message}
+	 * @param request  is HTTPRequest
+	 * @param response is HTTPResponse
+	 * @return void
+	 */
+	void getAllMessage(HttpServletRequest request, HttpServletResponse response);
+	
+	/**
+	 * method which delete {@link Message}
+	 * @param request  is HTTPRequest
+	 * @param response is HTTPResponse
+	 * @return void
+	 */
+	void deleteMessage(HttpServletRequest request, HttpServletResponse response);
 
 }

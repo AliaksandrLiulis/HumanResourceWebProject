@@ -139,39 +139,34 @@
 											<div class="col-md-5 col-sm-5 col-xs-4">
 												<form action="controllerServlet" method="get">
 													<input type="hidden" name="command"
-														value="cb.read_all_users">
-													<div class="wow " data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="hidden" name="limitLine" value="5"> <input
-															type="hidden" name="offsetline" value="0"> <input
-															type="hidden" name="pagenum" value="1"> <input
-															type="submit" class="ready-btn"
-															value="          ${allusers}          ">
-													</div>
+														value="cb.read_all_users"> <input type="hidden"
+														name="limitLine" value="5"> <input type="hidden"
+														name="offsetline" value="0"> <input type="hidden"
+														name="pagenum" value="1"> <input type="submit"
+														class="ready-btn" value="          ${allusers}          ">
 												</form>
 												<form action="controllerServlet" method="get">
 													<input type="hidden" name="command"
-														value="cb.read_registered_users">
-													<div class="wow " data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="hidden" name="limitLine" value="5"> <input
-															type="hidden" name="offsetline" value="0"> <input
-															type="hidden" name="pagenum" value="1"> <input
-															type="submit" class="ready-btn"
-															value="   ${registeredusers}   ">
-													</div>
+														value="cb.read_registered_users"> <input
+														type="hidden" name="limitLine" value="5"> <input
+														type="hidden" name="offsetline" value="0"> <input
+														type="hidden" name="pagenum" value="1"> <input
+														type="submit" class="ready-btn"
+														value="   ${registeredusers}   ">
 												</form>
 												<form action="controllerServlet" method="get">
 													<input type="hidden" name="command"
-														value="cb.read_unregistered_users">
-													<div class="hidden-xs wow" data-wow-duration="4s"
-														data-wow-delay=".2s">
-														<input type="hidden" name="limitLine" value="5"> <input
-															type="hidden" name="offsetline" value="0"> <input
-															type="hidden" name="pagenum" value="1"> <input
-															type="submit" class="ready-btn"
-															value="${unregisteredusers}">
-													</div>
+														value="cb.read_unregistered_users"> <input
+														type="hidden" name="limitLine" value="5"> <input
+														type="hidden" name="offsetline" value="0"> <input
+														type="hidden" name="pagenum" value="1"> <input
+														type="submit" class="ready-btn"
+														value="${unregisteredusers}">
+												</form>
+												<form action="controllerServlet" method="get">
+													<input type="hidden" name="command" value="cb.get_messages">
+													<input type="submit" class="ready-btn"
+														value="          ${messages}           ">
 												</form>
 											</div>
 
@@ -182,259 +177,300 @@
 											<div class="col-md-5 col-sm-5 col-xs-5">
 
 												<!-- 	Table for all users -->
+												<div>
+													<c:if test="${requestScope.all_message != null}">
 
-												<c:if test="${requestScope.founded_users != null}">
-													<div class="row">
-														<br> <br>
-														<div class="layer-1-1 hidden-xs wow slideInDown"
-															data-wow-duration="1s" data-wow-delay=".2s">
+														<div class="row">
+															<br> <br>
 															<div class="row">
 																<div class="col-md-5 col-sm-5 col-xs-5">
 																	<div class="section">
 																		<div class="container">
+																			<h1 style="color: yellow;">Messages</h1>
 																			<table
 																				class="table table-bordered table-hover table-sm">
 																				<thead>
 																					<tr>
-																						<th style="color: orange;" scope="col">${number}</th>
-																						<th style="color: orange;" scope="col">${name}</th>
-																						<th style="color: orange;" scope="col">${surname}</th>
-																						<th style="color: orange;" scope="col">${nickname}</th>
-																						<th style="color: orange;" scope="col">${email}</th>
-																						<th style="color: orange;" scope="col">${role}</th>
-																						<th style="color: orange;" scope="col">${registered}</th>
+																						<th style="color: orange;" scope="col">${respondedname}</th>
+																						<th style="color: orange;" scope="col">${respondedemail}</th>
+																						<th style="color: orange;" scope="col">${respondeddate}</th>
+																						<th style="color: orange;" scope="col">${content}</th>
 																						<th style="color: orange;" scope="col">${action}</th>
 																					</tr>
 																				</thead>
 																				<tbody>
-																					<c:set var="count"
-																						value="${(requestScope.pagenum * 5)-4}"
-																						scope="page" />
-																					<c:forEach var="user"
-																						items="${requestScope.founded_users}">
+
+																					<c:forEach var="mess"
+																						items="${requestScope.all_message}">
 																						<tr>
-																							<td style="color: black;">${count}</td>
-																							<td style="color: black;">${user.name}</td>
-																							<td style="color: black;">${user.surName}</td>
-																							<td style="color: black;">${user.nickName}</td>
-																							<td style="color: black;">${user.email}</td>
-																							<td style="color: black;">${user.role}</td>
-																							<c:if test="${user.avaliable == 1}">
-																								<td style="color: black;">${yes}</td>
-																							</c:if>
-																							<c:if test="${user.avaliable == 0}">
-																								<td style="color: black;">${no}</td>
-																							</c:if>
-																							<c:choose>
-																								<c:when test="${user.avaliable == 1}">
-																									<td><button type="button"
-																											data-target="#userwillbedeletemodal"
-																											class="btn btn-danger" data-toggle="modal"
-																											data-iduser="${user.userId}">${deletebutton}</button></td>
-																								</c:when>
-																								<c:otherwise>
-																									<td>
-																										<form action="controllerServlet" method="get">
-																											<input type="hidden" name="command"
-																												value="cb.add_user"> <input
-																												type="hidden" name="userid"
-																												value="${user.userId}">
-
-																											<button type="submit" class="btn btn-info">
-
-																												${addbutton	}</button>
-																										</form>
-																									</td>
-																								</c:otherwise>
-
-																							</c:choose>
-																							<c:set var="count" value="${count + 1}"
-																								scope="page" />
+																							<td style="color: black;">${mess.name}</td>
+																							<td style="color: black;">${mess.email}</td>
+																							<td style="color: black;">${mess.createdate}</td>
+																							<td style="color: black;">${mess.content}</td>
+																							<td><button type="button"
+																									data-target="#messagewillbedeletemodal"
+																									class="btn btn-danger" data-toggle="modal"
+																									data-idmess="${mess.idmessage}">${deletebutton}</button></td>
 
 																						</tr>
+
 																					</c:forEach>
 																				</tbody>
+
 																			</table>
-
-																			<!-- 	Start Pagination area -->
-
-																			<c:if test="${requestScope.pagecount > 1}">
-																				<c:choose>
-																					<c:when test="${requestScope.pagecount > 2}">
-																						<nav aria-label="Page navigation">
-																						<ul class="pagination justify-content-center">
-																							<c:choose>
-																								<c:when test="${requestScope.pagenum == 1}">
-																									<li class="page-item disabled"><a
-																										class="page-link" href="#" tabindex="-1">Previous</a></li>
-																								</c:when>
-																								<c:otherwise>
-																									<c:choose>
-																										<c:when
-																											test="${not empty requestScope.registered}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?cb.read_registered_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
-																										</c:when>
-																										<c:when
-																											test="${not empty requestScope.allusers}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?cb.read_all_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
-																										</c:when>
-																										<c:otherwise>
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?cb.read_unregistered_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
-																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
-																										</c:otherwise>
-																									</c:choose>
-																								</c:otherwise>
-																							</c:choose>
-
-																							<c:forEach begin="1"
-																								end="${requestScope.pagecount}" varStatus="loop">
-																								<c:choose>
-																									<c:when
-																										test="${not empty requestScope.registered}">
-																										<li class="page-item"><a
-																											class="page-link"
-																											href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&pagenum=${loop.index}">${loop.index}</a></li>
-																									</c:when>
-																									<c:when
-																										test="${not empty requestScope.allusers}">
-																										<li class="page-item"><a
-																											class="page-link"
-																											href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&pagenum=${loop.index}">${loop.index}</a></li>
-																									</c:when>
-																									<c:otherwise>
-																										<li class="page-item"><a
-																											class="page-link"
-																											href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
-																				&pagenum=${loop.index}">${loop.index}</a></li>
-																									</c:otherwise>
-																								</c:choose>
-																							</c:forEach>
-
-																							<c:choose>
-																								<c:when
-																									test="${requestScope.pagenum == requestScope.pagecount}">
-																									<li class="page-item disabled"><a
-																										class="page-link" href="#">${next}</a></li>
-																								</c:when>
-																								<c:otherwise>
-																									<c:choose>
-																										<c:when
-																											test="${not empty requestScope.registered}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
-																										</c:when>
-																										<c:when
-																											test="${not empty requestScope.allusers}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
-																										</c:when>
-																										<c:otherwise>
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
-																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
-																										</c:otherwise>
-																									</c:choose>
-																								</c:otherwise>
-																							</c:choose>
-																						</ul>
-																						</nav>
-																					</c:when>
-																					<c:otherwise>
-																						<c:choose>
-																							<c:when test="${requestScope.pagenum == 1}">
-																								<nav aria-label="Page navigation">
-																								<ul class="pagination justify-content-center">
-																									<li class="page-item disabled"><a
-																										class="page-link" href="#" tabindex="-1">${previous}</a></li>
-																									<c:choose>
-																										<c:when
-																											test="${not empty requestScope.registered}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
-																											</li>
-																										</c:when>
-																										<c:when
-																											test="${not empty requestScope.allusers}">
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
-																											</li>
-																										</c:when>
-																										<c:otherwise>
-																											<li class="page-item "><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
-																											</li>
-																										</c:otherwise>
-																									</c:choose>
-																								</ul>
-																								</nav>
-																							</c:when>
-																							<c:otherwise>
-																								<nav aria-label="Page navigation"> <c:choose>
-																									<c:when
-																										test="${not empty requestScope.registered}">
-																										<ul class="pagination justify-content-center">
-																											<li class="page-item"><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=0&pagenum=1"
-																												tabindex="-1">${previous}</a></li>
-																											<li class="page-item disabled"><a
-																												class="page-link" href="#">${next}</a></li>
-																										</ul>
-																									</c:when>
-																									<c:when
-																										test="${not empty requestScope.allusers}">
-																										<ul class="pagination justify-content-center">
-																											<li class="page-item"><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=0&pagenum=1"
-																												tabindex="-1">${previous}</a></li>
-																											<li class="page-item disabled"><a
-																												class="page-link" href="#">${next}</a></li>
-																										</ul>
-																									</c:when>
-																									<c:otherwise>
-																										<ul class="pagination justify-content-center">
-																											<li class="page-item"><a
-																												class="page-link"
-																												href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=0&pagenum=1"
-																												tabindex="-1">${previous}</a></li>
-																											<li class="page-item disabled"><a
-																												class="page-link" href="#">${next}</a></li>
-																										</ul>
-																									</c:otherwise>
-																								</c:choose> </nav>
-																							</c:otherwise>
-																						</c:choose>
-																					</c:otherwise>
-																				</c:choose>
-																			</c:if>
-
-																			<!-- 	End Pagination area -->
-
 																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
+													</c:if>
+												</div>
 
+												<c:if test="${requestScope.founded_users != null}">
+													<div class="row">
+														<br> <br>
+														<div class="row">
+															<div class="col-md-5 col-sm-5 col-xs-5">
+																<div class="section">
+																	<div class="container">
+																		<table
+																			class="table table-bordered table-hover table-sm">
+																			<thead>
+																				<tr>
+																					<th style="color: orange;" scope="col">${number}</th>
+																					<th style="color: orange;" scope="col">${name}</th>
+																					<th style="color: orange;" scope="col">${surname}</th>
+																					<th style="color: orange;" scope="col">${nickname}</th>
+																					<th style="color: orange;" scope="col">${email}</th>
+																					<th style="color: orange;" scope="col">${role}</th>
+																					<th style="color: orange;" scope="col">${registered}</th>
+																					<th style="color: orange;" scope="col">${action}</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<c:set var="count"
+																					value="${(requestScope.pagenum * 5)-4}"
+																					scope="page" />
+																				<c:forEach var="user"
+																					items="${requestScope.founded_users}">
+																					<tr>
+																						<td style="color: black;">${count}</td>
+																						<td style="color: black;">${user.name}</td>
+																						<td style="color: black;">${user.surName}</td>
+																						<td style="color: black;">${user.nickName}</td>
+																						<td style="color: black;">${user.email}</td>
+																						<td style="color: black;">${user.role}</td>
+																						<c:if test="${user.avaliable == 1}">
+																							<td style="color: black;">${yes}</td>
+																						</c:if>
+																						<c:if test="${user.avaliable == 0}">
+																							<td style="color: black;">${no}</td>
+																						</c:if>
+																						<c:choose>
+																							<c:when test="${user.avaliable == 1}">
+																								<td><button type="button"
+																										data-target="#userwillbedeletemodal"
+																										class="btn btn-danger" data-toggle="modal"
+																										data-iduser="${user.userId}">${deletebutton}</button></td>
+																							</c:when>
+																							<c:otherwise>
+																								<td>
+																									<form action="controllerServlet" method="get">
+																										<input type="hidden" name="command"
+																											value="cb.add_user"> <input
+																											type="hidden" name="userid"
+																											value="${user.userId}">
+
+																										<button type="submit" class="btn btn-info">
+
+																											${addbutton	}</button>
+																									</form>
+																								</td>
+																							</c:otherwise>
+
+																						</c:choose>
+																						<c:set var="count" value="${count + 1}"
+																							scope="page" />
+
+																					</tr>
+																				</c:forEach>
+																			</tbody>
+																		</table>
+
+																		<!-- 	Start Pagination area -->
+
+																		<c:if test="${requestScope.pagecount > 1}">
+																			<c:choose>
+																				<c:when test="${requestScope.pagecount > 2}">
+																					<nav aria-label="Page navigation">
+																					<ul class="pagination justify-content-center">
+																						<c:choose>
+																							<c:when test="${requestScope.pagenum == 1}">
+																								<li class="page-item disabled"><a
+																									class="page-link" href="#" tabindex="-1">Previous</a></li>
+																							</c:when>
+																							<c:otherwise>
+																								<c:choose>
+																									<c:when
+																										test="${not empty requestScope.registered}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?cb.read_registered_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																									</c:when>
+																									<c:when
+																										test="${not empty requestScope.allusers}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?cb.read_all_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																									</c:when>
+																									<c:otherwise>
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?cb.read_unregistered_users&limitLine=5&offsetline=${(requestScope.pagenum * 5)-10}
+																				&pagenum=${requestScope.pagenum - 1}">Previous</a></li>
+																									</c:otherwise>
+																								</c:choose>
+																							</c:otherwise>
+																						</c:choose>
+
+																						<c:forEach begin="1"
+																							end="${requestScope.pagecount}" varStatus="loop">
+																							<c:choose>
+																								<c:when
+																									test="${not empty requestScope.registered}">
+																									<li class="page-item"><a class="page-link"
+																										href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																				&pagenum=${loop.index}">${loop.index}</a></li>
+																								</c:when>
+																								<c:when
+																									test="${not empty requestScope.allusers}">
+																									<li class="page-item"><a class="page-link"
+																										href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																				&pagenum=${loop.index}">${loop.index}</a></li>
+																								</c:when>
+																								<c:otherwise>
+																									<li class="page-item"><a class="page-link"
+																										href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=${(loop.index * 5)-5 }
+																				&pagenum=${loop.index}">${loop.index}</a></li>
+																								</c:otherwise>
+																							</c:choose>
+																						</c:forEach>
+
+																						<c:choose>
+																							<c:when
+																								test="${requestScope.pagenum == requestScope.pagecount}">
+																								<li class="page-item disabled"><a
+																									class="page-link" href="#">${next}</a></li>
+																							</c:when>
+																							<c:otherwise>
+																								<c:choose>
+																									<c:when
+																										test="${not empty requestScope.registered}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																									</c:when>
+																									<c:when
+																										test="${not empty requestScope.allusers}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																									</c:when>
+																									<c:otherwise>
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=${requestScope.pagenum * 5}
+																				&pagenum=${requestScope.pagenum + 1}">${next}</a></li>
+																									</c:otherwise>
+																								</c:choose>
+																							</c:otherwise>
+																						</c:choose>
+																					</ul>
+																					</nav>
+																				</c:when>
+																				<c:otherwise>
+																					<c:choose>
+																						<c:when test="${requestScope.pagenum == 1}">
+																							<nav aria-label="Page navigation">
+																							<ul class="pagination justify-content-center">
+																								<li class="page-item disabled"><a
+																									class="page-link" href="#" tabindex="-1">${previous}</a></li>
+																								<c:choose>
+																									<c:when
+																										test="${not empty requestScope.registered}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																										</li>
+																									</c:when>
+																									<c:when
+																										test="${not empty requestScope.allusers}">
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																										</li>
+																									</c:when>
+																									<c:otherwise>
+																										<li class="page-item "><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=5&pagenum=2">${next}</a>
+																										</li>
+																									</c:otherwise>
+																								</c:choose>
+																							</ul>
+																							</nav>
+																						</c:when>
+																						<c:otherwise>
+																							<nav aria-label="Page navigation"> <c:choose>
+																								<c:when
+																									test="${not empty requestScope.registered}">
+																									<ul class="pagination justify-content-center">
+																										<li class="page-item"><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_registered_users&limitLine=5&offsetline=0&pagenum=1"
+																											tabindex="-1">${previous}</a></li>
+																										<li class="page-item disabled"><a
+																											class="page-link" href="#">${next}</a></li>
+																									</ul>
+																								</c:when>
+																								<c:when
+																									test="${not empty requestScope.allusers}">
+																									<ul class="pagination justify-content-center">
+																										<li class="page-item"><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_all_users&limitLine=5&offsetline=0&pagenum=1"
+																											tabindex="-1">${previous}</a></li>
+																										<li class="page-item disabled"><a
+																											class="page-link" href="#">${next}</a></li>
+																									</ul>
+																								</c:when>
+																								<c:otherwise>
+																									<ul class="pagination justify-content-center">
+																										<li class="page-item"><a
+																											class="page-link"
+																											href="controllerServlet?command=cb.read_unregistered_users&limitLine=5&offsetline=0&pagenum=1"
+																											tabindex="-1">${previous}</a></li>
+																										<li class="page-item disabled"><a
+																											class="page-link" href="#">${next}</a></li>
+																									</ul>
+																								</c:otherwise>
+																							</c:choose> </nav>
+																						</c:otherwise>
+																					</c:choose>
+																				</c:otherwise>
+																			</c:choose>
+																		</c:if>
+
+																		<!-- 	End Pagination area -->
+
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</c:if>
 											</div>
@@ -484,6 +520,39 @@
 
 		<!-- 	End Modal windows with message about user will be delete -->
 
+		<!-- 	Start Modal windows with message about message will be delete  -->
+
+		<form action="controllerServlet" method="post">
+			<div id="messagewillbedeletemodal" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<br>
+							<h3 align="center" class="modal-title" style="color: orange;">${messageverificationdelete}</h3>
+							<br>
+							<button class="close" type="button" data-dismiss="modal">
+								<i class="fa fa-close"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<h5 align="center" class="modal-title" style="color: red;">${messagewillbedelete}</h5>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${cancelbutton}</button>
+							<input type="hidden" id="messid" name="messid"> <input
+								type="hidden" name="command" value="cb.delete_message">
+							<button class="btn btn-danger" type="submit">${deletebutton}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- 	End Modal windows with message about message will be delete -->
+
 		<!-- 	Start Modal windows with message about delete user -->
 
 		<form action="controllerServlet" method="get">
@@ -515,6 +584,43 @@
 							<input type="hidden" name="limitLine" value="5"> <input
 								type="hidden" name="offsetline" value="0"> <input
 								type="hidden" name="pagenum" value="1">
+							<button class="btn btn-success" type="submit">${okbutton}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- 	End Modal windows with message about delete user -->
+
+		<!-- 	Start Modal windows with message about delete message -->
+
+		<form action="controllerServlet" method="get">
+			<div id="messagemodaldelete" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+							<br>
+							<button class="close" type="button" data-dismiss="modal">
+								<i class="fa fa-close"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<c:choose>
+									<c:when test="${param.user_message_delete == 1}">
+										<h5 align="center" class="modal-title" style="color: green;">${messagedeleted}</h5>
+									</c:when>
+									<c:otherwise>
+										<h5 align="center" class="modal-title" style="color: red;">${messagenotdeleted}</h5>
+									</c:otherwise>
+								</c:choose>
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="hidden" name="command" value="cb.get_messages">
 							<button class="btn btn-success" type="submit">${okbutton}</button>
 						</div>
 					</div>
@@ -590,6 +696,32 @@
 
 		<!-- 	End Modal windows if errorgetting -->
 
+		<!-- 	Start Modal windows if errorgettingmessage -->
+
+		<div id="errorgettingmessage" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<h5 align="center" class="modal-title" style="color: green;">${errorgettingmessage}</h5>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 	End Modal windows if errorgettingmessage -->
+
 		<!-- 	Start Modal windows if userEmpty -->
 
 		<div id="userempty" class="modal fade" tabindex="-1">
@@ -616,6 +748,32 @@
 
 		<!-- 	End Modal windows if userEmpty -->
 
+		<!-- 	Start Modal windows if messageEmpty -->
+
+		<div id="messageempty" class="modal fade" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 align="center" class="modal-title" style="color: black;">${message}</h5>
+						<br>
+						<button class="close" type="button" data-dismiss="modal">
+							<i class="fa fa-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<h5 align="center" class="modal-title" style="color: green;">${nomessage}</h5>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-success" type="button" data-dismiss="modal">${okbutton}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 	End Modal windows if messageEmpty -->
+
 
 		<!-- 	Start footer Area  -->
 
@@ -632,12 +790,31 @@
 			})
 		</script>
 
-		<!-- Open modal window with message about delete -->
+		<!-- Transfer data in modal window "messagewillbedeletemodal" -->
+
+		<script>
+			$('#messagewillbedeletemodal').on('show.bs.modal', function(e) {
+				var $modal = $(this), idmess = e.relatedTarget.dataset.idmess;
+				document.getElementById('messid').value = idmess;
+			})
+		</script>
+
+		<!-- Open modal window with message about delete user -->
 
 		<c:if test="${not empty param.user_delete_message}">
 			<script>
 				$(document).ready(function() {
 					$("#usermodaldelete").modal('show');
+				});
+			</script>
+		</c:if>
+
+		<!-- Open modal window with message about delete message -->
+
+		<c:if test="${not empty param.user_message_delete}">
+			<script>
+				$(document).ready(function() {
+					$("#messagemodaldelete").modal('show');
 				});
 			</script>
 		</c:if>
@@ -662,7 +839,15 @@
 			</script>
 		</c:if>
 
-		<!-- Open modal window  message id="aboutvacancymessage" -->
+		<!-- Open modal window  message if errorgettingmessage -->
+
+		<c:if test="${not empty param.errorgettingmessage}">
+			<script>
+				$(document).ready(function() {
+					$("#errorgettingmessage").modal('show');
+				});
+			</script>
+		</c:if>
 
 		<!-- Open modal window  message if emptyuser -->
 
@@ -670,6 +855,18 @@
 			<script>
 				$(document).ready(function() {
 					$("#userempty").modal('show');
+				});
+			</script>
+		</c:if>
+
+		<!-- Open modal window  message id="aboutvacancymessage" -->
+
+		<!-- Open modal window  message if emptymessage -->
+
+		<c:if test="${not empty param.emptymessage}">
+			<script>
+				$(document).ready(function() {
+					$("#messageempty").modal('show');
 				});
 			</script>
 		</c:if>

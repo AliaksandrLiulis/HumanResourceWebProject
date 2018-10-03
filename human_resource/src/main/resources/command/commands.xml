@@ -139,4 +139,12 @@
 		<key>cb.get_all_responded</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_hr.GetAllRespondedOnVacancy</value>
 	</command>
+	<command>
+		<key>cb.get_messages</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.GetAllMessage</value>
+	</command>
+	<command>
+		<key>cb.delete_message</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.DeleteMessage</value>
+	</command>
 </commands>

@@ -15,6 +15,15 @@
 		<servlet-name>ControllerServlet</servlet-name>
 		<url-pattern>/controllerServlet</url-pattern>
 	</servlet-mapping>
+	
+<!-- 	<filter> -->
+<!-- 		<filter-name>InjectionFilter</filter-name> -->
+<!-- 		<filter-class>by.htp.project.human_resource.util.filter.InjectionFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>InjectionFilter</filter-name> -->
+<!-- 		<servlet-name>ControllerServlet</servlet-name> -->
+<!-- 	</filter-mapping>	 -->
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>by.htp.project.human_resource.util.filter.EncodingFilter</filter-class>
@@ -35,13 +44,15 @@
 		<filter-name>LocalizationFilter</filter-name>
 		<filter-class>by.htp.project.human_resource.util.filter.LocalizationFilter</filter-class>
 	</filter>
-	<listener>
-		<listener-class>by.htp.project.human_resource.util.listener.ContextListener</listener-class>
-	</listener>
 	<filter-mapping>
 		<filter-name>LocalizationFilter</filter-name>
 		<servlet-name>ControllerServlet</servlet-name>
 	</filter-mapping>
+	
+	<listener>
+		<listener-class>by.htp.project.human_resource.util.listener.ContextListener</listener-class>
+	</listener>
+	
 	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/jsp/error_page_500.jsp</location>

@@ -29,6 +29,7 @@ public final class ServiceParamConstant {
 	public final static String EMAIL_PARAM = "email";
 	public final static String ROLE_PARAM = "role";
 	public final static String USER_ID_PARAM = "userid";
+	public final static String MESSAGE_ID_PARAM = "messid";
 	public final static String REGISTRATION_DATE_PARAM = "registrationDate";
 	public final static String FILD_NAME_PARAM = "fildName";
 	public final static String VALUE_BY_FILD_NAME_PARAM = "valueByField";

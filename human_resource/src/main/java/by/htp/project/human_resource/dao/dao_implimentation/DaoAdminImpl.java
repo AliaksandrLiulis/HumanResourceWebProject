@@ -7,11 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Generated;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import by.htp.project.human_resource.dao.dao_exception.DaoException;
 import by.htp.project.human_resource.dao.dao_interface.IDaoAdmin;
+import by.htp.project.human_resource.entity.Message;
+import by.htp.project.human_resource.entity.MessageBuilder;
 import by.htp.project.human_resource.entity.User;
 import by.htp.project.human_resource.entity.UserBuilder;
 import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
@@ -35,6 +39,10 @@ public class DaoAdminImpl implements IDaoAdmin {
 	private final String SEARCH_ALL_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
 	/** Field for set {@link User#avaliable} */
 	private final String SET_AVALIABLE_FIELD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
+	/** Field for searching all {@link Message} */
+	private final String SEARCH_ALL_MESSAGE = "SELECT * FROM message";
+	/** Field for delete {@link Message} by Id */
+	private final String DELETE_MESSAGE_BY_ID = "DELETE FROM message where idmessage = ?";
 
 	public DaoAdminImpl() {
 	}
@@ -239,6 +247,68 @@ public class DaoAdminImpl implements IDaoAdmin {
 		return result;
 	}
 
+	@Override
+	public List<Message> searchAllMessage() throws DaoException {
+
+		List<Message> allMessage = new ArrayList<>();
+		Message message = null;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+
+		try {
+
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(SEARCH_ALL_MESSAGE);
+			result = preparedStatement.executeQuery();
+
+			while (result.next()) {
+				message = new MessageBuilder().idmessage(result.getInt(1)).name(result.getString(2))
+						.email(result.getString(3)).createdate(result.getDate(4)).content(result.getString(5)).build();
+				allMessage.add(message);
+			}
+
+		} catch (InterruptedException e) {
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: Connection interrupted: " + e);
+			throw new DaoException("updateAvaliableFildForUser" + e);
+		} catch (SQLException e) {
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: SQL error: " + e);
+			throw new DaoException("updateAvaliableFildForUser" + e);
+		} finally {
+			closeResources(null, preparedStatement, connection, "updateAvaliableFildForUser");
+		}
+
+		return allMessage;
+	}
+	
+	@Override
+	public boolean deleteMessage(int idMessage) throws DaoException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		boolean result = false;
+
+		try {
+
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(DELETE_MESSAGE_BY_ID);
+			preparedStatement.setInt(1, idMessage);
+			preparedStatement.executeUpdate();
+
+			result = true;
+
+		} catch (InterruptedException e) {
+			logger.error("DaoAdminImpl: deleteMessage: Connection interrupted: " + e);
+			throw new DaoException("deleteMessage" + e);
+		} catch (SQLException e) {
+			logger.error("DaoAdminImpl: deleteMessage: SQL error: " + e);
+			throw new DaoException("deleteMessage" + e);
+		} finally {
+			closeResources(null, preparedStatement, connection, "deleteMessage");
+		}
+		return result;
+	}
+
 	/**
 	 * method which close all got resources
 	 */
@@ -257,4 +327,7 @@ public class DaoAdminImpl implements IDaoAdmin {
 			logger.error("DaoAdminImpl: " + methodName + ": " + e);
 		}
 	}
+
+	
+
 }

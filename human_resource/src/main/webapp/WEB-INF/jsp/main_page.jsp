@@ -430,7 +430,6 @@
 								</div>
 							</div>
 							<div class="team-content text-center">
-								<h4>Друг Улыбаки</h4>
 								<p>HRD</p>
 							</div>
 						</div>
@@ -452,7 +451,6 @@
 								</div>
 							</div>
 							<div class="team-content text-center">
-								<h4>Улыбака</h4>
 								<p>HR</p>
 							</div>
 						</div>
@@ -588,11 +586,11 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 	Start footer Area  -->
 
 	<%@ include file="include/footer_include"%>
-	
+
 	<!-- 	End footer Area  -->
 
 	<!-- Show message in modal window id="aboutmessage", about SENT if param.sendmess isn't EMPTY -->

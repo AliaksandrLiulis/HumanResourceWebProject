@@ -165,7 +165,7 @@ public class DaoHrImpl implements IDaoHr {
 	}
 
 	@Override
-	public int getCountAllRowsForTable(final String tableName) throws DaoException {
+	public int getCountAllRowsForTable(final String tableName, final int whoAddeId) throws DaoException {
 
 		int count = 0;
 
@@ -176,7 +176,14 @@ public class DaoHrImpl implements IDaoHr {
 		try {
 
 			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName);
+			
+			if (whoAddeId == 0) {
+				preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName);
+			}else {
+				preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName + " where whoAddedId = ?");
+				preparedStatement.setInt(1, whoAddeId);
+			}
+			
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {

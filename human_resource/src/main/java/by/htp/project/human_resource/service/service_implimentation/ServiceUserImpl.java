@@ -48,7 +48,7 @@ public class ServiceUserImpl implements IServiceUser {
 		this.daoUser = daoUser;
 	}
 
-	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) {
+	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 
 		String nickName = null;
 		String password = null;
@@ -75,50 +75,32 @@ public class ServiceUserImpl implements IServiceUser {
 							profile = daoUser.getProfile(user.getUserId());
 							session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
 						}
-						try {
-							goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
-							response.sendRedirect(goToPage);
-						} catch (IOException e) {
-							logger.error("ServiceUserImpl: logInUser: " + e);
-						}
+						goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
+						
 					} else {
-						try {
-							goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
-							response.sendRedirect(goToPage);
-						} catch (IOException e) {
-							logger.error("ServiceUserImpl: logInUser: SendRedirectError" + e);
-						}
+						goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;						
 					}
 				} else {
-					try {
-						goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-						request.setAttribute("user_doesnt_exist", "user doesn't exist");
-						dispatcher = request.getRequestDispatcher(goToPage);
-						dispatcher.forward(request, response);
-					} catch (ServletException | IOException e) {
-						logger.error("ServiceUserImpl: logInUser: RequestDispatherError " + e);
-					}
+					request.setAttribute("user_doesnt_exist", "user doesn't exist");
 				}
 			} catch (DaoException e) {
 				logger.error("ServiceUserImpl: logInUser: DaoException: " + e);
-				try {
-					request.setAttribute("login_error", "user_doesnt login");
-					goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-					dispatcher = request.getRequestDispatcher(goToPage);
-					dispatcher.forward(request, response);
-				} catch (IOException | ServletException e1) {
-					logger.error("ServiceUserImpl: logInUser: RequestDispatherError" + e1);
-				}
+				request.setAttribute("login_error", "user_doesnt login");
 			}
 		} else {
-			try {
-				goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-				request.setAttribute("incorrect_params_message", "params aren't correct");
-				dispatcher = request.getRequestDispatcher(goToPage);
-				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceUserImpl: logInUser: " + e);
+			request.setAttribute("incorrect_params_message", "params aren't correct");
+		}
+		try {
+			if (goToPage == null) {
+			goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+			dispatcher = request.getRequestDispatcher(goToPage);
+			dispatcher.forward(request, response);
+			}else {
+				response.sendRedirect(goToPage);
 			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceUserImpl: logInUser: " + e);
+			throw e;
 		}
 	}
 

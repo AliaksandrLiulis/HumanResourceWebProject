@@ -32,11 +32,9 @@ public class ServiceUserImpl implements IServiceUser {
 
 	/** Field for logging {@link LoggerFactory} */
 	private Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
-	/** Field for {@link HttpSession} */
-	private HttpSession session = null;
 	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
-	/** Field for daoUser implimentation */
+	/** Field for daoUser implementation */
 	private final IDaoUser daoUser;
 
 	public ServiceUserImpl() {
@@ -48,13 +46,15 @@ public class ServiceUserImpl implements IServiceUser {
 		this.daoUser = daoUser;
 	}
 
-	public void logInUser(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	public void logInUser(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String nickName = null;
 		String password = null;
 		String goToPage = null;
 		User user = null;
 		Profile profile = null;
+		HttpSession session = null;
 
 		RequestDispatcher dispatcher = null;
 		CheckCommand checkCommand = null;
@@ -76,9 +76,9 @@ public class ServiceUserImpl implements IServiceUser {
 							session.setAttribute(ServiceParamConstant.PROFILE_ATTRIBUTE, profile);
 						}
 						goToPage = request.getRequestURI() + checkCommand.checkRoleForCommand(user.getRole());
-						
+
 					} else {
-						goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;						
+						goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
 					}
 				} else {
 					request.setAttribute("user_doesnt_exist", "user doesn't exist");
@@ -92,10 +92,10 @@ public class ServiceUserImpl implements IServiceUser {
 		}
 		try {
 			if (goToPage == null) {
-			goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-			}else {
+				goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
 				response.sendRedirect(goToPage);
 			}
 		} catch (ServletException | IOException e) {
@@ -105,7 +105,8 @@ public class ServiceUserImpl implements IServiceUser {
 	}
 
 	@Override
-	public void registerUser(final HttpServletRequest request, final HttpServletResponse response) {
+	public void registerUser(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String name = null;
 		String surname = null;
@@ -131,58 +132,38 @@ public class ServiceUserImpl implements IServiceUser {
 					user = daoUser.addUser(name, surname, nickName, password, email, role);
 					if (user != null) {
 						goToPage = request.getRequestURI() + ServiceCommandConstant.EXPECT_COMMAND;
-						try {
-							response.sendRedirect(goToPage);
-						} catch (IOException e) {
-							logger.error("ServiceUserImpl: registerUser: sendRedirectError " + e);
-						}
 					} else {
-						try {
-							goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-							request.setAttribute("user_exist", "exist user");
-							dispatcher = request.getRequestDispatcher(goToPage);
-							dispatcher.forward(request, response);
-						} catch (ServletException | IOException e) {
-							logger.error("ServiceUserImpl: registerUser: RequestDispatcherError" + e);
-						}
+						request.setAttribute("user_exist", "exist user");
 					}
 				} else {
-					try {
-						goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-						request.setAttribute("user_exist", "exist user");
-						dispatcher = request.getRequestDispatcher(goToPage);
-						dispatcher.forward(request, response);
-					} catch (ServletException | IOException e) {
-						logger.error("ServiceUserImpl: registerUser: RequestDispatcherError" + e);
-					}
+					request.setAttribute("user_exist", "exist user");
 				}
 			} catch (DaoException e) {
-				try {
-					logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
-					goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-					request.setAttribute("user_not_registered", "error user registration");
-					dispatcher = request.getRequestDispatcher(goToPage);
-					dispatcher.forward(request, response);
-				} catch (IOException | ServletException e1) {
-					logger.error("ServiceUserImpl: logInUser: RequestDispatcherError" + e1);
-				}
+				logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
+				request.setAttribute("user_not_registered", "error user registration");
 			}
-		} else
-			try {
+		} else {
+			request.setAttribute("incorrect_params_message", "params aren't correct");
+		}
+		try {
+			if (goToPage == null) {
 				goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-				request.setAttribute("incorrect_params_message", "params aren't correct");
 				dispatcher = request.getRequestDispatcher(goToPage);
 				dispatcher.forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.error("ServiceUserImpl: registerUser: " + e);
+			} else {
+				response.sendRedirect(goToPage);
 			}
-
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceUserImpl: registerUser: " + e);
+			throw e;
+		}
 	}
 
 	@Override
-	public void logOutUser(final HttpServletRequest request, final HttpServletResponse response) {
+	public void logOutUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 
 		String goToPage = null;
+		HttpSession session = null;
 
 		session = request.getSession();
 		session.removeAttribute(ServiceParamConstant.USER_ATTRIBUTE);
@@ -191,9 +172,9 @@ public class ServiceUserImpl implements IServiceUser {
 		try {
 			goToPage = request.getRequestURI() + ServiceCommandConstant.PATH_MAIN_PAGE_COMMAND;
 			response.sendRedirect(goToPage);
-
 		} catch (IOException e) {
 			logger.error("ServiceUserImpl: logOutUser: sendRedirectError" + e);
+			throw e;
 		}
 	}
 }

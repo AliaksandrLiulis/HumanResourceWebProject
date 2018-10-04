@@ -1,5 +1,7 @@
 package by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_jobseeker;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +15,7 @@ public class RespondVacancy implements ICommand {
 	private IServiceJobSeeker jobSeeker = serviceFactory.getServiceJobSeeker();
 
 	@Override
-	public void execute(final HttpServletRequest request, final HttpServletResponse response) {
+	public void execute(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 
 		jobSeeker.respondOnvacancy(request, response);
 

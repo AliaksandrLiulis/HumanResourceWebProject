@@ -1,71 +1,89 @@
 package by.htp.project.human_resource.service.service_interface;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This Interface wich has metods for work with Administrator on the Service
+ * This Interface which has methods for work with Administrator on the Service
  * layer
  */
 
 public interface IServiceAdmin {
 
 	/**
-	 * method which get registered {@link User} by params
+	 * method for get registered {@link User} by params
 	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
-	void getRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response);
+	void getRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException;
 
 	/**
-	 * method which get UnRegistered {@link User} by params
-	 * 
-	 * @return void
-	 */
-	void getUnRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response);
-
-	/**
-	 * method which get All {@link User} by params
+	 * method for get UnRegistered {@link User} by params
 	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
-	void getALLUserByParam(HttpServletRequest request, HttpServletResponse response);
+	void getUnRegisteredUserByParam(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException;
 
 	/**
-	 * method which delete {@link User}
+	 * method for get All {@link User} by params
+	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
-	void deleteUser(HttpServletRequest request, HttpServletResponse response);
+	void getALLUserByParam(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException;
 
 	/**
-	 * method which add {@link User}
+	 * method for delete {@link User}
+	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link IOException}
 	 */
-	void addUser(HttpServletRequest request, HttpServletResponse response);
-	
-	
+	void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
 	/**
-	 * method which gets {@link Message}
+	 * method for add {@link User}
+	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link IOException}
 	 */
-	void getAllMessage(HttpServletRequest request, HttpServletResponse response);
-	
+	void addUser(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
 	/**
-	 * method which delete {@link Message}
+	 * method for gets {@link Message}
+	 * 
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
-	void deleteMessage(HttpServletRequest request, HttpServletResponse response);
+	void getAllMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
+	/**
+	 * method for delete {@link Message}
+	 * 
+	 * @param request  is HTTPRequest
+	 * @param response is HTTPResponse
+	 * @return void
+	 * @throws {@link IOException}
+	 */
+	void deleteMessage(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
 }

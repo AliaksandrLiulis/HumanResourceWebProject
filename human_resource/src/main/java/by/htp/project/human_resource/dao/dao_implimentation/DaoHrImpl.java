@@ -176,14 +176,15 @@ public class DaoHrImpl implements IDaoHr {
 		try {
 
 			connection = connectionPool.takeConnection();
-			
+
 			if (whoAddeId == 0) {
 				preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName);
-			}else {
-				preparedStatement = connection.prepareStatement("SELECT count(*) FROM " + tableName + " where whoAddedId = ?");
+			} else {
+				preparedStatement = connection
+						.prepareStatement("SELECT count(*) FROM " + tableName + " where whoAddedId = ?");
 				preparedStatement.setInt(1, whoAddeId);
 			}
-			
+
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
@@ -422,9 +423,11 @@ public class DaoHrImpl implements IDaoHr {
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
-			final Connection connection, String methodName) {
+			final Connection connection, String methodName) throws DaoException {
 
 		try {
 			if (resultSet != null) {
@@ -433,23 +436,29 @@ public class DaoHrImpl implements IDaoHr {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			connection.close();
-
-		} catch (Exception e) {
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
 			logger.error("DaoHrImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
-	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName) {
+	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName)
+			throws DaoException {
 		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error("DaoHrImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 }

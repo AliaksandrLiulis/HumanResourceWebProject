@@ -16,14 +16,14 @@
 		<url-pattern>/controllerServlet</url-pattern>
 	</servlet-mapping>
 	
-<!-- 	<filter> -->
-<!-- 		<filter-name>InjectionFilter</filter-name> -->
-<!-- 		<filter-class>by.htp.project.human_resource.util.filter.InjectionFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>InjectionFilter</filter-name> -->
-<!-- 		<servlet-name>ControllerServlet</servlet-name> -->
-<!-- 	</filter-mapping>	 -->
+	<filter>
+		<filter-name>XssFilter</filter-name>
+		<filter-class>by.htp.project.human_resource.util.filter.XSSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XssFilter</filter-name>
+		<servlet-name>ControllerServlet</servlet-name>
+	</filter-mapping>	
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>by.htp.project.human_resource.util.filter.EncodingFilter</filter-class>

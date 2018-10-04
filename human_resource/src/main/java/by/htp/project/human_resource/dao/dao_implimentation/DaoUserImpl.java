@@ -292,9 +292,11 @@ public class DaoUserImpl implements IDaoUser {
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
-			final Connection connection, String methodName) {
+			final Connection connection, String methodName) throws DaoException {
 
 		try {
 			if (resultSet != null) {
@@ -303,10 +305,12 @@ public class DaoUserImpl implements IDaoUser {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			connection.close();
-
-		} catch (Exception e) {
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
 			logger.error("DaoUserImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 }

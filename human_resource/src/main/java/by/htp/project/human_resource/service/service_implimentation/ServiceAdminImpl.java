@@ -31,13 +31,12 @@ public class ServiceAdminImpl implements IServiceAdmin {
 	private Logger logger = LoggerFactory.getLogger(ServiceAdminImpl.class);
 	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
-	/** Field for daoAdmin implimentation */
+	/** Field for daoAdmin implementation */
 	private final IDaoAdmin daoAdmin = daoFactory.getDaoAdmin();
-	/** Field wich has path on the admin page */
-	private final String GO_TO_PAGE = ServiceJspPagePath.PATH_ADMIN_PAGE;
 
 	@Override
-	public void getRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response) {
+	public void getRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String tableName = null;
 		RequestDispatcher dispatcher = null;
@@ -46,6 +45,7 @@ public class ServiceAdminImpl implements IServiceAdmin {
 		String limitLine = null;
 		String offsetLine = null;
 		int pageCount = 0;
+		String goToPage = null;
 		List<User> foundedUsers = new ArrayList<>();
 
 		tableName = ServiceParamConstant.USERS_ATTRIBUTE;
@@ -62,27 +62,30 @@ public class ServiceAdminImpl implements IServiceAdmin {
 				request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 				request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 				request.setAttribute(ServiceParamConstant.FOUNDED_USERS_ATTRIBUTE, foundedUsers);
-				try {
-					dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-					dispatcher.forward(request, response);
-				} catch (ServletException | IOException e) {
-					logger.error("ServiceAdminImpl: getRegisteredUserByParam: RequestDispatcherError " + e);
-				}
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptyuser=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptyuser=1";
 			}
-		} catch (DaoException | IOException e1) {
-			logger.error("ServiceAdminImpl: getRegisteredUserByParam: " + e1);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgetting=1");
-			} catch (IOException e) {
-				logger.error("ServiceAdminImpl: getRegisteredUserByParam: errorSendRedirect" + e);
+		} catch (DaoException e) {
+			logger.error("ServiceAdminImpl: getRegisteredUserByParam: " + e);
+			goToPage = "controllerServlet?command=cb.admin_page&errorgetting=1";
+		}
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_ADMIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
 			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceAdminImpl: getRegisteredUserByParam: " + e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void getUnRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response) {
+	public void getUnRegisteredUserByParam(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String tableName = null;
 		RequestDispatcher dispatcher = null;
@@ -91,6 +94,7 @@ public class ServiceAdminImpl implements IServiceAdmin {
 		String limitLine = null;
 		String offsetLine = null;
 		int pageCount = 0;
+		String goToPage = null;
 		List<User> foundedUsers = new ArrayList<>();
 
 		tableName = ServiceParamConstant.USERS_ATTRIBUTE;
@@ -107,27 +111,30 @@ public class ServiceAdminImpl implements IServiceAdmin {
 				request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 				request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 				request.setAttribute(ServiceParamConstant.FOUNDED_USERS_ATTRIBUTE, foundedUsers);
-				try {
-					dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-					dispatcher.forward(request, response);
-				} catch (ServletException | IOException e) {
-					logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: RequestDispatcherError " + e);
-				}
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptyuser=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptyuser=1";
 			}
-		} catch (DaoException | IOException e1) {
-			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: " + e1);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgetting=1");
-			} catch (IOException e) {
-				logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: errorSendRedirect" + e);
+		} catch (DaoException e) {
+			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: " + e);
+			goToPage = "controllerServlet?command=cb.admin_page&errorgetting=1";
+		}
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_ADMIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
 			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: errorSendRedirect" + e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void getALLUserByParam(final HttpServletRequest request, final HttpServletResponse response) {
+	public void getALLUserByParam(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String tableName = null;
 		RequestDispatcher dispatcher = null;
@@ -136,6 +143,7 @@ public class ServiceAdminImpl implements IServiceAdmin {
 		String limitLine = null;
 		String offsetLine = null;
 		int pageCount = 0;
+		String goToPage = null;
 		List<User> foundedUsers = new ArrayList<>();
 
 		tableName = ServiceParamConstant.USERS_ATTRIBUTE;
@@ -152,78 +160,81 @@ public class ServiceAdminImpl implements IServiceAdmin {
 				request.setAttribute(ServiceParamConstant.PAGE_NUM, pageNum);
 				request.setAttribute(ServiceParamConstant.PAGE_COUNT, pageCount);
 				request.setAttribute(ServiceParamConstant.FOUNDED_USERS_ATTRIBUTE, foundedUsers);
-				try {
-					dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-					dispatcher.forward(request, response);
-				} catch (ServletException | IOException e) {
-					logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: RequestDispatcherError " + e);
-				}
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptyuser=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptyuser=1";
 			}
-		} catch (DaoException | IOException e1) {
-			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: " + e1);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgetting=1");
-			} catch (IOException e) {
-				logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: errorSendRedirect" + e);
+		} catch (DaoException e) {
+			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: " + e);
+			goToPage = "controllerServlet?command=cb.admin_page&errorgetting=1";
+		}
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_ADMIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
 			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceAdminImpl: getUnRegisteredUserByParam: errorSendRedirect" + e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void deleteUser(final HttpServletRequest request, final HttpServletResponse response) {
+	public void deleteUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 
 		String idUser = null;
+		String goToPage = null;
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 
 		try {
 			if (daoAdmin.updateAvaliableFildForUser(Integer.parseInt(idUser), 0)) {
-				try {
-					response.sendRedirect("controllerServlet?command=cb.admin_page&user_delete_message=1");
-				} catch (IOException e) {
-					logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect " + e);
-				}
+				goToPage = "controllerServlet?command=cb.admin_page&user_delete_message=1";
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptyuser=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptyuser=1";
 			}
-		} catch (DaoException | IOException e) {
+		} catch (DaoException e) {
 			logger.error("ServiceAdminImpl: deleteUser: " + e);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgetting=1");
-			} catch (IOException e1) {
-				logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect" + e1);
-			}
+			goToPage = "controllerServlet?command=cb.admin_page&errorgetting=1";
+		}
+		try {
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+			logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect" + e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void addUser(final HttpServletRequest request, final HttpServletResponse response) {
+	public void addUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 
 		String idUser = null;
+		String goToPage = null;
 		idUser = request.getParameter(ServiceParamConstant.USER_ID_PARAM);
 
 		try {
 			if (daoAdmin.updateAvaliableFildForUser(Integer.parseInt(idUser), 1)) {
-				try {
-					request.setAttribute("user_add_message", "1");
-					response.sendRedirect("controllerServlet?command=cb.admin_page&user_add_message=1");
-				} catch (IOException e) {
-					logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect " + e);
-				}
+				request.setAttribute("user_add_message", "1");
+				goToPage = "controllerServlet?command=cb.admin_page&user_add_message=1";
 			}
 		} catch (DaoException e) {
 			logger.error("ServiceAdminImpl: deleteUser: DaoException" + e);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgetting=1");
-			} catch (IOException e1) {
-				logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect" + e1);
-			}
+			goToPage = "controllerServlet?command=cb.admin_page&errorgetting=1";
+		}
+		try {
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+			logger.error("ServiceAdminImpl: deleteUser: errorSendRedirect" + e);
+			throw e;
 		}
 	}
 
 	@Override
-	public void getAllMessage(HttpServletRequest request, HttpServletResponse response) {
+	public void getAllMessage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String goToPage = null;
 
 		List<Message> allMessage = new ArrayList<>();
 		RequestDispatcher dispatcher = null;
@@ -231,52 +242,51 @@ public class ServiceAdminImpl implements IServiceAdmin {
 		try {
 			allMessage = daoAdmin.searchAllMessage();
 			if (allMessage != null) {
-				try {
-					request.setAttribute("all_message", allMessage);
-					dispatcher = request.getRequestDispatcher(GO_TO_PAGE);
-					dispatcher.forward(request, response);
-				} catch (ServletException | IOException e) {
-					logger.error("ServiceAdminImpl: getAllMessage: errorSendRedirect" + e);
-				}
+				request.setAttribute("all_message", allMessage);
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptymessage=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptymessage=1";
 			}
-		} catch (DaoException | IOException e1) {
-			logger.error("ServiceAdminImpl: getAllMessage: DaoException" + e1);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgettingmessage=1");
-			} catch (IOException e) {
-				logger.error("ServiceAdminImpl: getAllMessage: errorSendRedirect" + e1);
-			}
+		} catch (DaoException e) {
+			logger.error("ServiceAdminImpl: getAllMessage: DaoException" + e);
+			goToPage = "controllerServlet?command=cb.admin_page&errorgettingmessage=1";
 		}
-
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_ADMIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
+			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceAdminImpl: getAllMessage: errorSendRedirect" + e);
+			throw e;
+		}
 	}
-	
+
 	@Override
-	public void deleteMessage(HttpServletRequest request, HttpServletResponse response) {
-		
+	public void deleteMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
 		String idMessage = null;
+		String goToPage = null;
 		idMessage = request.getParameter(ServiceParamConstant.MESSAGE_ID_PARAM);
 
 		try {
 			if (daoAdmin.deleteMessage(Integer.parseInt(idMessage))) {
-				try {
-					response.sendRedirect("controllerServlet?command=cb.admin_page&user_message_delete=1");
-				} catch (IOException e) {
-					logger.error("ServiceAdminImpl: deleteMessage: errorSendRedirect " + e);
-				}
+				goToPage = "controllerServlet?command=cb.admin_page&user_message_delete=1";
 			} else {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&emptyuser=1");
+				goToPage = "controllerServlet?command=cb.admin_page&emptyuser=1";
 			}
-		} catch (DaoException | IOException e) {
+		} catch (DaoException e) {
 			logger.error("ServiceAdminImpl: deleteMessage: " + e);
-			try {
-				response.sendRedirect("controllerServlet?command=cb.admin_page&errorgettingmessage=1");
-			} catch (IOException e1) {
-				logger.error("ServiceAdminImpl: deleteMessage: errorSendRedirect" + e1);
-			}
+			goToPage = "controllerServlet?command=cb.admin_page&errorgettingmessage=1";
 		}
-		
+		try {
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+			logger.error("ServiceAdminImpl: deleteMessage: errorSendRedirect" + e);
+			throw e;
+		}
 	}
 
 	/**
@@ -289,7 +299,5 @@ public class ServiceAdminImpl implements IServiceAdmin {
 				: Math.floorDiv(commonCount, offsetLine);
 		return result;
 	}
-
-	
 
 }

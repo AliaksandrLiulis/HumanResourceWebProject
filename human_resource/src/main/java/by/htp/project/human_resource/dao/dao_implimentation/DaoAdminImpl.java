@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -280,10 +278,10 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 		return allMessage;
 	}
-	
+
 	@Override
 	public boolean deleteMessage(int idMessage) throws DaoException {
-		
+
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		boolean result = false;
@@ -311,9 +309,11 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
-			final Connection connection, String methodName) {
+			final Connection connection, String methodName) throws DaoException {
 		try {
 			if (resultSet != null) {
 				resultSet.close();
@@ -321,13 +321,13 @@ public class DaoAdminImpl implements IDaoAdmin {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			connection.close();
-
-		} catch (Exception e) {
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
 			logger.error("DaoAdminImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
-
-	
 
 }

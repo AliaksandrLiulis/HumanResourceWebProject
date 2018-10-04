@@ -7,33 +7,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This Interface wich has metods for work with User on the Service layer
+ * This Interface which has methods for work with User on the Service layer
  */
 
 public interface IServiceUser {
 	
 	/**
-	 * method which login {@link User}
+	 * method for login {@link User}
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
 	void logInUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
 	/**
-	 * method which register {@link User}
+	 * method for register {@link User}
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link ServletException}, {@link IOException}
 	 */
-	void registerUser(HttpServletRequest request, HttpServletResponse response);
+	void registerUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
 	/**
-	 * method which logOut {@link User}
+	 * method for logOut {@link User}
 	 * @param request  is HTTPRequest
 	 * @param response is HTTPResponse
 	 * @return void
+	 * @throws {@link IOException}
 	 */
-	void logOutUser (HttpServletRequest request, HttpServletResponse response);	
+	void logOutUser (HttpServletRequest request, HttpServletResponse response) throws IOException;	
 	
 }

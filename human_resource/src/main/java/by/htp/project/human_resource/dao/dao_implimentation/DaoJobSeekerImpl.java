@@ -705,9 +705,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
 	private void closeResources(final ResultSet resultSet, final PreparedStatement preparedStatement,
-			final Connection connection, String methodName) {
+			final Connection connection, String methodName) throws DaoException {
 
 		try {
 			if (resultSet != null) {
@@ -716,29 +718,40 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-			connection.close();
-
-		} catch (Exception e) {
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException e) {
 			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 
 	/**
 	 * method which close all got resources
+	 * 
+	 * @throws DaoException
 	 */
-	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName) {
+	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName)
+			throws DaoException {
 
 		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 
+	/**
+	 * method which close all got resources
+	 * 
+	 * @throws DaoException
+	 */
 	private void closePreparedStatementAndResultSet(final PreparedStatement preparedStatement,
-			final ResultSet resultSet, final String methodName) {
+			final ResultSet resultSet, final String methodName) throws DaoException {
 
 		try {
 			if (resultSet != null) {
@@ -747,8 +760,9 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			throw new DaoException(e);
 		}
 	}
 }

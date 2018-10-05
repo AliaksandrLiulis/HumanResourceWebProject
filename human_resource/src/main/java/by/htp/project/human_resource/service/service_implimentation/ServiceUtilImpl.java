@@ -29,7 +29,7 @@ import by.htp.project.human_resource.service.service_interface.IServiceUtil;
 public class ServiceUtilImpl implements IServiceUtil {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(ServiceUtilImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServiceUtilImpl.class);
 	private CheckCommand checkCommand = CheckCommand.getInstance();
 	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
@@ -52,7 +52,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceUtilImpl: backOnPageByUserRole:requestDispatcherError" + e);
+			logger.error("ServiceUtilImpl: backOnPageByUserRole:requestDispatcherError", e);
 			throw e;
 		}
 	}
@@ -75,7 +75,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 		try {
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-			logger.error("ServiceUtilImpl: changeLocal:sendRedirectError " + e);
+			logger.error("ServiceUtilImpl: changeLocal:sendRedirectError ", e);
 			throw e;
 		}
 	}
@@ -102,13 +102,13 @@ public class ServiceUtilImpl implements IServiceUtil {
 				goToPage = "controllerServlet?command=cb.main_page&sendmess=ok";
 			}
 		} catch (DaoException e) {
-			logger.error("ServiceUtilImpl: daoException: " + e);
+			logger.error("ServiceUtilImpl: daoException: ", e);
 			goToPage = "controllerServlet?command=cb.main_page&sendmess=ok";
 		}
 		try {
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-			logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: " + e);
+			logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: ", e);
 			throw e;
 		}
 	}

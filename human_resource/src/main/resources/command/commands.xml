@@ -147,4 +147,8 @@
 		<key>cb.delete_message</key>
 		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.DeleteMessage</value>
 	</command>
+	<command>
+		<key>cb.delete_user_from_base</key>
+		<value>by.htp.project.human_resource.controller.commandprovider.command.general_command.command_for_administrator.DeleteUserFromBase</value>
+	</command>	
 </commands>

@@ -26,7 +26,7 @@ import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 public class DaoUserImpl implements IDaoUser {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(DaoUserImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(DaoUserImpl.class);
 	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 	/** field witch has Map with all roles for Users */
@@ -74,11 +74,11 @@ public class DaoUserImpl implements IDaoUser {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: searchUser: Connection interrupted: " + e);
-			throw new DaoException("searchUser" + e);
+			logger.error("DaoUserImpl: searchUser: Connection interrupted: ", e);
+			throw new DaoException("searchUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchUser: SQL error: " + e);
-			throw new DaoException("searchUser" + e);
+			logger.error("DaoUserImpl: searchUser: SQL error: ", e);
+			throw new DaoException("searchUser", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchUser");
 		}
@@ -106,11 +106,11 @@ public class DaoUserImpl implements IDaoUser {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: searchUserNickName: Connection interrupted: " + e);
-			throw new DaoException("searchUserNickName" + e);
+			logger.error("DaoUserImpl: searchUserNickName: Connection interrupted: ", e);
+			throw new DaoException("searchUserNickName", e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: searchUserNickName: SQL error: " + e);
-			throw new DaoException("searchUserNickName" + e);
+			logger.error("DaoUserImpl: searchUserNickName: SQL error: ", e);
+			throw new DaoException("searchUserNickName", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchUserNickName");
 		}
@@ -165,11 +165,11 @@ public class DaoUserImpl implements IDaoUser {
 					.build();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: addUser: Connection interrupted: " + e);
-			throw new DaoException("addUser" + e);
+			logger.error("DaoUserImpl: addUser: Connection interrupted: ", e);
+			throw new DaoException("addUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: addUser: SQL error: " + e);
-			throw new DaoException("addUser" + e);
+			logger.error("DaoUserImpl: addUser: SQL error: ", e);
+			throw new DaoException("addUser", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "addUser");
 		}
@@ -203,11 +203,11 @@ public class DaoUserImpl implements IDaoUser {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoUserImpl: getProfile: Connection interrupted: " + e);
-			throw new DaoException("getProfile" + e);
+			logger.error("DaoUserImpl: getProfile: Connection interrupted: ", e);
+			throw new DaoException("getProfile", e);
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: getProfile: SQL error: " + e);
-			throw new DaoException("getProfile" + e);
+			logger.error("DaoUserImpl: getProfile: SQL error: ", e);
+			throw new DaoException("getProfile", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "getProfile");
 		}
@@ -243,9 +243,12 @@ public class DaoUserImpl implements IDaoUser {
 			preparedStatement.executeUpdate();
 			result = true;
 
-		} catch (InterruptedException | SQLException e) {
-			logger.error("DaoUserImpl: createMessage: Connection interrupted: " + e);
-			throw new DaoException("createMessage" + e);
+		} catch (InterruptedException e) {
+			logger.error("DaoUserImpl: createMessage: Connection interrupted: ", e);
+			throw new DaoException("createMessage", e);
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: createMessage: SQL error: ", e);
+			throw new DaoException("createMessage", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "createMessage");
 		}
@@ -309,7 +312,7 @@ public class DaoUserImpl implements IDaoUser {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: " + methodName + ": " + e);
+			logger.error("DaoUserImpl: " + methodName + ": ", e);
 			throw new DaoException(e);
 		}
 	}

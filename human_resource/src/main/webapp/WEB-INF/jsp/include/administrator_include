@@ -47,6 +47,7 @@
 <fmt:message bundle="${loc}" key="local.employee.messagewillbedelete" var="messagewillbedelete" />
 <fmt:message bundle="${loc}" key="local.employee.messagedeleted" var="messagedeleted" />
 <fmt:message bundle="${loc}" key="local.employee.messagenotdeleted" var="messagenotdeleted" />
+<fmt:message bundle="${loc}" key="local.employee.deletefrombase" var="deletefrombase" />
 
 
 

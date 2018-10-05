@@ -25,7 +25,7 @@ import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 public class DaoAdminImpl implements IDaoAdmin {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(DaoAdminImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(DaoAdminImpl.class);
 	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -35,12 +35,33 @@ public class DaoAdminImpl implements IDaoAdmin {
 	private final String SEARCH_UNREGISTERED_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId WHERE avaliable = 0 LIMIT ?, ?";
 	/** Field for searching All {@link User} */
 	private final String SEARCH_ALL_USERS_BY_PARAM = "SELECT userId, name, surName, nickName, email, avaliable, profileId, resumeId, role FROM users JOIN userroles on users.roleId = userroles.rolesId LIMIT ?, ?";
-	/** Field for set {@link User#avaliable} */
+	/** Field for set {@link User#available} */
 	private final String SET_AVALIABLE_FIELD_FOR_USER = "UPDATE users SET avaliable=? WHERE userId=?";
 	/** Field for searching all {@link Message} */
 	private final String SEARCH_ALL_MESSAGE = "SELECT * FROM message";
 	/** Field for delete {@link Message} by Id */
 	private final String DELETE_MESSAGE_BY_ID = "DELETE FROM message where idmessage = ?";
+	/** Field for delete {@link User} from base by Id */
+	private final String DELETE_USER_FROM_BASE_BY_ID = "DELETE FROM users where userId = ?";
+
+	/** static fields for userId */
+	private final int userId = 1;
+	/** static fields for name */
+	private final int name = 2;
+	/** static fields for surName */
+	private final int surName = 3;
+	/** static fields for nickName */
+	private final int nickName = 4;
+	/** static fields for email */
+	private final int email = 5;
+	/** static fields for available */
+	private final int available = 6;
+	/** static fields for profileId */
+	private final int profileId = 7;
+	/** static fields for resumeId */
+	private final int resumeId = 8;
+	/** static fields for role */
+	private final int role = 9;
 
 	public DaoAdminImpl() {
 	}
@@ -71,19 +92,20 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 			while (result.next()) {
 
-				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
-						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(userId))).name(result.getString(name))
+						.surName(result.getString(surName)).nickName(result.getString(nickName))
+						.email(result.getString(email)).avaliable(result.getInt(available))
+						.profileId(Integer.parseInt(result.getString(profileId))).resumeId(result.getInt(resumeId))
+						.role(result.getString(role)).build();
 				allUsers.add(user);
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: searchAllRegisteredUserByParams: Connection interrupted: " + e);
-			throw new DaoException("searchAllRegisteredUserByParams" + e);
+			logger.error("DaoAdminImpl: searchAllRegisteredUserByParams: Connection interrupted: ", e);
+			throw new DaoException("searchAllRegisteredUserByParams", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: searchAllRegisteredUserByParams: SQL error: " + e);
-			throw new DaoException("searchUser" + e);
+			logger.error("DaoAdminImpl: searchAllRegisteredUserByParams: SQL error: ", e);
+			throw new DaoException("searchUser", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchAllRegisteredUserByParams");
 		}
@@ -116,19 +138,20 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 			while (result.next()) {
 
-				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
-						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(userId))).name(result.getString(name))
+						.surName(result.getString(surName)).nickName(result.getString(nickName))
+						.email(result.getString(email)).avaliable(result.getInt(available))
+						.profileId(Integer.parseInt(result.getString(profileId))).resumeId(result.getInt(resumeId))
+						.role(result.getString(role)).build();
 				allUsers.add(user);
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: searchAllUnregisteredUserByParams: Connection interrupted: " + e);
-			throw new DaoException("searchAllUnregisteredUserByParams" + e);
+			logger.error("DaoAdminImpl: searchAllUnregisteredUserByParams: Connection interrupted: ", e);
+			throw new DaoException("searchAllUnregisteredUserByParams", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: searchAllUnregisteredUserByParams: SQL error: " + e);
-			throw new DaoException("searchAllUnregisteredUserByParams" + e);
+			logger.error("DaoAdminImpl: searchAllUnregisteredUserByParams: SQL error: ", e);
+			throw new DaoException("searchAllUnregisteredUserByParams", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchAllUnregisteredUserByParams");
 		}
@@ -161,19 +184,20 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 			while (result.next()) {
 
-				user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
-						.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-						.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-						.resumeId(result.getInt(8)).role(result.getString(9)).build();
+				user = new UserBuilder().userId(Integer.parseInt(result.getString(userId))).name(result.getString(name))
+						.surName(result.getString(surName)).nickName(result.getString(nickName))
+						.email(result.getString(email)).avaliable(result.getInt(available))
+						.profileId(Integer.parseInt(result.getString(profileId))).resumeId(result.getInt(resumeId))
+						.role(result.getString(role)).build();
 				allUsers.add(user);
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: searchAllUserByParams: Connection interrupted: " + e);
-			throw new DaoException("searchAllUserByParams" + e);
+			logger.error("DaoAdminImpl: searchAllUserByParams: Connection interrupted: ", e);
+			throw new DaoException("searchAllUserByParams", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: searchAllUserByParams: SQL error: " + e);
-			throw new DaoException("searchAllUserByParams" + e);
+			logger.error("DaoAdminImpl: searchAllUserByParams: SQL error: ", e);
+			throw new DaoException("searchAllUserByParams", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchAllUserByParams");
 		}
@@ -205,11 +229,11 @@ public class DaoAdminImpl implements IDaoAdmin {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: getCountAllRowsForTable: Connection interrupted: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoAdminImpl: getCountAllRowsForTable: Connection interrupted: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: getCountAllRowsForTable: SQL error: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoAdminImpl: getCountAllRowsForTable: SQL error: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "getCountAllRowsForTable");
 		}
@@ -234,11 +258,11 @@ public class DaoAdminImpl implements IDaoAdmin {
 			result = true;
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: updateAvaliableFildForUser: Connection interrupted: " + e);
-			throw new DaoException("updateAvaliableFildForUser" + e);
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: Connection interrupted: ", e);
+			throw new DaoException("updateAvaliableFildForUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: updateAvaliableFildForUser: SQL error: " + e);
-			throw new DaoException("updateAvaliableFildForUser" + e);
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: SQL error: ", e);
+			throw new DaoException("updateAvaliableFildForUser", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateAvaliableFildForUser");
 		}
@@ -267,11 +291,11 @@ public class DaoAdminImpl implements IDaoAdmin {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: updateAvaliableFildForUser: Connection interrupted: " + e);
-			throw new DaoException("updateAvaliableFildForUser" + e);
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: Connection interrupted: ", e);
+			throw new DaoException("updateAvaliableFildForUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: updateAvaliableFildForUser: SQL error: " + e);
-			throw new DaoException("updateAvaliableFildForUser" + e);
+			logger.error("DaoAdminImpl: updateAvaliableFildForUser: SQL error: ", e);
+			throw new DaoException("updateAvaliableFildForUser", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateAvaliableFildForUser");
 		}
@@ -296,11 +320,11 @@ public class DaoAdminImpl implements IDaoAdmin {
 			result = true;
 
 		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: deleteMessage: Connection interrupted: " + e);
-			throw new DaoException("deleteMessage" + e);
+			logger.error("DaoAdminImpl: deleteMessage: Connection interrupted: ", e);
+			throw new DaoException("deleteMessage", e);
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: deleteMessage: SQL error: " + e);
-			throw new DaoException("deleteMessage" + e);
+			logger.error("DaoAdminImpl: deleteMessage: SQL error: ", e);
+			throw new DaoException("deleteMessage", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "deleteMessage");
 		}
@@ -325,9 +349,36 @@ public class DaoAdminImpl implements IDaoAdmin {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: " + methodName + ": " + e);
+			logger.error("DaoAdminImpl: " + methodName + ": ", e);
 			throw new DaoException(e);
 		}
+	}
+
+	@Override
+	public boolean deleteUserFromBase(int idUser) throws DaoException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		boolean result = false;
+
+		try {
+			connection = connectionPool.takeConnection();
+			preparedStatement = connection.prepareStatement(DELETE_USER_FROM_BASE_BY_ID);
+			preparedStatement.setInt(1, idUser);
+			preparedStatement.executeUpdate();
+
+			result = true;
+
+		} catch (InterruptedException e) {
+			logger.error("DaoAdminImpl: deleteUserFromBase: Connection interrupted: ", e);
+			throw new DaoException("deleteUserFromBase", e);
+		} catch (SQLException e) {
+			logger.error("DaoAdminImpl: deleteUserFromBase: SQL error: ", e);
+			throw new DaoException("deleteUserFromBase", e);
+		} finally {
+			closeResources(null, preparedStatement, connection, "deleteUserFromBase");
+		}
+		return result;
 	}
 
 }

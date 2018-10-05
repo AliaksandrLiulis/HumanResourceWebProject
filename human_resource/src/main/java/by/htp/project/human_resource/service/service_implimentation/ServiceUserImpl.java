@@ -31,7 +31,7 @@ import by.htp.project.human_resource.service.service_interface.IServiceUser;
 public class ServiceUserImpl implements IServiceUser {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServiceUserImpl.class);
 	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	/** Field for daoUser implementation */
@@ -84,7 +84,7 @@ public class ServiceUserImpl implements IServiceUser {
 					request.setAttribute("user_doesnt_exist", "user doesn't exist");
 				}
 			} catch (DaoException e) {
-				logger.error("ServiceUserImpl: logInUser: DaoException: " + e);
+				logger.error("ServiceUserImpl: logInUser: DaoException: ", e);
 				request.setAttribute("login_error", "user_doesnt login");
 			}
 		} else {
@@ -99,7 +99,7 @@ public class ServiceUserImpl implements IServiceUser {
 				response.sendRedirect(goToPage);
 			}
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceUserImpl: logInUser: " + e);
+			logger.error("ServiceUserImpl: logInUser: ", e);
 			throw e;
 		}
 	}
@@ -139,7 +139,7 @@ public class ServiceUserImpl implements IServiceUser {
 					request.setAttribute("user_exist", "exist user");
 				}
 			} catch (DaoException e) {
-				logger.error("ServiceUserImpl: registerUser: DaoException: " + e);
+				logger.error("ServiceUserImpl: registerUser: DaoException: ", e);
 				request.setAttribute("user_not_registered", "error user registration");
 			}
 		} else {
@@ -154,7 +154,7 @@ public class ServiceUserImpl implements IServiceUser {
 				response.sendRedirect(goToPage);
 			}
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceUserImpl: registerUser: " + e);
+			logger.error("ServiceUserImpl: registerUser: ", e);
 			throw e;
 		}
 	}
@@ -173,7 +173,7 @@ public class ServiceUserImpl implements IServiceUser {
 			goToPage = request.getRequestURI() + ServiceCommandConstant.PATH_MAIN_PAGE_COMMAND;
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-			logger.error("ServiceUserImpl: logOutUser: sendRedirectError" + e);
+			logger.error("ServiceUserImpl: logOutUser: sendRedirectError", e);
 			throw e;
 		}
 	}

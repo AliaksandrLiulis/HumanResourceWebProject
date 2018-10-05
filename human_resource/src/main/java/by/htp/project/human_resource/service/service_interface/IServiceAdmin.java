@@ -85,5 +85,16 @@ public interface IServiceAdmin {
 	 * @throws {@link IOException}
 	 */
 	void deleteMessage(HttpServletRequest request, HttpServletResponse response) throws IOException;
+	
+	/**
+	 * method for deleteUserFromBase
+	 * 
+	 * @param request  is HTTPRequest
+	 * @param response is HTTPResponse
+	 * @return void
+	 * @throws {@link IOException}
+	 */
+	void deleteUserFromBase(HttpServletRequest request, HttpServletResponse response) throws IOException;
+	
 
 }

@@ -28,7 +28,7 @@ import by.htp.project.human_resource.entity.RespondVacancy;
 public class DaoHrImpl implements IDaoHr {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(DaoHrImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(DaoHrImpl.class);
 	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -104,11 +104,11 @@ public class DaoHrImpl implements IDaoHr {
 					.whoAddedId(Integer.parseInt(whoAddedId)).build();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoHrImpl: addDriverVacancy: Connection interrupted: " + e);
-			throw new DaoException("addDriverVacancy" + e);
+			logger.error("DaoHrImpl: addDriverVacancy: Connection interrupted: ", e);
+			throw new DaoException("addDriverVacancy", e);
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: addDriverVacancy: SQL error: " + e);
-			throw new DaoException("addDriverVacancy" + e);
+			logger.error("DaoHrImpl: addDriverVacancy: SQL error: ", e);
+			throw new DaoException("addDriverVacancy", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "addDriverVacancy");
 		}
@@ -152,11 +152,11 @@ public class DaoHrImpl implements IDaoHr {
 					.build();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoHrImpl: addAccountantVacancy: Connection interrupted: " + e);
-			throw new DaoException("addAccountantVacancy" + e);
+			logger.error("DaoHrImpl: addAccountantVacancy: Connection interrupted: ", e);
+			throw new DaoException("addAccountantVacancy", e);
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: addAccountantVacancy: SQL error: " + e);
-			throw new DaoException("addAccountantVacancy" + e);
+			logger.error("DaoHrImpl: addAccountantVacancy: SQL error: ", e);
+			throw new DaoException("addAccountantVacancy", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "addAccountantVacancy");
 		}
@@ -192,11 +192,11 @@ public class DaoHrImpl implements IDaoHr {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoHrImpl: getCountAllRowsForTable: Connection interrupted: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoHrImpl: getCountAllRowsForTable: Connection interrupted: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: getCountAllRowsForTable: SQL error: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoHrImpl: getCountAllRowsForTable: SQL error: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "getCountAllRowsForTable");
 		}
@@ -277,12 +277,12 @@ public class DaoHrImpl implements IDaoHr {
 			result = true;
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoHrImpl: deleteVacancyById: transaction error" + e);
+				logger.error("DaoHrImpl: deleteVacancyById: transaction error", e);
 				connection.rollback();
-				throw new DaoException("deleteVacancyById: transaction error " + e);
+				throw new DaoException("deleteVacancyById: transaction error ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoHrImpl: deleteVacancyById: rollback error: " + e);
-				throw new DaoException("deleteVacancyById:rollback error: " + e1);
+				logger.error("DaoHrImpl: deleteVacancyById: rollback error: ", e1);
+				throw new DaoException("deleteVacancyById:rollback error: ", e1);
 			}
 		} finally {
 			closeResources(null, preparedStatement, connection, "deleteVacancyById");
@@ -326,11 +326,11 @@ public class DaoHrImpl implements IDaoHr {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoHrImpl: searchResumeByParam: Connection interrupted: " + e);
-			throw new DaoException("searchResumeByParam" + e);
+			logger.error("DaoHrImpl: searchResumeByParam: Connection interrupted: ", e);
+			throw new DaoException("searchResumeByParam", e);
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: searchResumeByParam: SQL error: " + e);
-			throw new DaoException("searchResumeByParam" + e);
+			logger.error("DaoHrImpl: searchResumeByParam: SQL error: ", e);
+			throw new DaoException("searchResumeByParam", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchResumeByParam");
 		}
@@ -379,14 +379,15 @@ public class DaoHrImpl implements IDaoHr {
 			connection.commit();
 		} catch (InterruptedException | SQLException e) {
 			try {
+				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: transaction error", e);
 				connection.rollback();
+				throw new DaoException("searchRespondedUserByIdVacancy: transaction error ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: rollback error: " + e);
+				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: rollback error: ", e1);
+				throw new DaoException("searchRespondedUserByIdVacancy error: ", e1);
+			} finally {
+				closeResources(result, preparedStatement, connection, "searchRespondedUserByIdVacancy");
 			}
-			logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: " + e);
-			throw new DaoException("searchRespondedUserByIdVacancy" + e);
-		} finally {
-			closeResources(result, preparedStatement, connection, "searchRespondedUserByIdVacancy");
 		}
 		return allUsers;
 	}
@@ -409,11 +410,11 @@ public class DaoHrImpl implements IDaoHr {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoHrImpl: searchRespondedOnVacancy: Connection interrupted: " + e);
-			throw new DaoException("searchRespondedOnVacancy" + e);
+			logger.error("DaoHrImpl: searchRespondedOnVacancy: Connection interrupted: ", e);
+			throw new DaoException("searchRespondedOnVacancy", e);
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: searchRespondedOnVacancy: SQL error: " + e);
-			throw new DaoException("searchRespondedOnVacancy" + e);
+			logger.error("DaoHrImpl: searchRespondedOnVacancy: SQL error: ", e);
+			throw new DaoException("searchRespondedOnVacancy", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "searchRespondedOnVacancy");
 		}

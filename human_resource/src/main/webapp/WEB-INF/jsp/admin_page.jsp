@@ -211,9 +211,7 @@
 																									data-target="#messagewillbedeletemodal"
 																									class="btn btn-danger" data-toggle="modal"
 																									data-idmess="${mess.idmessage}">${deletebutton}</button></td>
-
 																						</tr>
-
 																					</c:forEach>
 																				</tbody>
 
@@ -245,6 +243,7 @@
 																					<th style="color: orange;" scope="col">${role}</th>
 																					<th style="color: orange;" scope="col">${registered}</th>
 																					<th style="color: orange;" scope="col">${action}</th>
+																					<th style="color: orange;" scope="col">${deletefrombase}</th>
 																				</tr>
 																			</thead>
 																			<tbody>
@@ -289,6 +288,10 @@
 																							</c:otherwise>
 
 																						</c:choose>
+																						<td><button type="button"
+																								data-target="#userwillbedeletefrombasemodal"
+																								class="btn btn-warning" data-toggle="modal"
+																								data-iduserfrombase="${user.userId}">${deletebutton}</button></td>
 																						<c:set var="count" value="${count + 1}"
 																							scope="page" />
 
@@ -519,6 +522,39 @@
 		</form>
 
 		<!-- 	End Modal windows with message about user will be delete -->
+		
+		<!-- 	Start Modal windows with message about user will be userwillbedeletefrombasemodal  -->
+
+		<form action="controllerServlet" method="post">
+			<div id="userwillbedeletefrombasemodal" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<br>
+							<h3 align="center" class="modal-title" style="color: orange;">${messageverificationdelete}</h3>
+							<br>
+							<button class="close" type="button" data-dismiss="modal">
+								<i class="fa fa-close"></i>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<h5 align="center" class="modal-title" style="color: red;">${messageadreedeleteuser}</h5>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-success" type="button"
+								data-dismiss="modal">${cancelbutton}</button>
+							<input type="hidden" id="useridbase" name="userid"> <input
+								type="hidden" name="command" value="cb.delete_user_from_base">
+							<button class="btn btn-danger" type="submit">${deletebutton}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- 	End Modal windows with message about user will be userwillbedeletefrombasemodal -->
 
 		<!-- 	Start Modal windows with message about message will be delete  -->
 
@@ -789,6 +825,16 @@
 				document.getElementById('userid').value = iduser;
 			})
 		</script>
+		
+		<!-- Transfer data in modal window "userwillbedeletemodalfrombase" -->
+
+		<script>
+			$('#userwillbedeletefrombasemodal').on('show.bs.modal', function(e) {
+				var $modal = $(this), iduserfrombase = e.relatedTarget.dataset.iduserfrombase;
+				document.getElementById('useridbase').value = iduserfrombase;
+			})
+		</script>
+		
 
 		<!-- Transfer data in modal window "messagewillbedeletemodal" -->
 

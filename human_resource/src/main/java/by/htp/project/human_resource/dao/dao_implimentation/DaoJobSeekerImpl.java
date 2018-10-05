@@ -28,7 +28,7 @@ import by.htp.project.human_resource.util.poolconnection.ConnectionPool;
 public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(DaoJobSeekerImpl.class);
 	/** Field for ConnectionPool */
 	private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -164,12 +164,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoJobSeekerImpl: addNewProfile: transaction error: " + e);
+				logger.error("DaoJobSeekerImpl: addNewProfile: transaction error: ", e);
 				connection.rollback();
-				throw new DaoException("addNewProfile: transaction error: " + e);
+				throw new DaoException("addNewProfile: transaction error: ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoJobSeekerImpl: addNewProfile: rollback error: " + e1);
-				throw new DaoException("addNewProfile: rollback error: " + e1);
+				logger.error("DaoJobSeekerImpl: addNewProfile: rollback error: ", e1);
+				throw new DaoException("addNewProfile: rollback error: ", e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "addNewProfile");
@@ -219,12 +219,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoJobSeekerImpl: removeProfileByUserId: transaction error: " + e);
+				logger.error("DaoJobSeekerImpl: removeProfileByUserId: transaction error: ", e);
 				connection.rollback();
-				throw new DaoException("removeProfileByUserId: transaction error: " + e);
+				throw new DaoException("removeProfileByUserId: transaction error: ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoJobSeekerImpl: removeProfileByUserId: rollback error: " + e1);
-				throw new DaoException("removeProfileByUserId: rollback error: " + e1);
+				logger.error("DaoJobSeekerImpl: removeProfileByUserId: rollback error: ", e1);
+				throw new DaoException("removeProfileByUserId: rollback error: ", e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "removeProfileByUserId");
@@ -300,12 +300,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoJobSeekerImpl: updateOldProfileByParams: transaction error: " + e);
+				logger.error("DaoJobSeekerImpl: updateOldProfileByParams: transaction error: ", e);
 				connection.rollback();
-				throw new DaoException("updateOldProfileByParams: transaction error: " + e);
+				throw new DaoException("updateOldProfileByParams: transaction error: ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoJobSeekerImpl: updateOldProfileByParams: rollback error: " + e1);
-				throw new DaoException("updateOldProfileByParams: rollback error: " + e1);
+				logger.error("DaoJobSeekerImpl: updateOldProfileByParams: rollback error: ", e1);
+				throw new DaoException("updateOldProfileByParams: rollback error: ", e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "updateOldProfileByParams");
@@ -403,12 +403,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoJobSeekerImpl: addNewResumeByParams: transaction error: " + e);
+				logger.error("DaoJobSeekerImpl: addNewResumeByParams: transaction error: ", e);
 				connection.rollback();
-				throw new DaoException("addNewResumeByParams: transaction error: " + e);
+				throw new DaoException("addNewResumeByParams: transaction error: ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoJobSeekerImpl: addNewResumeByParams: rollback error: " + e1);
-				throw new DaoException("addNewResumeByParams: rollback error: " + e1);
+				logger.error("DaoJobSeekerImpl: addNewResumeByParams: rollback error: ", e1);
+				throw new DaoException("addNewResumeByParams: rollback error: ", e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "addNewResumeByParams");
@@ -496,11 +496,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: DaoJobSeekerImpl: Connection interrupted: " + e);
-			throw new DaoException("searchProfileByIdUser" + e);
+			logger.error("DaoJobSeekerImpl: DaoJobSeekerImpl: Connection interrupted: ", e);
+			throw new DaoException("searchProfileByIdUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: DaoJobSeekerImpl: SQL error: " + e);
-			throw new DaoException("searchProfileByIdUser" + e);
+			logger.error("DaoJobSeekerImpl: DaoJobSeekerImpl: SQL error: ", e);
+			throw new DaoException("searchProfileByIdUser", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "DaoJobSeekerImpl");
 		}
@@ -523,11 +523,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			preparedStatement.executeUpdate();
 
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: updateFieldUserByIdUser: Connection interrupted: " + e);
-			throw new DaoException("updateFieldUserByIdUser" + e);
+			logger.error("DaoJobSeekerImpl: updateFieldUserByIdUser: Connection interrupted: ", e);
+			throw new DaoException("updateFieldUserByIdUser", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: updateFieldUserByIdUser: SQL error: " + e);
-			throw new DaoException("updateFieldUserByIdUser" + e);
+			logger.error("DaoJobSeekerImpl: updateFieldUserByIdUser: SQL error: ", e);
+			throw new DaoException("updateFieldUserByIdUser", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateFieldUserByIdUser");
 		}
@@ -567,11 +567,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 			}
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: searchVacancyByParam: Connection interrupted: " + e);
-			throw new DaoException("searchVacancyByParam" + e);
+			logger.error("DaoJobSeekerImpl: searchVacancyByParam: Connection interrupted: ", e);
+			throw new DaoException("searchVacancyByParam", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: searchVacancyByParam: SQL error: " + e);
-			throw new DaoException("searchVacancyByParam" + e);
+			logger.error("DaoJobSeekerImpl: searchVacancyByParam: SQL error: ", e);
+			throw new DaoException("searchVacancyByParam", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "searchVacancyByParam");
 		}
@@ -596,11 +596,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 				count = result.getInt(1);
 			}
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: getCountAllRowsForTable: Connection interrupted: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoJobSeekerImpl: getCountAllRowsForTable: Connection interrupted: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: getCountAllRowsForTable: SQL error: " + e);
-			throw new DaoException("getCountAllRowsForTable" + e);
+			logger.error("DaoJobSeekerImpl: getCountAllRowsForTable: SQL error: ", e);
+			throw new DaoException("getCountAllRowsForTable", e);
 		} finally {
 			closeResources(result, preparedStatement, connection, "getCountAllRowsForTable");
 		}
@@ -627,11 +627,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			result = true;
 
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndAddInTable: Connection interrupted: " + e);
-			throw new DaoException("updateVacancyWhenRespondAndAddInTable" + e);
+			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndAddInTable: Connection interrupted: ", e);
+			throw new DaoException("updateVacancyWhenRespondAndAddInTable", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndAddInTable: SQL error: " + e);
-			throw new DaoException("updateVacancyWhenRespondAndAddInTable" + e);
+			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndAddInTable: SQL error: ", e);
+			throw new DaoException("updateVacancyWhenRespondAndAddInTable", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateVacancyWhenRespondAndAddInTable");
 		}
@@ -658,11 +658,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			result = true;
 
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndDeleteInTable: Connection interrupted: " + e);
-			throw new DaoException("updateVacancyWhenRespondAndDeleteInTable" + e);
+			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndDeleteInTable: Connection interrupted: ", e);
+			throw new DaoException("updateVacancyWhenRespondAndDeleteInTable", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndDeleteInTable: SQL error: " + e);
-			throw new DaoException("updateVacancyWhenRespondAndDeleteInTable" + e);
+			logger.error("DaoJobSeekerImpl: updateVacancyWhenRespondAndDeleteInTable: SQL error: ", e);
+			throw new DaoException("updateVacancyWhenRespondAndDeleteInTable", e);
 		} finally {
 			closeResources(null, preparedStatement, connection, "updateVacancyWhenRespondAndDeleteInTable");
 		}
@@ -691,11 +691,11 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			}
 
 		} catch (InterruptedException e) {
-			logger.error("DaoJobSeekerImpl: searchRespondVacancyByUserId: Connection interrupted: " + e);
-			throw new DaoException("searchRespondVacancyByUserId" + e);
+			logger.error("DaoJobSeekerImpl: searchRespondVacancyByUserId: Connection interrupted: ", e);
+			throw new DaoException("searchRespondVacancyByUserId", e);
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: searchRespondVacancyByUserId: SQL error: " + e);
-			throw new DaoException("searchRespondVacancyByUserId" + e);
+			logger.error("DaoJobSeekerImpl: searchRespondVacancyByUserId: SQL error: ", e);
+			throw new DaoException("searchRespondVacancyByUserId", e);
 		} finally {
 			closeResources(resultSet, preparedStatement, connection, "searchRespondVacancyByUserId");
 		}
@@ -722,7 +722,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			logger.error("DaoJobSeekerImpl: " + methodName + ": ", e);
 			throw new DaoException(e);
 		}
 	}
@@ -740,7 +740,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			logger.error("DaoJobSeekerImpl: " + methodName + ": ", e);
 			throw new DaoException(e);
 		}
 	}
@@ -761,7 +761,7 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": " + e);
+			logger.error("DaoJobSeekerImpl: " + methodName + ": ", e);
 			throw new DaoException(e);
 		}
 	}

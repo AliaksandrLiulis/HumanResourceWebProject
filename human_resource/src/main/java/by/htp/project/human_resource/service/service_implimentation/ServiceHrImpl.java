@@ -29,7 +29,7 @@ import by.htp.project.human_resource.service.service_interface.IServiceHr;
 public class ServiceHrImpl implements IServiceHr {
 
 	/** Field for logging {@link LoggerFactory} */
-	private Logger logger = LoggerFactory.getLogger(ServiceHrImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServiceHrImpl.class);
 	/** Field for daoFactory */
 	private final DaoFactory daoFactory = DaoFactory.getDaoFactory();
 	/** Field for daoHr implementation */
@@ -47,7 +47,7 @@ public class ServiceHrImpl implements IServiceHr {
 			try {
 				vacancy = daoHr.addDriverVacancy(paramsList);
 			} catch (DaoException e) {
-				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError" + e);
+				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError", e);
 				goToPage = "controllerServlet?command=cb.hr_page&vacancy_add_message=1";
 			}
 		}
@@ -56,7 +56,7 @@ public class ServiceHrImpl implements IServiceHr {
 			try {
 				vacancy = daoHr.addAccountantVacancy(paramsList);
 			} catch (DaoException e) {
-				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError" + e);
+				logger.error("ServiceHrImpl: addVacancyDriver: daoExceptionError", e);
 				goToPage = "controllerServlet?command=cb.hr_page&vacancy_add_message=1";
 			}
 		}
@@ -68,7 +68,7 @@ public class ServiceHrImpl implements IServiceHr {
 		try {
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-			logger.error("ServiceHrImpl: addVacancy: SendRedirectError " + e);
+			logger.error("ServiceHrImpl: addVacancy: SendRedirectError ", e);
 			throw e;
 		}
 
@@ -118,7 +118,7 @@ public class ServiceHrImpl implements IServiceHr {
 				request.setAttribute("no_vacancies", "message_about_empty_list_vacancy");
 			}
 		} catch (DaoException e) {
-			logger.error("ServiceHrImpl: getVacancy: daoExceptionError " + e);
+			logger.error("ServiceHrImpl: getVacancy: daoExceptionError ", e);
 			request.setAttribute("messageaboutvacancy", "vacancy receipt error");
 			request.setAttribute("error_get_vacancy", "vacancy receipt error");
 		}
@@ -127,7 +127,7 @@ public class ServiceHrImpl implements IServiceHr {
 			dispatcher = request.getRequestDispatcher(goToPage);
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getVacancy: RequestDispatherError " + e);
+			logger.error("ServiceHrImpl: getVacancy: RequestDispatherError ", e);
 			throw e;
 		}
 	}
@@ -169,7 +169,7 @@ public class ServiceHrImpl implements IServiceHr {
 				request.setAttribute("no_resume", "message_about_empty_list_resume");
 			}
 		} catch (DaoException e) {
-			logger.error("ServiceHrImpl: getVacancy: " + e);
+			logger.error("ServiceHrImpl: getVacancy: ", e);
 			request.setAttribute("messageaboutresume", "resume receipt error");
 			request.setAttribute("error_get_resume", "resume receipt error");
 		}
@@ -178,7 +178,7 @@ public class ServiceHrImpl implements IServiceHr {
 			dispatcher = request.getRequestDispatcher(goToPage);
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getResume: RequestDispatherError " + e);
+			logger.error("ServiceHrImpl: getResume: RequestDispatherError ", e);
 			throw e;
 		}
 	}
@@ -208,7 +208,7 @@ public class ServiceHrImpl implements IServiceHr {
 			dispatcher = request.getRequestDispatcher(goToPage);
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: deleteVacancyById: RequestDispatcherError" + e);
+			logger.error("ServiceHrImpl: deleteVacancyById: RequestDispatcherError", e);
 			throw e;
 		}
 	}
@@ -230,14 +230,14 @@ public class ServiceHrImpl implements IServiceHr {
 				request.setAttribute("allUsersWhoRespond", allUsersWhoRespond);
 			}
 		} catch (DaoException e) {
-			logger.error("ServiceHrImpl: getAllVacancyResponded: " + e);
+			logger.error("ServiceHrImpl: getAllVacancyResponded: ", e);
 		}
 		try {
 			goToPage = ServiceJspPagePath.PATH_HR_PAGE;
 			dispatcher = request.getRequestDispatcher(goToPage);
 			dispatcher.forward(request, response);
 		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getAllVacancyResponded: RequestDispatcherError " + e);
+			logger.error("ServiceHrImpl: getAllVacancyResponded: RequestDispatcherError ", e);
 			throw e;
 		}
 	}

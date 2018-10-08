@@ -43,24 +43,30 @@ public class DaoAdminImpl implements IDaoAdmin {
 	private final String DELETE_MESSAGE_BY_ID = "DELETE FROM message where idmessage = ?";
 	/** Field for delete {@link User} from base by Id */
 	private final String DELETE_USER_FROM_BASE_BY_ID = "DELETE FROM users where userId = ?";
+	/** Field for search profileid and resumeid by Id user */
+	private final String SEARCH_PROFILEID_AND_RESUMEID_BY_IDUSER = "SELECT profileId, resumeId from users where userId = ?";
+	/** Field for search profileid and resumeid by Id user */
+	private final String DELETE_PROFILEID_BY_IDUSER = "DELETE FROM profile where idUser = ?";
+	/** Field for delete profileid by Id user */
+	private final String DELETE_RESUMEID_BY_IDUSER = "DELETE FROM resume where idUser = ?";
 
-	/** static fields for userId */
+	/** fields for userId */
 	private final int userId = 1;
-	/** static fields for name */
+	/** fields for name */
 	private final int name = 2;
-	/** static fields for surName */
+	/** fields for surName */
 	private final int surName = 3;
-	/** static fields for nickName */
+	/** fields for nickName */
 	private final int nickName = 4;
-	/** static fields for email */
+	/** fields for email */
 	private final int email = 5;
-	/** static fields for available */
+	/** fields for available */
 	private final int available = 6;
-	/** static fields for profileId */
+	/** fields for profileId */
 	private final int profileId = 7;
-	/** static fields for resumeId */
+	/** fields for resumeId */
 	private final int resumeId = 8;
-	/** static fields for role */
+	/** fields for role */
 	private final int role = 9;
 
 	public DaoAdminImpl() {
@@ -85,7 +91,6 @@ public class DaoAdminImpl implements IDaoAdmin {
 
 			connection = connectionPool.takeConnection();
 			preparedStatement = connection.prepareStatement(SEARCH_REGISTERED_USERS_BY_PARAM);
-
 			preparedStatement.setInt(1, Integer.parseInt(offsetLine));
 			preparedStatement.setInt(2, Integer.parseInt(limitLine));
 			result = preparedStatement.executeQuery();
@@ -331,6 +336,63 @@ public class DaoAdminImpl implements IDaoAdmin {
 		return result;
 	}
 
+	@Override
+	public boolean deleteUserFromBase(int idUser) throws DaoException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		boolean result = false;
+		int profileId = 0;
+		int resumeId = 0;
+
+		try {
+			connection = connectionPool.takeConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(SEARCH_PROFILEID_AND_RESUMEID_BY_IDUSER);
+			preparedStatement.setInt(1, idUser);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				profileId = resultSet.getInt(1);
+				resumeId = resultSet.getInt(2);
+			}
+			closePreparedStatement(preparedStatement, "deleteUserFromBase");
+			
+			preparedStatement = connection.prepareStatement(DELETE_USER_FROM_BASE_BY_ID);
+			preparedStatement.setInt(1, idUser);
+			preparedStatement.executeUpdate();
+			closePreparedStatement(preparedStatement, "deleteUserFromBase");
+
+			if (profileId != 0) {
+				preparedStatement = connection.prepareStatement(DELETE_PROFILEID_BY_IDUSER);
+				preparedStatement.setInt(1, idUser);
+				preparedStatement.executeUpdate();
+			}
+
+			if (resumeId != 0) {
+				preparedStatement = connection.prepareStatement(DELETE_RESUMEID_BY_IDUSER);
+				preparedStatement.setInt(1, idUser);
+				preparedStatement.executeUpdate();
+			}
+
+			result = true;
+			connection.commit();
+		} catch (InterruptedException | SQLException e) {
+			try {
+				logger.error("DaoAdminImpl: deleteUserFromBase:  transaction error: ", e);
+				connection.rollback();
+				throw new DaoException("deleteUserFromBase transaction error: ", e);
+			} catch (SQLException e1) {
+				logger.error("\"DaoAdminImpl: deleteUserFromBase: rollback error: ", e1);
+				throw new DaoException("deleteUserFromBase: rollback error: ", e1);
+			}
+		} finally {
+			closeResources(resultSet, preparedStatement, connection, "deleteUserFromBase");
+		}
+
+		return result;
+	}
+
 	/**
 	 * method which close all got resources
 	 * 
@@ -342,43 +404,43 @@ public class DaoAdminImpl implements IDaoAdmin {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoAdminImpl: " + methodName + " resultSetError: ", e);
+		}
+		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoAdminImpl: " + methodName + " preparedStatementError: ", e);
+		}
+		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: " + methodName + ": ", e);
+			logger.error("DaoAdminImpl: " + methodName + " connectionError: ", e);
 			throw new DaoException(e);
 		}
 	}
 
-	@Override
-	public boolean deleteUserFromBase(int idUser) throws DaoException {
-
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		boolean result = false;
-
+	/**
+	 * method which close all got resources
+	 * 
+	 * @throws DaoException
+	 */
+	private void closePreparedStatement(final PreparedStatement preparedStatement, final String methodName)
+			throws DaoException {
 		try {
-			connection = connectionPool.takeConnection();
-			preparedStatement = connection.prepareStatement(DELETE_USER_FROM_BASE_BY_ID);
-			preparedStatement.setInt(1, idUser);
-			preparedStatement.executeUpdate();
-
-			result = true;
-
-		} catch (InterruptedException e) {
-			logger.error("DaoAdminImpl: deleteUserFromBase: Connection interrupted: ", e);
-			throw new DaoException("deleteUserFromBase", e);
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
 		} catch (SQLException e) {
-			logger.error("DaoAdminImpl: deleteUserFromBase: SQL error: ", e);
-			throw new DaoException("deleteUserFromBase", e);
-		} finally {
-			closeResources(null, preparedStatement, connection, "deleteUserFromBase");
+			logger.error("DaoAdminImpl: " + methodName + "preparedStatementError: " + e);
+			throw new DaoException(e);
 		}
-		return result;
 	}
+	
+	
 
 }

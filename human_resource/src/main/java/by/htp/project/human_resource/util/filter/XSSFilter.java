@@ -27,5 +27,4 @@ public class XSSFilter implements Filter {
 	public void destroy() {
 
 	}
-
 }

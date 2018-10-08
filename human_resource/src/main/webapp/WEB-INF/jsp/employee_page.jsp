@@ -630,26 +630,26 @@
 							</div>
 							<div class="form-group">
 								<a><label for="name">${modalname}</label> <input type="text"
-									class="form-control" id="name" name="name"></a> <a><label
+									class="form-control" id="name" name="name" readonly></a> <a><label
 									for="surname">SurName</label> <input type="text"
-									class="form-control" id="surname" name="surname"></a> <a><label
+									class="form-control" id="surname" name="surname" readonly></a> <a><label
 									for="birthdaydate">${modaldateofbirthday}</label> <input
 									type="data" class="form-control" id="birthdaydate"
-									name=birthdaydate></a> <a><label for="residenc">${modalresidence}</label>
+									name=birthdaydate readonly></a> <a><label for="residenc">${modalresidence}</label>
 									<input type="text" class="form-control" id="residenc"
-									name="residence"></a> <a><label for="tel">${modalphone}</label>
-									<input type="text" class="form-control" id="tel" name="phone"></a>
+									name="residence" readonly></a> <a><label for="tel">${modalphone}</label>
+									<input type="text" class="form-control" id="tel" name="phone" readonly></a>
 								<a><label for="email">${email}</label> <input type="email"
-									class="form-control" id="email" name="email"></a> <a><label
+									class="form-control" id="email" name="email" readonly></a> <a><label
 									for="educat">${modalselectsecondaryeducation}</label> <input
-									type="text" class="form-control" id="educat" name="education"></a>
+									type="text" class="form-control" id="educat" name="education" readonly></a>
 								<a><label for="speciality">${modalworkingspecialty}</label>
 									<input type="text" class="form-control" id="speciality"
-									name="workspeciality"></a> <a><label for="expirience">${modalworkexpiriance}</label>
+									name="workspeciality" readonly></a> <a><label for="expirience">${modalworkexpiriance}</label>
 									<input type="text" class="form-control" id="expirience"
-									name="workexpirience"></a> <a><label for="about">${modaleaboutyou}</label>
+									name="workexpirience" readonly></a> <a><label for="about">${modaleaboutyou}</label>
 									<input type="text" class="form-control" id="about"
-									name="aboutuser"></a> <input type="hidden" name="userid"
+									name="aboutuser" readonly></a> <input type="hidden" name="userid"
 									value="${user.userId}"> <input type="hidden"
 									name="registrationDate" value="${profile.registrationDate}">
 								<input type="hidden" name="photopath"

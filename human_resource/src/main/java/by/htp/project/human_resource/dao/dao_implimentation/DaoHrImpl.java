@@ -59,6 +59,71 @@ public class DaoHrImpl implements IDaoHr {
 	/** Field for delete all from {@link User} by {@link User#userId} */
 	private final String SEARCH_ALL_USERS_BY_ID_USER = "SELECT * FROM users  WHERE userId = ?";
 
+	/** fields for userId */
+	private final int userId = 1;
+	/** fields for name */
+	private final int name = 2;
+	/** fields for surName */
+	private final int surName = 3;
+	/** fields for nickName */
+	private final int nickName = 4;
+	/** fields for email */
+	private final int email = 5;
+	/** fields for available */
+	private final int available = 6;
+	/** fields for profileId */
+	private final int profileId = 7;
+	/** fields for resumeId */
+	private final int resumeId = 8;
+	/** fields for role */
+	private final int role = 9;
+
+	/** fields for resume userId */
+	private final int resumeIdResume = 1;
+	/** fields for resume name */
+	private final int resumeName = 2;
+	/** fields for resume surName */
+	private final int resumeSurName = 3;
+	/** fields for resume email */
+	private final int resumeEmail = 4;
+	/** fields for resume registration date */
+	private final int resumeRegistrationDate = 5;
+	/** fields for resume birthday date */
+	private final int resumeBirthDayDate = 6;
+	/** fields for resume phone */
+	private final int resumePhone = 7;
+	/** fields for resume residence */
+	private final int resumeResidence = 8;
+	/** fields for resume work speciality */
+	private final int resumeWorkSpeciality = 9;
+	/** fields for resume work expirience */
+	private final int resumeWorkExpirience = 10;
+	/** fields for resume education */
+	private final int resumeEducation = 11;
+	/** fields for resume photoPath */
+	private final int resumePhotoPath = 12;
+	/** fields for resume about User */
+	private final int resumeAboutUser = 13;
+	/** fields for resume IdUser */
+	private final int resumeIdUser = 14;
+
+	/** fields for vacancyId vacancy */
+	private final int vacancyIdvacancy = 1;
+	/** fields for vacancy profession name */
+	private final int vacancyProfessionName = 2;
+	/** fields for vacancy company name */
+	private final int vacancyCompanyName = 3;
+	/** fields for vacancy experience */
+	private final int vacancyExperience = 4;
+	/** fields for vacancy salary */
+	private final int vacancySalary = 5;
+	/** fields for vacancy goods */
+	private final int vacancyGoods = 6;
+	/** fields for vacancy dl category */
+	private final int vacancyDLCategory = 7;
+	/** fields for vacancy who added */
+	private final int vacancyWhoAddedId = 8;
+
 	public DaoHrImpl() {
 	}
 
@@ -232,11 +297,14 @@ public class DaoHrImpl implements IDaoHr {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				vacancy = new VacancyBuilder().idvacancy(result.getInt(1)).professionName(result.getString(2))
-						.companyName(result.getString(3)).experience(result.getString(4)).salary(result.getInt(5))
-						.goods(result.getString(6)).dlCategory(result.getString(7)).whoAddedId(result.getInt(8))
-						.build();
+				vacancy = new VacancyBuilder().idvacancy(result.getInt(vacancyIdvacancy))
+						.professionName(result.getString(vacancyProfessionName))
+						.companyName(result.getString(vacancyCompanyName))
+						.experience(result.getString(vacancyExperience)).salary(result.getInt(vacancySalary))
+						.goods(result.getString(vacancyGoods)).dlCategory(result.getString(vacancyDLCategory))
+						.whoAddedId(result.getInt(vacancyWhoAddedId)).build();
 				allVacancy.add(vacancy);
+
 			}
 
 		} catch (InterruptedException e) {
@@ -278,7 +346,9 @@ public class DaoHrImpl implements IDaoHr {
 		} catch (InterruptedException | SQLException e) {
 			try {
 				logger.error("DaoHrImpl: deleteVacancyById: transaction error", e);
-				connection.rollback();
+				if (connection != null) {
+					connection.rollback();
+				}
 				throw new DaoException("deleteVacancyById: transaction error ", e);
 			} catch (SQLException e1) {
 				logger.error("DaoHrImpl: deleteVacancyById: rollback error: ", e1);
@@ -316,13 +386,17 @@ public class DaoHrImpl implements IDaoHr {
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
-				resume = new ResumeBuilder().id(result.getInt(1)).name(result.getString(2)).surName(result.getString(3))
-						.email(result.getString(4)).registrationDate(result.getDate(5)).birthDayDate(result.getDate(6))
-						.phone(result.getString(7)).residence(result.getString(8)).workSpeciality(result.getString(9))
-						.workExpirience(result.getString(10)).education(result.getString(11))
-						.photoPath(result.getString(12)).aboutUser(result.getString(13)).idUser(result.getInt(14))
-						.build();
+				resume = new ResumeBuilder().id(result.getInt(resumeIdResume)).name(result.getString(resumeName))
+						.surName(result.getString(resumeSurName)).email(result.getString(resumeEmail))
+						.registrationDate(result.getDate(resumeRegistrationDate))
+						.birthDayDate(result.getDate(resumeBirthDayDate)).phone(result.getString(resumePhone))
+						.residence(result.getString(resumeResidence))
+						.workSpeciality(result.getString(resumeWorkSpeciality))
+						.workExpirience(result.getString(resumeWorkExpirience))
+						.education(result.getString(resumeEducation)).photoPath(result.getString(resumePhotoPath))
+						.aboutUser(result.getString(resumeAboutUser)).idUser(result.getInt(resumeIdUser)).build();
 				allResume.add(resume);
+
 			}
 
 		} catch (InterruptedException e) {
@@ -368,19 +442,24 @@ public class DaoHrImpl implements IDaoHr {
 				result = preparedStatement.executeQuery();
 
 				while (result.next()) {
-					user = new UserBuilder().userId(Integer.parseInt(result.getString(1))).name(result.getString(2))
-							.surName(result.getString(3)).nickName(result.getString(4)).email(result.getString(5))
-							.avaliable(result.getInt(6)).profileId(Integer.parseInt(result.getString(7)))
-							.resumeId(result.getInt(8)).role(result.getString(9)).build();
+					user = new UserBuilder().userId(Integer.parseInt(result.getString(userId)))
+							.name(result.getString(name)).surName(result.getString(surName))
+							.nickName(result.getString(nickName)).email(result.getString(email))
+							.avaliable(result.getInt(available))
+							.profileId(Integer.parseInt(result.getString(profileId))).resumeId(result.getInt(resumeId))
+							.role(result.getString(role)).build();
 					allUsers.add(user);
 				}
+				closePreparedStatement(preparedStatement, "searchRespondedUserByIdVacancy");
 			}
 
 			connection.commit();
 		} catch (InterruptedException | SQLException e) {
 			try {
 				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: transaction error", e);
-				connection.rollback();
+				if (connection != null) {
+					connection.rollback();
+				}
 				throw new DaoException("searchRespondedUserByIdVacancy: transaction error ", e);
 			} catch (SQLException e1) {
 				logger.error("DaoHrImpl: searchRespondedUserByIdVacancy: rollback error: ", e1);
@@ -434,14 +513,22 @@ public class DaoHrImpl implements IDaoHr {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoHrImpl: " + methodName + " resultSetError: ", e);
+		}
+		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoHrImpl: " + methodName + " preparedStatementError: ", e);
+		}
+		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: " + methodName + ": " + e);
+			logger.error("DaoHrImpl: " + methodName + " connectionError: ", e);
 			throw new DaoException(e);
 		}
 	}
@@ -458,7 +545,7 @@ public class DaoHrImpl implements IDaoHr {
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoHrImpl: " + methodName + ": " + e);
+			logger.error("DaoHrImpl: " + methodName + "preparedStatementError: " + e);
 			throw new DaoException(e);
 		}
 	}

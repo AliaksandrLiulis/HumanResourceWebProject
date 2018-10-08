@@ -72,12 +72,7 @@ public class ServiceUtilImpl implements IServiceUtil {
 
 		request.getSession().setAttribute(ServiceParamConstant.LOCALE, local);
 
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceUtilImpl: changeLocal:sendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "changeLocal");
 	}
 
 	@Override
@@ -105,10 +100,23 @@ public class ServiceUtilImpl implements IServiceUtil {
 			logger.error("ServiceUtilImpl: daoException: ", e);
 			goToPage = "controllerServlet?command=cb.main_page&sendmess=ok";
 		}
+		goOnPageBySendRedirect(response, goToPage, "writeMessage");
+	}
+
+	/**
+	 * method for redirect on other page
+	 * 
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPageBySendRedirect(final HttpServletResponse response, String goToPage, final String methodName)
+			throws IOException {
 		try {
 			response.sendRedirect(goToPage);
 		} catch (IOException e) {
-			logger.error("ServiceUtilImpl: writeMessage:sendRedirectError: ", e);
+			logger.error("ServiceUtilImpl: " + methodName + " : errorSendRedirect", e);
 			throw e;
 		}
 	}

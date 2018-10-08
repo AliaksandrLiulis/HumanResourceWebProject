@@ -56,7 +56,6 @@ public class ServiceUserImpl implements IServiceUser {
 		Profile profile = null;
 		HttpSession session = null;
 
-		RequestDispatcher dispatcher = null;
 		CheckCommand checkCommand = null;
 
 		nickName = request.getParameter(ServiceParamConstant.NICKNAME_PARAM);
@@ -90,18 +89,7 @@ public class ServiceUserImpl implements IServiceUser {
 		} else {
 			request.setAttribute("incorrect_params_message", "params aren't correct");
 		}
-		try {
-			if (goToPage == null) {
-				goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
-				dispatcher = request.getRequestDispatcher(goToPage);
-				dispatcher.forward(request, response);
-			} else {
-				response.sendRedirect(goToPage);
-			}
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceUserImpl: logInUser: ", e);
-			throw e;
-		}
+		goOnPage(request, response, goToPage, "logInUser");
 	}
 
 	@Override
@@ -116,7 +104,6 @@ public class ServiceUserImpl implements IServiceUser {
 		String role = null;
 		String goToPage = null;
 		User user = null;
-		RequestDispatcher dispatcher = null;
 
 		name = request.getParameter(ServiceParamConstant.NAME_PARAM);
 		surname = request.getParameter(ServiceParamConstant.SURNAME_PARAM);
@@ -145,18 +132,7 @@ public class ServiceUserImpl implements IServiceUser {
 		} else {
 			request.setAttribute("incorrect_params_message", "params aren't correct");
 		}
-		try {
-			if (goToPage == null) {
-				goToPage = ServiceJspPagePath.PATH_REGISTRATION_PAGE;
-				dispatcher = request.getRequestDispatcher(goToPage);
-				dispatcher.forward(request, response);
-			} else {
-				response.sendRedirect(goToPage);
-			}
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceUserImpl: registerUser: ", e);
-			throw e;
-		}
+		goOnPage(request, response, goToPage, "registerUser");
 	}
 
 	@Override
@@ -177,4 +153,31 @@ public class ServiceUserImpl implements IServiceUser {
 			throw e;
 		}
 	}
+
+	/**
+	 * method for redirect on other page or other servlet
+	 * 
+	 * @param String
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPage(final HttpServletRequest request, final HttpServletResponse response, String goToPage,
+			final String methodName) throws ServletException, IOException {
+		RequestDispatcher dispatcher = null;
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_LOGIN_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
+			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceUserImpl: " + methodName + ": ", e);
+			throw e;
+		}
+	}
+
 }

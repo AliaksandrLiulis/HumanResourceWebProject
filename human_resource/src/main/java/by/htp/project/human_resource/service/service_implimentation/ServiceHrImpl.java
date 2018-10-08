@@ -65,12 +65,7 @@ public class ServiceHrImpl implements IServiceHr {
 		} else {
 			goToPage = "controllerServlet?command=cb.hr_page&vacancy_add_message=1";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceHrImpl: addVacancy: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "addVacancy");
 
 	}
 
@@ -84,10 +79,8 @@ public class ServiceHrImpl implements IServiceHr {
 		String whoAddedId = null;
 		String limitLine = null;
 		String offsetLine = null;
-		String goToPage = null;
 		int pageCount = 0;
 		List<Vacancy> allVacancy;
-		RequestDispatcher dispatcher = null;
 
 		List<String> allRespondedId = new ArrayList<>();
 		tableNameVacancy = request.getParameter(ServiceParamConstant.VACANCY_ATTRIBUTE);
@@ -122,14 +115,7 @@ public class ServiceHrImpl implements IServiceHr {
 			request.setAttribute("messageaboutvacancy", "vacancy receipt error");
 			request.setAttribute("error_get_vacancy", "vacancy receipt error");
 		}
-		try {
-			goToPage = ServiceJspPagePath.PATH_HR_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getVacancy: RequestDispatherError ", e);
-			throw e;
-		}
+		goOnPage(request, response, null, "getVacancy");
 	}
 
 	@Override
@@ -141,10 +127,8 @@ public class ServiceHrImpl implements IServiceHr {
 		int countAllResume = 0;
 		String limitLine = null;
 		String offsetLine = null;
-		String goToPage = null;
 		int pageCount = 0;
 		List<Resume> allResume;
-		RequestDispatcher dispatcher = null;
 
 		tableNameVacancy = ServiceParamConstant.RESUME_ATTRIBUTE;
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
@@ -173,14 +157,7 @@ public class ServiceHrImpl implements IServiceHr {
 			request.setAttribute("messageaboutresume", "resume receipt error");
 			request.setAttribute("error_get_resume", "resume receipt error");
 		}
-		try {
-			goToPage = ServiceJspPagePath.PATH_HR_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getResume: RequestDispatherError ", e);
-			throw e;
-		}
+		goOnPage(request, response, null, "getResume");
 	}
 
 	@Override
@@ -188,8 +165,6 @@ public class ServiceHrImpl implements IServiceHr {
 			throws ServletException, IOException {
 
 		String idVacancy = null;
-		String goToPage = null;
-		RequestDispatcher dispatcher = null;
 
 		idVacancy = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
 
@@ -203,14 +178,7 @@ public class ServiceHrImpl implements IServiceHr {
 			logger.error("ServiceHrImpl: deleteVacancyById: " + e);
 			request.setAttribute("vacancy_delete_message", "0");
 		}
-		try {
-			goToPage = ServiceJspPagePath.PATH_HR_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: deleteVacancyById: RequestDispatcherError", e);
-			throw e;
-		}
+		goOnPage(request, response, null, "deleteVacancyById");
 	}
 
 	@Override
@@ -218,9 +186,7 @@ public class ServiceHrImpl implements IServiceHr {
 			throws ServletException, IOException {
 
 		String vacancyId = null;
-		String goToPage = null;
 		List<User> allUsersWhoRespond = null;
-		RequestDispatcher dispatcher = null;
 
 		vacancyId = request.getParameter(ServiceParamConstant.VACANCY_ID_PARAM);
 
@@ -232,14 +198,7 @@ public class ServiceHrImpl implements IServiceHr {
 		} catch (DaoException e) {
 			logger.error("ServiceHrImpl: getAllVacancyResponded: ", e);
 		}
-		try {
-			goToPage = ServiceJspPagePath.PATH_HR_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceHrImpl: getAllVacancyResponded: RequestDispatcherError ", e);
-			throw e;
-		}
+		goOnPage(request, response, null, "getAllVacancyResponded");
 	}
 
 	/**
@@ -317,5 +276,49 @@ public class ServiceHrImpl implements IServiceHr {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);
 		return result;
+	}
+
+	/**
+	 * method for redirect on other page or other servlet
+	 * 
+	 * @param String
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPage(final HttpServletRequest request, final HttpServletResponse response, String goToPage,
+			final String methodName) throws ServletException, IOException {
+		RequestDispatcher dispatcher = null;
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_HR_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
+			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceHrImpl: " + methodName + ": ", e);
+			throw e;
+		}
+	}
+
+	/**
+	 * method for redirect on other page
+	 * 
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPageBySendRedirect(final HttpServletResponse response, String goToPage, final String methodName)
+			throws IOException {
+		try {
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+			logger.error("ServiceHrImpl: " + methodName + " : errorSendRedirect", e);
+			throw e;
+		}
 	}
 }

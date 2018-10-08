@@ -305,14 +305,22 @@ public class DaoUserImpl implements IDaoUser {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: " + methodName + " resultSetError: ", e);
+		}
+		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoUserImpl: " + methodName + " preparedStatementError: ", e);
+		}
+		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoUserImpl: " + methodName + ": ", e);
+			logger.error("DaoUserImpl: " + methodName + " connectionError: ", e);
 			throw new DaoException(e);
 		}
 	}

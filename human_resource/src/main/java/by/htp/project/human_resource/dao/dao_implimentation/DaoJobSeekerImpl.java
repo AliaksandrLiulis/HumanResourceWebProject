@@ -458,12 +458,12 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 
 		} catch (InterruptedException | SQLException e) {
 			try {
-				logger.error("DaoJobSeekerImpl: deleteResumeByIdUser: transaction error: " + e);
+				logger.error("DaoJobSeekerImpl: deleteResumeByIdUser: transaction error: ", e);
 				connection.rollback();
-				throw new DaoException("deleteResumeByIdUser: transaction error: " + e);
+				throw new DaoException("deleteResumeByIdUser: transaction error: ", e);
 			} catch (SQLException e1) {
-				logger.error("DaoJobSeekerImpl: deleteResumeByIdUser: rollback error: " + e1);
-				throw new DaoException("deleteResumeByIdUser: rollback error: " + e1);
+				logger.error("DaoJobSeekerImpl: deleteResumeByIdUser: rollback error: ", e1);
+				throw new DaoException("deleteResumeByIdUser: rollback error: ", e1);
 			}
 		} finally {
 			closeResources(result, preparedStatement, connection, "deleteResumeByIdUser");
@@ -715,16 +715,25 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoJobSeekerImpl: " + methodName + " resultSetError: ", e);
+		}
+		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoJobSeekerImpl: " + methodName + " preparedStatementError: ", e);
+		}
+		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": ", e);
+			logger.error("DaoJobSeekerImpl: " + methodName + " connectionError: ", e);
 			throw new DaoException(e);
 		}
+
 	}
 
 	/**
@@ -757,11 +766,16 @@ public class DaoJobSeekerImpl implements IDAOJobSeeker {
 			if (resultSet != null) {
 				resultSet.close();
 			}
+		} catch (SQLException e) {
+			logger.error("DaoJobSeekerImpl: " + methodName + " resultSetError: ", e);
+			throw new DaoException(e);
+		}
+		try {
 			if (preparedStatement != null) {
 				preparedStatement.close();
 			}
 		} catch (SQLException e) {
-			logger.error("DaoJobSeekerImpl: " + methodName + ": ", e);
+			logger.error("DaoJobSeekerImpl: " + methodName + " preparedStatementError: ", e);
 			throw new DaoException(e);
 		}
 	}

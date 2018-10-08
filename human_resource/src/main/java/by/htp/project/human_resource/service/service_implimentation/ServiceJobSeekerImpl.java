@@ -91,12 +91,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: addProfile: daoException", e);
 			goToPage = "controllerServlet?command=cb.employee_page&profile_add_message=0";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: addProfile: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "SendRedirectError");
 	}
 
 	@Override
@@ -124,12 +119,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: deleteProfile: daoException", e);
 			goToPage = "controllerServlet?command=cb.employee_page&profile_delete_message=0";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: deleteProfile: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "deleteProfile");
 	}
 
 	@Override
@@ -176,12 +166,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: updateProfile:daoException ", e);
 			goToPage = "controllerServlet?command=cb.employee_page&profile_update_message=0";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: updateProfile: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "updateProfile");
 	}
 
 	@Override
@@ -233,12 +218,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: addResume:daoException ", e);
 			goToPage = "controllerServlet?command=cb.employee_page&resume_add_message=0";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: addResume: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "addResume");
 	}
 
 	@Override
@@ -264,12 +244,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: deleteResume: addResume:daoException ", e);
 			goToPage = "controllerServlet?command=cb.employee_page&resume_delete_message=0";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: deleteResume: SendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "deleteResume");
 
 	}
 
@@ -286,8 +261,6 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		int userId = 0;
 		List<Vacancy> allVacancy;
 		List<String> allRespondVacancyId;
-		RequestDispatcher dispatcher = null;
-		String goToPage = null;
 
 		tableNameVacancy = ServiceParamConstant.VACANCIES_TABLE_NAME_PARAM;
 		limitLine = request.getParameter(ServiceParamConstant.Limit_LINE_NUMBER);
@@ -320,15 +293,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			request.setAttribute("messageaboutvacancy", "vacancy receipt error");
 			request.setAttribute("error_get_vacancy", "vacancy receipt error");
 		}
-		try {
-			goToPage = ServiceJspPagePath.PATH_EMPLOYEE_PAGE;
-			dispatcher = request.getRequestDispatcher(goToPage);
-			dispatcher.forward(request, response);
-		} catch (ServletException | IOException e) {
-			logger.error("ServiceJobSeekerImpl: getVacancy: ", e);
-			throw e;
-
-		}
+		goOnPage(request, response, null, "getVacancy");
 	}
 
 	@Override
@@ -354,12 +319,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: daoException: ", e);
 			goToPage = "controllerServlet?command=cb.employee_page&respond=ok&respondadded=ok";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: respondOnvacancy:sendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "respondOnvacancy");
 	}
 
 	@Override
@@ -384,12 +344,7 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 			logger.error("ServiceJobSeekerImpl: daoException: ", e);
 			goToPage = "controllerServlet?command=cb.employee_page&respond=ok&respondadded==ok";
 		}
-		try {
-			response.sendRedirect(goToPage);
-		} catch (IOException e) {
-			logger.error("ServiceJobSeekerImpl: deleteRespondOnVacancy:sendRedirectError ", e);
-			throw e;
-		}
+		goOnPageBySendRedirect(response, goToPage, "deleteRespondOnVacancy");
 	}
 
 	/**
@@ -401,5 +356,49 @@ public class ServiceJobSeekerImpl implements IServiceJobSeeker {
 		int result = commonCount % offsetLine > 0 ? Math.floorDiv(commonCount, offsetLine) + 1
 				: Math.floorDiv(commonCount, offsetLine);
 		return result;
+	}
+
+	/**
+	 * method for redirect on other page or other servlet
+	 * 
+	 * @param String
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPage(final HttpServletRequest request, final HttpServletResponse response, String goToPage,
+			final String methodName) throws ServletException, IOException {
+		RequestDispatcher dispatcher = null;
+		try {
+			if (goToPage == null) {
+				goToPage = ServiceJspPagePath.PATH_EMPLOYEE_PAGE;
+				dispatcher = request.getRequestDispatcher(goToPage);
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect(goToPage);
+			}
+		} catch (ServletException | IOException e) {
+			logger.error("ServiceJobSeekerImpl: " + methodName + ": ", e);
+			throw e;
+		}
+	}
+
+	/**
+	 * method for redirect on other page
+	 * 
+	 * @param String
+	 * @param String
+	 * @param HttpServletResponse
+	 * @return void
+	 */
+	private void goOnPageBySendRedirect(final HttpServletResponse response, String goToPage, final String methodName)
+			throws IOException {
+		try {
+			response.sendRedirect(goToPage);
+		} catch (IOException e) {
+			logger.error("ServiceJobSeekerImpl: " + methodName + " : errorSendRedirect", e);
+			throw e;
+		}
 	}
 }
